@@ -221,4 +221,4 @@ json.dump(
 )
 json.dump(designs, open(OUT_DESIGNS, "w"), separators=(",", ":"))
 print("products", len(products), "designs", len(designs), "texts", len(texts))
-print("customisable products", sum(1 for p in products if p["designIds"]))
+print("customisable products", sum(1 for p in products if p["designIds"]), "fallback-matched", fallbacks)
