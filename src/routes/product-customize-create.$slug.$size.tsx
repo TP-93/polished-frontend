@@ -111,9 +111,12 @@ function CustomizePage() {
 
   function nextLayer() {
     if (!activeLayerId) return;
-    const index = layers.findIndex((layer) => layer.id === activeLayerId);
-    const next = layers[index + 1];
-    setActiveLayerId(next ? next.id : (layers[0]?.id ?? null));
+    const index = allLayers.findIndex((entry) => entry.layer.id === activeLayerId);
+    const next = allLayers[index + 1] ?? allLayers[0];
+    if (!next) return;
+    setViewIndex(next.designIndex);
+    setActiveLayerId(next.layer.id);
+    setHexDraft(layerColors[next.layer.id] ?? next.layer.defaultColor);
   }
 
   function handleAddToCart() {
@@ -406,7 +409,7 @@ function CustomizePage() {
               </div>
             </dl>
             <div className="mt-5 flex flex-wrap gap-1">
-              {layers.map((layer) => (
+              {allLayers.map(({ layer }) => (
                 <span
                   key={layer.id}
                   title={`${layer.name} — ${layerColors[layer.id]}`}
