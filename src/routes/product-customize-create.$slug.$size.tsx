@@ -22,9 +22,10 @@ import { useCart } from "@/lib/cart";
 import { formatPrice, useI18n, useLocalized } from "@/lib/i18n";
 import { getProduct } from "@/services/catalog.service";
 import {
+  editableLayers,
   generateColor,
   generatePalette,
-  getDesign,
+  getDesigns,
   initialLayerColors,
   isValidHex,
   listColorThemes,
@@ -60,23 +61,28 @@ function CustomizePage() {
   const productQuery = useQuery({ queryKey: ["product", slug], queryFn: () => getProduct(slug) });
   const product = productQuery.data;
 
-  const designQuery = useQuery({
-    queryKey: ["design", product?.designId],
-    queryFn: () => getDesign(product!.designId!),
-    enabled: Boolean(product?.designId),
+  const designsQuery = useQuery({
+    queryKey: ["designs", product?.slug],
+    queryFn: () => getDesigns(product!.designIds),
+    enabled: Boolean(product?.designIds.length),
   });
   const themesQuery = useQuery({ queryKey: ["colorThemes"], queryFn: listColorThemes });
 
-  const design = designQuery.data;
+  const designs = designsQuery.data ?? [];
+  const [viewIndex, setViewIndex] = useState(0);
   const [layerColors, setLayerColors] = useState<Record<string, string>>({});
   const [activeLayerId, setActiveLayerId] = useState<string | null>(null);
-  const [hexDraft, setHexDraft] = useState("#4A4F33");
+  const [hexDraft, setHexDraft] = useState("#FFFFFF");
 
   useEffect(() => {
-    if (!design) return;
-    setLayerColors(initialLayerColors(design));
-    setActiveLayerId(design.layers[0]?.id ?? null);
-  }, [design]);
+    if (!designs.length) return;
+    // Colours are shared across the front and back artwork of one garment.
+    setLayerColors(Object.assign({}, ...designs.map(initialLayerColors)));
+    setActiveLayerId(editableLayers(designs[0]!)[0]?.id ?? null);
+    setViewIndex(0);
+  }, [designsQuery.data]);
+
+  const design = designs[viewIndex];
 
   if (!product || !design) {
     return (
@@ -87,7 +93,10 @@ function CustomizePage() {
   }
 
   const color = product.colors[0]!;
-  const activeLayer = design.layers.find((layer) => layer.id === activeLayerId) ?? null;
+  /** Only artwork layers flagged editable may be recoloured — as in the original tool. */
+  const layers = editableLayers(design);
+  const allEditableLayerIds = designs.flatMap((d) => editableLayers(d).map((layer) => layer.id));
+  const activeLayer = layers.find((layer) => layer.id === activeLayerId) ?? null;
 
   function setActiveColor(hex: string) {
     if (!activeLayerId) return;
@@ -97,9 +106,9 @@ function CustomizePage() {
 
   function nextLayer() {
     if (!activeLayerId) return;
-    const index = design!.layers.findIndex((layer) => layer.id === activeLayerId);
-    const next = design!.layers[index + 1];
-    setActiveLayerId(next ? next.id : design!.layers[0]!.id);
+    const index = layers.findIndex((layer) => layer.id === activeLayerId);
+    const next = layers[index + 1];
+    setActiveLayerId(next ? next.id : (layers[0]?.id ?? null));
   }
 
   function handleAddToCart() {
@@ -146,10 +155,29 @@ function CustomizePage() {
           <DesignPreview
             design={design}
             layerColors={layerColors}
-            productImage={color.image}
             productName={product.name}
             activeLayerId={activeLayerId}
           />
+
+          {designs.length > 1 ? (
+            <div className="mt-3 flex gap-2">
+              {designs.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setViewIndex(index)}
+                  aria-pressed={index === viewIndex}
+                  className={`label-caps rounded-sm border px-3 py-2 capitalize transition-colors ${
+                    index === viewIndex
+                      ? "border-foreground bg-accent"
+                      : "border-border text-muted-foreground hover:border-border-strong"
+                  }`}
+                >
+                  {item.projection}
+                </button>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         {/* Layers + colour sources */}
@@ -158,11 +186,11 @@ function CustomizePage() {
             <div className="mb-3 flex items-center justify-between">
               <p className="label-caps text-muted-foreground">{t("cz.selectLayer")}</p>
               <span className="text-xs text-muted-foreground">
-                {design.layers.length} {t("cz.layers")}
+                {layers.length} {t("cz.layers")}
               </span>
             </div>
             <ul className="grid grid-cols-2 gap-2">
-              {design.layers.map((layer) => {
+              {layers.map((layer) => {
                 const active = layer.id === activeLayerId;
                 return (
                   <li key={layer.id}>
@@ -220,10 +248,10 @@ function CustomizePage() {
                   variant="outline"
                   className="w-full rounded-sm"
                   onClick={() =>
-                    setLayerColors(generatePalette(design.layers.map((layer) => layer.id)))
+                    setLayerColors(generatePalette(allEditableLayerIds))
                   }
                 >
-                  <Shuffle className="mr-2 size-4" /> {design.layers.length} {t("cz.layers")}
+                  <Shuffle className="mr-2 size-4" /> {allEditableLayerIds.length} {t("cz.layers")}
                 </Button>
               </TabsContent>
 
@@ -237,8 +265,8 @@ function CustomizePage() {
                         onClick={() =>
                           setLayerColors(
                             Object.fromEntries(
-                              design.layers.map((layer, index) => [
-                                layer.id,
+                              allEditableLayerIds.map((layerId, index) => [
+                                layerId,
                                 theme.colors[index % theme.colors.length]!,
                               ]),
                             ),
@@ -313,7 +341,7 @@ function CustomizePage() {
             <Button
               variant="outline"
               className="rounded-sm"
-              onClick={() => setLayerColors(initialLayerColors(design))}
+              onClick={() => setLayerColors(Object.assign({}, ...designs.map(initialLayerColors)))}
             >
               <RotateCcw className="mr-2 size-4" /> {t("cz.reset")}
             </Button>
@@ -364,7 +392,7 @@ function CustomizePage() {
               </div>
             </dl>
             <div className="mt-5 flex flex-wrap gap-1">
-              {design.layers.map((layer) => (
+              {layers.map((layer) => (
                 <span
                   key={layer.id}
                   title={`${layer.name} — ${layerColors[layer.id]}`}

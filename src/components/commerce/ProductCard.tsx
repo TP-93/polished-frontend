@@ -15,7 +15,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
     <article className="group">
       <Link
         to="/product/$slug"
-        params={{ slug: product.slug }}
+        params={{ slug: color.productSlug || product.slug }}
         className="block overflow-hidden rounded-md border border-border bg-card"
       >
         <div className="relative aspect-4/5 overflow-hidden bg-surface">
@@ -61,14 +61,14 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         {product.colors.length > 1 ? (
           <div className="flex shrink-0 items-center gap-1 pt-1">
             {product.colors.map((c, index) => (
-              <button
+              <Link
                 key={c.id}
-                type="button"
+                to="/product/$slug"
+                params={{ slug: c.productSlug }}
                 onMouseEnter={() => setColorIndex(index)}
                 onFocus={() => setColorIndex(index)}
-                onClick={() => setColorIndex(index)}
                 aria-label={l(c.name)}
-                aria-pressed={index === colorIndex}
+                aria-current={index === colorIndex ? "true" : undefined}
                 className={`size-3.5 rounded-full border transition-[box-shadow] ${
                   index === colorIndex
                     ? "border-foreground ring-1 ring-foreground/20"

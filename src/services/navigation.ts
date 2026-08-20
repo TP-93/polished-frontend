@@ -1,3 +1,4 @@
+import { realCategories, realCollections } from "./data/catalog";
 import type { Localized } from "./types";
 
 export interface NavLink {
@@ -6,35 +7,30 @@ export interface NavLink {
   params?: Record<string, string>;
 }
 
-export const shopCategoryLinks: NavLink[] = [
-  { label: { nl: "T-shirts", en: "T-shirts" }, to: "/collection/shop/t-shirts" },
-  { label: { nl: "Sweatshirts", en: "Sweatshirts" }, to: "/collection/shop/sweatshirts" },
-  { label: { nl: "Hoodies", en: "Hoodies" }, to: "/collection/shop/hoodies" },
-  { label: { nl: "Jassen", en: "Jackets" }, to: "/collection/shop/jackets" },
-  { label: { nl: "Denim", en: "Denim" }, to: "/collection/shop/denim" },
-  { label: { nl: "Broeken", en: "Pants" }, to: "/collection/shop/pants" },
-  { label: { nl: "Shorts", en: "Shorts" }, to: "/collection/shop/shorts" },
-  { label: { nl: "Summer set", en: "Summer set" }, to: "/collection/shop/summer-set" },
-  { label: { nl: "Headwear", en: "Headwear" }, to: "/collection/shop/headwear" },
-  { label: { nl: "Accessoires", en: "Accessoires" }, to: "/collection/shop/accessoires" },
-  { label: { nl: "Cadeaus", en: "Gifts" }, to: "/collection/shop/gifts" },
-  { label: { nl: "Giftcards", en: "Giftcards" }, to: "/collection/shop/giftcards" },
-];
+const SALE_PREFIX = "sale";
 
-export const saleLinks: NavLink[] = [
-  { label: { nl: "30% korting", en: "30% off" }, to: "/collection/sale/sale-30" },
-  { label: { nl: "40% korting", en: "40% off" }, to: "/collection/sale/sale-40" },
-  { label: { nl: "50% korting", en: "50% off" }, to: "/collection/sale/sale-50" },
-  { label: { nl: "70% korting", en: "70% off" }, to: "/collection/sale/sale-70" },
-];
+/** Main shop categories, most stocked first — derived from the live catalogue. */
+export const shopCategoryLinks: NavLink[] = realCategories
+  .filter((category) => category.group === "shop")
+  .slice(0, 14)
+  .map((category) => ({ label: category.name, to: `/collection/shop/${category.slug}` }));
 
-export const collectionLinks: NavLink[] = [
-  { label: { nl: "FallWinter'25 Drop Two", en: "FallWinter'25 Drop Two" }, to: "/collection/fallwinter25-drop-two" },
-  { label: { nl: "PreFall'25", en: "PreFall'25" }, to: "/collection/prefall25" },
-  { label: { nl: "Denim Capsule", en: "Denim Capsule" }, to: "/collection/denim-capsule" },
-  { label: { nl: "Accessoires", en: "Accessoires" }, to: "/collection/accessoires" },
-  { label: { nl: "Kingsday'26", en: "Kingsday'26" }, to: "/collection/kingsday26" },
-];
+/** Sale tiers, e.g. 30% / 50% off. */
+export const saleLinks: NavLink[] = realCollections
+  .filter((collection) => collection.slug.startsWith(SALE_PREFIX))
+  .map((collection) => ({
+    label: { nl: collection.title, en: collection.title },
+    to: `/collection/${collection.slug}`,
+  }));
+
+/** Seasonal drops and capsules. */
+export const collectionLinks: NavLink[] = realCollections
+  .filter((collection) => !collection.slug.startsWith(SALE_PREFIX))
+  .slice(0, 10)
+  .map((collection) => ({
+    label: { nl: collection.title, en: collection.title },
+    to: `/collection/${collection.slug}`,
+  }));
 
 export const serviceLinks: NavLink[] = [
   { label: { nl: "Veelgestelde vragen", en: "FAQ" }, to: "/faq" },

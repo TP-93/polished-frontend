@@ -5,7 +5,12 @@
  * Every function is async and shaped as a single backend call, so each one can
  * be swapped for a GraphQL query against the real API without touching the UI.
  */
-import { categories, collections, faqEntries, products } from "./mock-data";
+import {
+  realCategories as categories,
+  realCollections as collections,
+  realProducts as products,
+} from "./data/catalog";
+import { faqEntries } from "./faq-data";
 import type {
   Category,
   Collection,
@@ -102,9 +107,30 @@ export async function listFilterFacets(): Promise<{
   categories: Category[];
   maxPriceCents: number;
 }> {
-  const sizes = [...new Set(products.flatMap((p) => p.sizes.map((s) => s.label)))];
-  const colorMap = new Map<string, string>();
-  products.forEach((p) => p.colors.forEach((c) => colorMap.set(c.id, c.hex)));
+  const sizeCounts = new Map<string, number>();
+  products.forEach((p) =>
+    p.sizes.forEach((s) => sizeCounts.set(s.label, (sizeCounts.get(s.label) ?? 0) + 1)),
+  );
+  const sizes = [...sizeCounts]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([label]) => label);
+
+  // The catalogue holds hundreds of colourways; only offer the most common ones.
+  const colorCounts = new Map<string, { hex: string; count: number }>();
+  products.forEach((p) =>
+    p.colors.slice(0, 1).forEach((c) => {
+      const existing = colorCounts.get(c.id);
+      if (existing) existing.count += 1;
+      else colorCounts.set(c.id, { hex: c.hex, count: 1 });
+    }),
+  );
+  const colorMap = new Map<string, string>(
+    [...colorCounts]
+      .sort((a, b) => b[1].count - a[1].count)
+      .slice(0, 24)
+      .map(([id, meta]) => [id, meta.hex]),
+  );
   const maxPriceCents = Math.max(...products.map((p) => p.priceCents));
   return delay({
     sizes,

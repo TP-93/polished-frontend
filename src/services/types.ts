@@ -12,7 +12,10 @@ export interface ProductColor {
   /** Swatch colour. */
   hex: string;
   image: string;
+  /** The product page for this colourway (each colourway is its own product). */
+  productSlug: string;
 }
+
 
 export interface ProductSize {
   label: string;
@@ -33,8 +36,10 @@ export interface Product {
   sizes: ProductSize[];
   images: string[];
   customizable: boolean;
-  /** Customizer design used when `customizable` is true. */
+  /** Primary customizer design used when `customizable` is true. */
   designId?: string | undefined;
+  /** All print designs of this product (front and back artwork). */
+  designIds: string[];
   isNew: boolean;
   description: Localized;
   details: Localized[];
@@ -79,17 +84,36 @@ export interface ProductListResult {
 
 export interface DesignLayer {
   id: string;
+  /** Human readable layer name shown in the Customize Tool, e.g. "Angel". */
   name: string;
+  /** Absolute URL of the layer artwork (transparent PNG). */
+  image: string | null;
+  /** Only layers with `editableColor` can be recoloured by the customer. */
+  editableColor: boolean;
+  editableText: boolean;
+  /** False for the garment mock-up layer, true for printed artwork. */
+  printable: boolean;
   defaultColor: string;
-  /** Relative area of the artwork, used by the mock preview. */
-  weight: number;
+  /** Stacking order, lowest first. */
+  position: number;
+  /** Placement of the layer inside the design canvas, in canvas pixels. */
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 export interface Design {
   id: string;
   name: string;
+  thumbnail: string | null;
+  /** "front" or "back". */
+  projection: string;
+  canvasWidth: number;
+  canvasHeight: number;
   layers: DesignLayer[];
 }
+
 
 export interface ColorTheme {
   id: string;

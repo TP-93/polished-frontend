@@ -46,7 +46,6 @@ function ProductPage() {
   const l = useLocalized();
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const [colorId, setColorId] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
 
   const productQuery = useQuery({ queryKey: ["product", slug], queryFn: () => getProduct(slug) });
@@ -85,7 +84,8 @@ function ProductPage() {
     );
   }
 
-  const color = product.colors.find((c) => c.id === colorId) ?? product.colors[0]!;
+  // Every colourway is its own product, so the first option is always this page.
+  const color = product.colors[0]!;
 
   function handleAddToCart() {
     if (!size) {
@@ -171,12 +171,13 @@ function ProductPage() {
               </p>
               <div className="flex gap-2">
                 {product.colors.map((c) => (
-                  <button
+                  <Link
                     key={c.id}
-                    type="button"
-                    onClick={() => setColorId(c.id)}
+                    to="/product/$slug"
+                    params={{ slug: c.productSlug }}
                     aria-label={l(c.name)}
-                    aria-pressed={c.id === color.id}
+                    aria-current={c.id === color.id ? "page" : undefined}
+                    title={l(c.name)}
                     className={`size-9 rounded-full border-2 transition-colors ${
                       c.id === color.id ? "border-foreground" : "border-border"
                     }`}
