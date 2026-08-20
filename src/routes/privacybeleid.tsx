@@ -3,10 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPageView } from "@/components/content/ContentPageView";
 import { contentPages } from "@/services/content";
 
-const page = contentPages["privacybeleid"]!;
-
 export const Route = createFileRoute("/privacybeleid")({
   head: () => {
+    const page = contentPages["privacybeleid"]!;
     const title = `${page.title.en} — JORCUSTOM`;
     return {
       meta: [
@@ -19,5 +18,9 @@ export const Route = createFileRoute("/privacybeleid")({
       ],
     };
   },
-  component: () => <ContentPageView page={page} />,
+  component: PrivacybeleidPage,
 });
+
+function PrivacybeleidPage() {
+  return <ContentPageView page={contentPages["privacybeleid"]!} />;
+}

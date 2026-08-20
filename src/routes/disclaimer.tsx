@@ -3,10 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPageView } from "@/components/content/ContentPageView";
 import { contentPages } from "@/services/content";
 
-const page = contentPages["disclaimer"]!;
-
 export const Route = createFileRoute("/disclaimer")({
   head: () => {
+    const page = contentPages["disclaimer"]!;
     const title = `${page.title.en} — JORCUSTOM`;
     return {
       meta: [
@@ -19,5 +18,9 @@ export const Route = createFileRoute("/disclaimer")({
       ],
     };
   },
-  component: () => <ContentPageView page={page} />,
+  component: DisclaimerPage,
 });
+
+function DisclaimerPage() {
+  return <ContentPageView page={contentPages["disclaimer"]!} />;
+}

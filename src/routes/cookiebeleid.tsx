@@ -3,10 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPageView } from "@/components/content/ContentPageView";
 import { contentPages } from "@/services/content";
 
-const page = contentPages["cookiebeleid"]!;
-
 export const Route = createFileRoute("/cookiebeleid")({
   head: () => {
+    const page = contentPages["cookiebeleid"]!;
     const title = `${page.title.en} — JORCUSTOM`;
     return {
       meta: [
@@ -19,5 +18,9 @@ export const Route = createFileRoute("/cookiebeleid")({
       ],
     };
   },
-  component: () => <ContentPageView page={page} />,
+  component: CookiebeleidPage,
 });
+
+function CookiebeleidPage() {
+  return <ContentPageView page={contentPages["cookiebeleid"]!} />;
+}

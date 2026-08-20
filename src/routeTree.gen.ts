@@ -10,7 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
+import { Route as BestellenRouteImport } from './routes/bestellen'
+import { Route as BetalenRouteImport } from './routes/betalen'
+import { Route as CarriereRouteImport } from './routes/carriere'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CookiebeleidRouteImport } from './routes/cookiebeleid'
+import { Route as CustomMadeKledingRouteImport } from './routes/custom-made-kleding'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as MediaAmbassadeursRouteImport } from './routes/media-ambassadeurs'
+import { Route as OnsVerhaalRouteImport } from './routes/ons-verhaal'
+import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
+import { Route as RetourenRouteImport } from './routes/retouren'
+import { Route as VerzendenRouteImport } from './routes/verzenden'
 import { Route as CollectionCollectionNameRouteImport } from './routes/collection.$collectionName'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CollectionCollectionNameIndexRouteImport } from './routes/collection.$collectionName.index'
@@ -22,9 +34,69 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
+  id: '/algemene-voorwaarden',
+  path: '/algemene-voorwaarden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BestellenRoute = BestellenRouteImport.update({
+  id: '/bestellen',
+  path: '/bestellen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BetalenRoute = BetalenRouteImport.update({
+  id: '/betalen',
+  path: '/betalen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarriereRoute = CarriereRouteImport.update({
+  id: '/carriere',
+  path: '/carriere',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiebeleidRoute = CookiebeleidRouteImport.update({
+  id: '/cookiebeleid',
+  path: '/cookiebeleid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomMadeKledingRoute = CustomMadeKledingRouteImport.update({
+  id: '/custom-made-kleding',
+  path: '/custom-made-kleding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaAmbassadeursRoute = MediaAmbassadeursRouteImport.update({
+  id: '/media-ambassadeurs',
+  path: '/media-ambassadeurs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnsVerhaalRoute = OnsVerhaalRouteImport.update({
+  id: '/ons-verhaal',
+  path: '/ons-verhaal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacybeleidRoute = PrivacybeleidRouteImport.update({
+  id: '/privacybeleid',
+  path: '/privacybeleid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RetourenRoute = RetourenRouteImport.update({
+  id: '/retouren',
+  path: '/retouren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerzendenRoute = VerzendenRouteImport.update({
+  id: '/verzenden',
+  path: '/verzenden',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionCollectionNameRoute =
@@ -59,7 +131,19 @@ const ProductCustomizeCreateSlugSizeRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
+  '/bestellen': typeof BestellenRoute
+  '/betalen': typeof BetalenRoute
+  '/carriere': typeof CarriereRoute
   '/cart': typeof CartRoute
+  '/cookiebeleid': typeof CookiebeleidRoute
+  '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/media-ambassadeurs': typeof MediaAmbassadeursRoute
+  '/ons-verhaal': typeof OnsVerhaalRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
+  '/retouren': typeof RetourenRoute
+  '/verzenden': typeof VerzendenRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
@@ -68,7 +152,19 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
+  '/bestellen': typeof BestellenRoute
+  '/betalen': typeof BetalenRoute
+  '/carriere': typeof CarriereRoute
   '/cart': typeof CartRoute
+  '/cookiebeleid': typeof CookiebeleidRoute
+  '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/media-ambassadeurs': typeof MediaAmbassadeursRoute
+  '/ons-verhaal': typeof OnsVerhaalRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
+  '/retouren': typeof RetourenRoute
+  '/verzenden': typeof VerzendenRoute
   '/product/$slug': typeof ProductSlugRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
   '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
@@ -77,7 +173,19 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
+  '/bestellen': typeof BestellenRoute
+  '/betalen': typeof BetalenRoute
+  '/carriere': typeof CarriereRoute
   '/cart': typeof CartRoute
+  '/cookiebeleid': typeof CookiebeleidRoute
+  '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/media-ambassadeurs': typeof MediaAmbassadeursRoute
+  '/ons-verhaal': typeof OnsVerhaalRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
+  '/retouren': typeof RetourenRoute
+  '/verzenden': typeof VerzendenRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
@@ -88,7 +196,19 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/algemene-voorwaarden'
+    | '/bestellen'
+    | '/betalen'
+    | '/carriere'
     | '/cart'
+    | '/cookiebeleid'
+    | '/custom-made-kleding'
+    | '/disclaimer'
+    | '/media-ambassadeurs'
+    | '/ons-verhaal'
+    | '/privacybeleid'
+    | '/retouren'
+    | '/verzenden'
     | '/collection/$collectionName'
     | '/product/$slug'
     | '/collection/$collectionName/$category'
@@ -97,7 +217,19 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/algemene-voorwaarden'
+    | '/bestellen'
+    | '/betalen'
+    | '/carriere'
     | '/cart'
+    | '/cookiebeleid'
+    | '/custom-made-kleding'
+    | '/disclaimer'
+    | '/media-ambassadeurs'
+    | '/ons-verhaal'
+    | '/privacybeleid'
+    | '/retouren'
+    | '/verzenden'
     | '/product/$slug'
     | '/collection/$collectionName/$category'
     | '/product-customize-create/$slug/$size'
@@ -105,7 +237,19 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/algemene-voorwaarden'
+    | '/bestellen'
+    | '/betalen'
+    | '/carriere'
     | '/cart'
+    | '/cookiebeleid'
+    | '/custom-made-kleding'
+    | '/disclaimer'
+    | '/media-ambassadeurs'
+    | '/ons-verhaal'
+    | '/privacybeleid'
+    | '/retouren'
+    | '/verzenden'
     | '/collection/$collectionName'
     | '/product/$slug'
     | '/collection/$collectionName/$category'
@@ -115,7 +259,19 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlgemeneVoorwaardenRoute: typeof AlgemeneVoorwaardenRoute
+  BestellenRoute: typeof BestellenRoute
+  BetalenRoute: typeof BetalenRoute
+  CarriereRoute: typeof CarriereRoute
   CartRoute: typeof CartRoute
+  CookiebeleidRoute: typeof CookiebeleidRoute
+  CustomMadeKledingRoute: typeof CustomMadeKledingRoute
+  DisclaimerRoute: typeof DisclaimerRoute
+  MediaAmbassadeursRoute: typeof MediaAmbassadeursRoute
+  OnsVerhaalRoute: typeof OnsVerhaalRoute
+  PrivacybeleidRoute: typeof PrivacybeleidRoute
+  RetourenRoute: typeof RetourenRoute
+  VerzendenRoute: typeof VerzendenRoute
   CollectionCollectionNameRoute: typeof CollectionCollectionNameRouteWithChildren
   ProductSlugRoute: typeof ProductSlugRoute
   ProductCustomizeCreateSlugSizeRoute: typeof ProductCustomizeCreateSlugSizeRoute
@@ -130,11 +286,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/algemene-voorwaarden': {
+      id: '/algemene-voorwaarden'
+      path: '/algemene-voorwaarden'
+      fullPath: '/algemene-voorwaarden'
+      preLoaderRoute: typeof AlgemeneVoorwaardenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bestellen': {
+      id: '/bestellen'
+      path: '/bestellen'
+      fullPath: '/bestellen'
+      preLoaderRoute: typeof BestellenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/betalen': {
+      id: '/betalen'
+      path: '/betalen'
+      fullPath: '/betalen'
+      preLoaderRoute: typeof BetalenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carriere': {
+      id: '/carriere'
+      path: '/carriere'
+      fullPath: '/carriere'
+      preLoaderRoute: typeof CarriereRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cart': {
       id: '/cart'
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookiebeleid': {
+      id: '/cookiebeleid'
+      path: '/cookiebeleid'
+      fullPath: '/cookiebeleid'
+      preLoaderRoute: typeof CookiebeleidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-made-kleding': {
+      id: '/custom-made-kleding'
+      path: '/custom-made-kleding'
+      fullPath: '/custom-made-kleding'
+      preLoaderRoute: typeof CustomMadeKledingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media-ambassadeurs': {
+      id: '/media-ambassadeurs'
+      path: '/media-ambassadeurs'
+      fullPath: '/media-ambassadeurs'
+      preLoaderRoute: typeof MediaAmbassadeursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ons-verhaal': {
+      id: '/ons-verhaal'
+      path: '/ons-verhaal'
+      fullPath: '/ons-verhaal'
+      preLoaderRoute: typeof OnsVerhaalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacybeleid': {
+      id: '/privacybeleid'
+      path: '/privacybeleid'
+      fullPath: '/privacybeleid'
+      preLoaderRoute: typeof PrivacybeleidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/retouren': {
+      id: '/retouren'
+      path: '/retouren'
+      fullPath: '/retouren'
+      preLoaderRoute: typeof RetourenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verzenden': {
+      id: '/verzenden'
+      path: '/verzenden'
+      fullPath: '/verzenden'
+      preLoaderRoute: typeof VerzendenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collection/$collectionName': {
@@ -194,7 +434,19 @@ const CollectionCollectionNameRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlgemeneVoorwaardenRoute: AlgemeneVoorwaardenRoute,
+  BestellenRoute: BestellenRoute,
+  BetalenRoute: BetalenRoute,
+  CarriereRoute: CarriereRoute,
   CartRoute: CartRoute,
+  CookiebeleidRoute: CookiebeleidRoute,
+  CustomMadeKledingRoute: CustomMadeKledingRoute,
+  DisclaimerRoute: DisclaimerRoute,
+  MediaAmbassadeursRoute: MediaAmbassadeursRoute,
+  OnsVerhaalRoute: OnsVerhaalRoute,
+  PrivacybeleidRoute: PrivacybeleidRoute,
+  RetourenRoute: RetourenRoute,
+  VerzendenRoute: VerzendenRoute,
   CollectionCollectionNameRoute: CollectionCollectionNameRouteWithChildren,
   ProductSlugRoute: ProductSlugRoute,
   ProductCustomizeCreateSlugSizeRoute: ProductCustomizeCreateSlugSizeRoute,

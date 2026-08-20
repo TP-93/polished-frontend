@@ -3,10 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPageView } from "@/components/content/ContentPageView";
 import { contentPages } from "@/services/content";
 
-const page = contentPages["retouren"]!;
-
 export const Route = createFileRoute("/retouren")({
   head: () => {
+    const page = contentPages["retouren"]!;
     const title = `${page.title.en} — JORCUSTOM`;
     return {
       meta: [
@@ -19,5 +18,9 @@ export const Route = createFileRoute("/retouren")({
       ],
     };
   },
-  component: () => <ContentPageView page={page} />,
+  component: RetourenPage,
 });
+
+function RetourenPage() {
+  return <ContentPageView page={contentPages["retouren"]!} />;
+}

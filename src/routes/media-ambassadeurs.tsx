@@ -3,10 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPageView } from "@/components/content/ContentPageView";
 import { contentPages } from "@/services/content";
 
-const page = contentPages["media-ambassadeurs"]!;
-
 export const Route = createFileRoute("/media-ambassadeurs")({
   head: () => {
+    const page = contentPages["media-ambassadeurs"]!;
     const title = `${page.title.en} — JORCUSTOM`;
     return {
       meta: [
@@ -19,5 +18,9 @@ export const Route = createFileRoute("/media-ambassadeurs")({
       ],
     };
   },
-  component: () => <ContentPageView page={page} />,
+  component: MediaAmbassadeursPage,
 });
+
+function MediaAmbassadeursPage() {
+  return <ContentPageView page={contentPages["media-ambassadeurs"]!} />;
+}

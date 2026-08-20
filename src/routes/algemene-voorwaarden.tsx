@@ -3,10 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPageView } from "@/components/content/ContentPageView";
 import { contentPages } from "@/services/content";
 
-const page = contentPages["algemene-voorwaarden"]!;
-
 export const Route = createFileRoute("/algemene-voorwaarden")({
   head: () => {
+    const page = contentPages["algemene-voorwaarden"]!;
     const title = `${page.title.en} — JORCUSTOM`;
     return {
       meta: [
@@ -19,5 +18,9 @@ export const Route = createFileRoute("/algemene-voorwaarden")({
       ],
     };
   },
-  component: () => <ContentPageView page={page} />,
+  component: AlgemeneVoorwaardenPage,
 });
+
+function AlgemeneVoorwaardenPage() {
+  return <ContentPageView page={contentPages["algemene-voorwaarden"]!} />;
+}
