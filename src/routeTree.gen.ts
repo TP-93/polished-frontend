@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as CollectionCollectionNameRouteImport } from './routes/collection.$collectionName'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CollectionCollectionNameIndexRouteImport } from './routes/collection.$collectionName.index'
@@ -19,6 +20,11 @@ import { Route as ProductCustomizeCreateSlugSizeRouteImport } from './routes/pro
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionCollectionNameRoute =
@@ -53,6 +59,7 @@ const ProductCustomizeCreateSlugSizeRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
@@ -61,6 +68,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/product/$slug': typeof ProductSlugRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
   '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
@@ -69,6 +77,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
   '/product/$slug': typeof ProductSlugRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cart'
     | '/collection/$collectionName'
     | '/product/$slug'
     | '/collection/$collectionName/$category'
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cart'
     | '/product/$slug'
     | '/collection/$collectionName/$category'
     | '/product-customize-create/$slug/$size'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/cart'
     | '/collection/$collectionName'
     | '/product/$slug'
     | '/collection/$collectionName/$category'
@@ -103,6 +115,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CartRoute: typeof CartRoute
   CollectionCollectionNameRoute: typeof CollectionCollectionNameRouteWithChildren
   ProductSlugRoute: typeof ProductSlugRoute
   ProductCustomizeCreateSlugSizeRoute: typeof ProductCustomizeCreateSlugSizeRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collection/$collectionName': {
@@ -174,6 +194,7 @@ const CollectionCollectionNameRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CartRoute: CartRoute,
   CollectionCollectionNameRoute: CollectionCollectionNameRouteWithChildren,
   ProductSlugRoute: ProductSlugRoute,
   ProductCustomizeCreateSlugSizeRoute: ProductCustomizeCreateSlugSizeRoute,
