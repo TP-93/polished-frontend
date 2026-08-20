@@ -1,13 +1,29 @@
 /** Customizer service: designs, layers and colour sources. */
-import { colorThemes, designs } from "./mock-data";
+import { loadDesigns, realColorThemes } from "./data/catalog";
 import type { ColorTheme, Design } from "./types";
 
+/** A single print design with all of its artwork layers. */
 export async function getDesign(id: string): Promise<Design | null> {
-  return designs.find((d) => d.id === id) ?? null;
+  const designs = await loadDesigns();
+  return designs[id] ?? null;
+}
+
+/** All print designs of a product, ordered front first. */
+export async function getDesigns(ids: string[]): Promise<Design[]> {
+  const designs = await loadDesigns();
+  return ids
+    .map((id) => designs[id])
+    .filter((design): design is Design => Boolean(design))
+    .sort((a, b) => Number(a.projection === "back") - Number(b.projection === "back"));
 }
 
 export async function listColorThemes(): Promise<ColorTheme[]> {
-  return colorThemes;
+  return realColorThemes;
+}
+
+/** Layers the customer is allowed to recolour. */
+export function editableLayers(design: Design) {
+  return design.layers.filter((layer) => layer.editableColor);
 }
 
 /** Default layer colours for a design. */
