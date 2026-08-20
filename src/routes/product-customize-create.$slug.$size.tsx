@@ -94,9 +94,14 @@ function CustomizePage() {
 
   const color = product.colors[0]!;
   /** Only artwork layers flagged editable may be recoloured — as in the original tool. */
-  const layers = editableLayers(design);
-  const allEditableLayerIds = designs.flatMap((d) => editableLayers(d).map((layer) => layer.id));
-  const activeLayer = layers.find((layer) => layer.id === activeLayerId) ?? null;
+
+  /** Every recolourable layer of the garment, front and back, in one list. */
+  const allLayers = designs.flatMap((item, index) =>
+    editableLayers(item).map((layer) => ({ layer, designIndex: index, projection: item.projection })),
+  );
+  const allEditableLayerIds = allLayers.map((entry) => entry.layer.id);
+  const activeLayer = allLayers.find((entry) => entry.layer.id === activeLayerId)?.layer ?? null;
+
 
   function setActiveColor(hex: string) {
     if (!activeLayerId) return;
@@ -106,9 +111,12 @@ function CustomizePage() {
 
   function nextLayer() {
     if (!activeLayerId) return;
-    const index = layers.findIndex((layer) => layer.id === activeLayerId);
-    const next = layers[index + 1];
-    setActiveLayerId(next ? next.id : (layers[0]?.id ?? null));
+    const index = allLayers.findIndex((entry) => entry.layer.id === activeLayerId);
+    const next = allLayers[index + 1] ?? allLayers[0];
+    if (!next) return;
+    setViewIndex(next.designIndex);
+    setActiveLayerId(next.layer.id);
+    setHexDraft(layerColors[next.layer.id] ?? next.layer.defaultColor);
   }
 
   function handleAddToCart() {
@@ -186,17 +194,18 @@ function CustomizePage() {
             <div className="mb-3 flex items-center justify-between">
               <p className="label-caps text-muted-foreground">{t("cz.selectLayer")}</p>
               <span className="text-xs text-muted-foreground">
-                {layers.length} {t("cz.layers")}
+                {allLayers.length} {t("cz.layers")}
               </span>
             </div>
             <ul className="grid grid-cols-2 gap-2">
-              {layers.map((layer) => {
+              {allLayers.map(({ layer, designIndex, projection }) => {
                 const active = layer.id === activeLayerId;
                 return (
                   <li key={layer.id}>
                     <button
                       type="button"
                       onClick={() => {
+                        setViewIndex(designIndex);
                         setActiveLayerId(layer.id);
                         setHexDraft(layerColors[layer.id] ?? layer.defaultColor);
                       }}
@@ -209,13 +218,21 @@ function CustomizePage() {
                         className="size-6 shrink-0 rounded-sm border border-border-strong"
                         style={{ backgroundColor: layerColors[layer.id] ?? layer.defaultColor }}
                       />
-                      <span className="truncate text-sm">{layer.name}</span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm">{layer.name}</span>
+                        {designs.length > 1 ? (
+                          <span className="label-caps block text-[10px] capitalize text-muted-foreground">
+                            {projection}
+                          </span>
+                        ) : null}
+                      </span>
                     </button>
                   </li>
                 );
               })}
             </ul>
           </section>
+
 
           <section>
             <p className="label-caps mb-3 text-muted-foreground">{t("cz.selectSource")}</p>
@@ -392,7 +409,7 @@ function CustomizePage() {
               </div>
             </dl>
             <div className="mt-5 flex flex-wrap gap-1">
-              {layers.map((layer) => (
+              {allLayers.map(({ layer }) => (
                 <span
                   key={layer.id}
                   title={`${layer.name} — ${layerColors[layer.id]}`}

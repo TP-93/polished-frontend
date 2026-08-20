@@ -4,9 +4,9 @@ import type { Design } from "@/services/types";
  * Live artwork preview for the Customize Tool.
  *
  * The real print design is a stack of transparent PNG layers on a fixed canvas.
- * Layers the customer may recolour are painted as a solid colour masked by the
- * layer artwork, so a colour change is visible immediately. Fixed layers (the
- * garment mock-up, print edges) are drawn as plain images.
+ * Recolourable layers are tinted with an inline SVG filter (flood colour
+ * composited into the layer's alpha channel). Unlike a CSS mask this works with
+ * artwork served from another origin, so colour changes are visible instantly.
  */
 export function DesignPreview({
   design,
@@ -21,6 +21,7 @@ export function DesignPreview({
 }) {
   const canvasWidth = design.canvasWidth || 1667;
   const canvasHeight = design.canvasHeight || 2000;
+  const editable = design.layers.filter((layer) => layer.image && layer.editableColor);
 
   return (
     <div
@@ -29,50 +30,49 @@ export function DesignPreview({
       role="img"
       aria-label={`${productName} — ${design.name} artwork preview`}
     >
+      {/* One tint filter per recolourable layer. */}
+      <svg aria-hidden className="absolute size-0" focusable="false">
+        <defs>
+          {editable.map((layer) => (
+            <filter
+              key={layer.id}
+              id={tintId(design.id, layer.id)}
+              colorInterpolationFilters="sRGB"
+            >
+              <feFlood floodColor={layerColors[layer.id] ?? layer.defaultColor ?? "#FFFFFF"} />
+              <feComposite in2="SourceAlpha" operator="in" />
+            </filter>
+          ))}
+        </defs>
+      </svg>
+
       {design.layers.map((layer) => {
         if (!layer.image) return null;
 
-        const style: React.CSSProperties = {
-          left: `${(layer.x / canvasWidth) * 100}%`,
-          top: `${(layer.y / canvasHeight) * 100}%`,
-          width: `${(layer.width / canvasWidth) * 100}%`,
-          height: `${(layer.height / canvasHeight) * 100}%`,
-          opacity: activeLayerId && activeLayerId !== layer.id ? 0.85 : 1,
-        };
-
-        if (!layer.editableColor) {
-          return (
-            <img
-              key={layer.id}
-              src={layer.image}
-              alt=""
-              aria-hidden
-              loading="eager"
-              className="absolute transition-opacity duration-200"
-              style={style}
-            />
-          );
-        }
-
-        const color = layerColors[layer.id] ?? layer.defaultColor;
         return (
-          <div
+          <img
             key={layer.id}
+            src={layer.image}
+            alt=""
             aria-hidden
-            className="absolute transition-[background-color,opacity] duration-200"
+            loading="eager"
+            draggable={false}
+            className="absolute select-none transition-opacity duration-200"
             style={{
-              ...style,
-              backgroundColor: color,
-              maskImage: `url("${layer.image}")`,
-              WebkitMaskImage: `url("${layer.image}")`,
-              maskSize: "100% 100%",
-              WebkitMaskSize: "100% 100%",
-              maskRepeat: "no-repeat",
-              WebkitMaskRepeat: "no-repeat",
+              left: `${(layer.x / canvasWidth) * 100}%`,
+              top: `${(layer.y / canvasHeight) * 100}%`,
+              width: `${(layer.width / canvasWidth) * 100}%`,
+              height: `${(layer.height / canvasHeight) * 100}%`,
+              opacity: activeLayerId && layer.editableColor && activeLayerId !== layer.id ? 0.9 : 1,
+              filter: layer.editableColor ? `url(#${tintId(design.id, layer.id)})` : undefined,
             }}
           />
         );
       })}
     </div>
   );
+}
+
+function tintId(designId: string, layerId: string) {
+  return `tint-${designId}-${layerId}`;
 }
