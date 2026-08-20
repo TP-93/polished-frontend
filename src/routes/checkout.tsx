@@ -360,8 +360,8 @@ function Field({
   id: string;
   label: string;
   value: string;
-  error?: string;
-  type?: string;
+  error?: string | undefined;
+  type?: string | undefined;
   onChange: (value: string) => void;
 }) {
   return (

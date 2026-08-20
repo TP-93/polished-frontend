@@ -15,9 +15,12 @@ import { Route as BestellenRouteImport } from './routes/bestellen'
 import { Route as BetalenRouteImport } from './routes/betalen'
 import { Route as CarriereRouteImport } from './routes/carriere'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiebeleidRouteImport } from './routes/cookiebeleid'
 import { Route as CustomMadeKledingRouteImport } from './routes/custom-made-kleding'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as MediaAmbassadeursRouteImport } from './routes/media-ambassadeurs'
 import { Route as OnsVerhaalRouteImport } from './routes/ons-verhaal'
 import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
@@ -59,6 +62,16 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiebeleidRoute = CookiebeleidRouteImport.update({
   id: '/cookiebeleid',
   path: '/cookiebeleid',
@@ -72,6 +85,11 @@ const CustomMadeKledingRoute = CustomMadeKledingRouteImport.update({
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MediaAmbassadeursRoute = MediaAmbassadeursRouteImport.update({
@@ -136,9 +154,12 @@ export interface FileRoutesByFullPath {
   '/betalen': typeof BetalenRoute
   '/carriere': typeof CarriereRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
   '/cookiebeleid': typeof CookiebeleidRoute
   '/custom-made-kleding': typeof CustomMadeKledingRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
   '/media-ambassadeurs': typeof MediaAmbassadeursRoute
   '/ons-verhaal': typeof OnsVerhaalRoute
   '/privacybeleid': typeof PrivacybeleidRoute
@@ -157,9 +178,12 @@ export interface FileRoutesByTo {
   '/betalen': typeof BetalenRoute
   '/carriere': typeof CarriereRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
   '/cookiebeleid': typeof CookiebeleidRoute
   '/custom-made-kleding': typeof CustomMadeKledingRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
   '/media-ambassadeurs': typeof MediaAmbassadeursRoute
   '/ons-verhaal': typeof OnsVerhaalRoute
   '/privacybeleid': typeof PrivacybeleidRoute
@@ -178,9 +202,12 @@ export interface FileRoutesById {
   '/betalen': typeof BetalenRoute
   '/carriere': typeof CarriereRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
   '/cookiebeleid': typeof CookiebeleidRoute
   '/custom-made-kleding': typeof CustomMadeKledingRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
   '/media-ambassadeurs': typeof MediaAmbassadeursRoute
   '/ons-verhaal': typeof OnsVerhaalRoute
   '/privacybeleid': typeof PrivacybeleidRoute
@@ -201,9 +228,12 @@ export interface FileRouteTypes {
     | '/betalen'
     | '/carriere'
     | '/cart'
+    | '/checkout'
+    | '/contact'
     | '/cookiebeleid'
     | '/custom-made-kleding'
     | '/disclaimer'
+    | '/faq'
     | '/media-ambassadeurs'
     | '/ons-verhaal'
     | '/privacybeleid'
@@ -222,9 +252,12 @@ export interface FileRouteTypes {
     | '/betalen'
     | '/carriere'
     | '/cart'
+    | '/checkout'
+    | '/contact'
     | '/cookiebeleid'
     | '/custom-made-kleding'
     | '/disclaimer'
+    | '/faq'
     | '/media-ambassadeurs'
     | '/ons-verhaal'
     | '/privacybeleid'
@@ -242,9 +275,12 @@ export interface FileRouteTypes {
     | '/betalen'
     | '/carriere'
     | '/cart'
+    | '/checkout'
+    | '/contact'
     | '/cookiebeleid'
     | '/custom-made-kleding'
     | '/disclaimer'
+    | '/faq'
     | '/media-ambassadeurs'
     | '/ons-verhaal'
     | '/privacybeleid'
@@ -264,9 +300,12 @@ export interface RootRouteChildren {
   BetalenRoute: typeof BetalenRoute
   CarriereRoute: typeof CarriereRoute
   CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
+  ContactRoute: typeof ContactRoute
   CookiebeleidRoute: typeof CookiebeleidRoute
   CustomMadeKledingRoute: typeof CustomMadeKledingRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  FaqRoute: typeof FaqRoute
   MediaAmbassadeursRoute: typeof MediaAmbassadeursRoute
   OnsVerhaalRoute: typeof OnsVerhaalRoute
   PrivacybeleidRoute: typeof PrivacybeleidRoute
@@ -321,6 +360,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookiebeleid': {
       id: '/cookiebeleid'
       path: '/cookiebeleid'
@@ -340,6 +393,13 @@ declare module '@tanstack/react-router' {
       path: '/disclaimer'
       fullPath: '/disclaimer'
       preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/media-ambassadeurs': {
@@ -439,9 +499,12 @@ const rootRouteChildren: RootRouteChildren = {
   BetalenRoute: BetalenRoute,
   CarriereRoute: CarriereRoute,
   CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
+  ContactRoute: ContactRoute,
   CookiebeleidRoute: CookiebeleidRoute,
   CustomMadeKledingRoute: CustomMadeKledingRoute,
   DisclaimerRoute: DisclaimerRoute,
+  FaqRoute: FaqRoute,
   MediaAmbassadeursRoute: MediaAmbassadeursRoute,
   OnsVerhaalRoute: OnsVerhaalRoute,
   PrivacybeleidRoute: PrivacybeleidRoute,

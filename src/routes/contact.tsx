@@ -33,11 +33,11 @@ function ContactPage() {
   const { t } = useI18n();
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sending, setSending] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<"name" | "email" | "subject" | "message", string>>>({});
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    const next: Record<string, string> = {};
+    const next: Partial<Record<"name" | "email" | "subject" | "message", string>> = {};
     for (const key of ["name", "email", "subject", "message"] as const) {
       if (!form[key].trim()) next[key] = t("checkout.required");
     }
