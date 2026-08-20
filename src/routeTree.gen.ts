@@ -10,33 +10,310 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
+import { Route as BestellenRouteImport } from './routes/bestellen'
+import { Route as BetalenRouteImport } from './routes/betalen'
+import { Route as CarriereRouteImport } from './routes/carriere'
+import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiebeleidRouteImport } from './routes/cookiebeleid'
+import { Route as CustomMadeKledingRouteImport } from './routes/custom-made-kleding'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as MediaAmbassadeursRouteImport } from './routes/media-ambassadeurs'
+import { Route as OnsVerhaalRouteImport } from './routes/ons-verhaal'
+import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
+import { Route as RetourenRouteImport } from './routes/retouren'
+import { Route as VerzendenRouteImport } from './routes/verzenden'
+import { Route as CollectionCollectionNameRouteImport } from './routes/collection.$collectionName'
+import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as CollectionCollectionNameIndexRouteImport } from './routes/collection.$collectionName.index'
+import { Route as CollectionCollectionNameCategoryRouteImport } from './routes/collection.$collectionName.$category'
+import { Route as ProductCustomizeCreateSlugSizeRouteImport } from './routes/product-customize-create.$slug.$size'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
+  id: '/algemene-voorwaarden',
+  path: '/algemene-voorwaarden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BestellenRoute = BestellenRouteImport.update({
+  id: '/bestellen',
+  path: '/bestellen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BetalenRoute = BetalenRouteImport.update({
+  id: '/betalen',
+  path: '/betalen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarriereRoute = CarriereRouteImport.update({
+  id: '/carriere',
+  path: '/carriere',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiebeleidRoute = CookiebeleidRouteImport.update({
+  id: '/cookiebeleid',
+  path: '/cookiebeleid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomMadeKledingRoute = CustomMadeKledingRouteImport.update({
+  id: '/custom-made-kleding',
+  path: '/custom-made-kleding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaAmbassadeursRoute = MediaAmbassadeursRouteImport.update({
+  id: '/media-ambassadeurs',
+  path: '/media-ambassadeurs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnsVerhaalRoute = OnsVerhaalRouteImport.update({
+  id: '/ons-verhaal',
+  path: '/ons-verhaal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacybeleidRoute = PrivacybeleidRouteImport.update({
+  id: '/privacybeleid',
+  path: '/privacybeleid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RetourenRoute = RetourenRouteImport.update({
+  id: '/retouren',
+  path: '/retouren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerzendenRoute = VerzendenRouteImport.update({
+  id: '/verzenden',
+  path: '/verzenden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionCollectionNameRoute =
+  CollectionCollectionNameRouteImport.update({
+    id: '/collection/$collectionName',
+    path: '/collection/$collectionName',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProductSlugRoute = ProductSlugRouteImport.update({
+  id: '/product/$slug',
+  path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionCollectionNameIndexRoute =
+  CollectionCollectionNameIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => CollectionCollectionNameRoute,
+  } as any)
+const CollectionCollectionNameCategoryRoute =
+  CollectionCollectionNameCategoryRouteImport.update({
+    id: '/$category',
+    path: '/$category',
+    getParentRoute: () => CollectionCollectionNameRoute,
+  } as any)
+const ProductCustomizeCreateSlugSizeRoute =
+  ProductCustomizeCreateSlugSizeRouteImport.update({
+    id: '/product-customize-create/$slug/$size',
+    path: '/product-customize-create/$slug/$size',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
+  '/bestellen': typeof BestellenRoute
+  '/betalen': typeof BetalenRoute
+  '/carriere': typeof CarriereRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/cookiebeleid': typeof CookiebeleidRoute
+  '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
+  '/media-ambassadeurs': typeof MediaAmbassadeursRoute
+  '/ons-verhaal': typeof OnsVerhaalRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
+  '/retouren': typeof RetourenRoute
+  '/verzenden': typeof VerzendenRoute
+  '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
+  '/product/$slug': typeof ProductSlugRoute
+  '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
+  '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
+  '/collection/$collectionName/': typeof CollectionCollectionNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
+  '/bestellen': typeof BestellenRoute
+  '/betalen': typeof BetalenRoute
+  '/carriere': typeof CarriereRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/cookiebeleid': typeof CookiebeleidRoute
+  '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
+  '/media-ambassadeurs': typeof MediaAmbassadeursRoute
+  '/ons-verhaal': typeof OnsVerhaalRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
+  '/retouren': typeof RetourenRoute
+  '/verzenden': typeof VerzendenRoute
+  '/product/$slug': typeof ProductSlugRoute
+  '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
+  '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
+  '/collection/$collectionName': typeof CollectionCollectionNameIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
+  '/bestellen': typeof BestellenRoute
+  '/betalen': typeof BetalenRoute
+  '/carriere': typeof CarriereRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/cookiebeleid': typeof CookiebeleidRoute
+  '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
+  '/media-ambassadeurs': typeof MediaAmbassadeursRoute
+  '/ons-verhaal': typeof OnsVerhaalRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
+  '/retouren': typeof RetourenRoute
+  '/verzenden': typeof VerzendenRoute
+  '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
+  '/product/$slug': typeof ProductSlugRoute
+  '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
+  '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
+  '/collection/$collectionName/': typeof CollectionCollectionNameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/algemene-voorwaarden'
+    | '/bestellen'
+    | '/betalen'
+    | '/carriere'
+    | '/cart'
+    | '/checkout'
+    | '/contact'
+    | '/cookiebeleid'
+    | '/custom-made-kleding'
+    | '/disclaimer'
+    | '/faq'
+    | '/media-ambassadeurs'
+    | '/ons-verhaal'
+    | '/privacybeleid'
+    | '/retouren'
+    | '/verzenden'
+    | '/collection/$collectionName'
+    | '/product/$slug'
+    | '/collection/$collectionName/$category'
+    | '/product-customize-create/$slug/$size'
+    | '/collection/$collectionName/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/algemene-voorwaarden'
+    | '/bestellen'
+    | '/betalen'
+    | '/carriere'
+    | '/cart'
+    | '/checkout'
+    | '/contact'
+    | '/cookiebeleid'
+    | '/custom-made-kleding'
+    | '/disclaimer'
+    | '/faq'
+    | '/media-ambassadeurs'
+    | '/ons-verhaal'
+    | '/privacybeleid'
+    | '/retouren'
+    | '/verzenden'
+    | '/product/$slug'
+    | '/collection/$collectionName/$category'
+    | '/product-customize-create/$slug/$size'
+    | '/collection/$collectionName'
+  id:
+    | '__root__'
+    | '/'
+    | '/algemene-voorwaarden'
+    | '/bestellen'
+    | '/betalen'
+    | '/carriere'
+    | '/cart'
+    | '/checkout'
+    | '/contact'
+    | '/cookiebeleid'
+    | '/custom-made-kleding'
+    | '/disclaimer'
+    | '/faq'
+    | '/media-ambassadeurs'
+    | '/ons-verhaal'
+    | '/privacybeleid'
+    | '/retouren'
+    | '/verzenden'
+    | '/collection/$collectionName'
+    | '/product/$slug'
+    | '/collection/$collectionName/$category'
+    | '/product-customize-create/$slug/$size'
+    | '/collection/$collectionName/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlgemeneVoorwaardenRoute: typeof AlgemeneVoorwaardenRoute
+  BestellenRoute: typeof BestellenRoute
+  BetalenRoute: typeof BetalenRoute
+  CarriereRoute: typeof CarriereRoute
+  CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
+  ContactRoute: typeof ContactRoute
+  CookiebeleidRoute: typeof CookiebeleidRoute
+  CustomMadeKledingRoute: typeof CustomMadeKledingRoute
+  DisclaimerRoute: typeof DisclaimerRoute
+  FaqRoute: typeof FaqRoute
+  MediaAmbassadeursRoute: typeof MediaAmbassadeursRoute
+  OnsVerhaalRoute: typeof OnsVerhaalRoute
+  PrivacybeleidRoute: typeof PrivacybeleidRoute
+  RetourenRoute: typeof RetourenRoute
+  VerzendenRoute: typeof VerzendenRoute
+  CollectionCollectionNameRoute: typeof CollectionCollectionNameRouteWithChildren
+  ProductSlugRoute: typeof ProductSlugRoute
+  ProductCustomizeCreateSlugSizeRoute: typeof ProductCustomizeCreateSlugSizeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +325,194 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/algemene-voorwaarden': {
+      id: '/algemene-voorwaarden'
+      path: '/algemene-voorwaarden'
+      fullPath: '/algemene-voorwaarden'
+      preLoaderRoute: typeof AlgemeneVoorwaardenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bestellen': {
+      id: '/bestellen'
+      path: '/bestellen'
+      fullPath: '/bestellen'
+      preLoaderRoute: typeof BestellenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/betalen': {
+      id: '/betalen'
+      path: '/betalen'
+      fullPath: '/betalen'
+      preLoaderRoute: typeof BetalenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carriere': {
+      id: '/carriere'
+      path: '/carriere'
+      fullPath: '/carriere'
+      preLoaderRoute: typeof CarriereRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookiebeleid': {
+      id: '/cookiebeleid'
+      path: '/cookiebeleid'
+      fullPath: '/cookiebeleid'
+      preLoaderRoute: typeof CookiebeleidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-made-kleding': {
+      id: '/custom-made-kleding'
+      path: '/custom-made-kleding'
+      fullPath: '/custom-made-kleding'
+      preLoaderRoute: typeof CustomMadeKledingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media-ambassadeurs': {
+      id: '/media-ambassadeurs'
+      path: '/media-ambassadeurs'
+      fullPath: '/media-ambassadeurs'
+      preLoaderRoute: typeof MediaAmbassadeursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ons-verhaal': {
+      id: '/ons-verhaal'
+      path: '/ons-verhaal'
+      fullPath: '/ons-verhaal'
+      preLoaderRoute: typeof OnsVerhaalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacybeleid': {
+      id: '/privacybeleid'
+      path: '/privacybeleid'
+      fullPath: '/privacybeleid'
+      preLoaderRoute: typeof PrivacybeleidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/retouren': {
+      id: '/retouren'
+      path: '/retouren'
+      fullPath: '/retouren'
+      preLoaderRoute: typeof RetourenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verzenden': {
+      id: '/verzenden'
+      path: '/verzenden'
+      fullPath: '/verzenden'
+      preLoaderRoute: typeof VerzendenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collection/$collectionName': {
+      id: '/collection/$collectionName'
+      path: '/collection/$collectionName'
+      fullPath: '/collection/$collectionName'
+      preLoaderRoute: typeof CollectionCollectionNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/$slug': {
+      id: '/product/$slug'
+      path: '/product/$slug'
+      fullPath: '/product/$slug'
+      preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collection/$collectionName/': {
+      id: '/collection/$collectionName/'
+      path: '/'
+      fullPath: '/collection/$collectionName/'
+      preLoaderRoute: typeof CollectionCollectionNameIndexRouteImport
+      parentRoute: typeof CollectionCollectionNameRoute
+    }
+    '/collection/$collectionName/$category': {
+      id: '/collection/$collectionName/$category'
+      path: '/$category'
+      fullPath: '/collection/$collectionName/$category'
+      preLoaderRoute: typeof CollectionCollectionNameCategoryRouteImport
+      parentRoute: typeof CollectionCollectionNameRoute
+    }
+    '/product-customize-create/$slug/$size': {
+      id: '/product-customize-create/$slug/$size'
+      path: '/product-customize-create/$slug/$size'
+      fullPath: '/product-customize-create/$slug/$size'
+      preLoaderRoute: typeof ProductCustomizeCreateSlugSizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface CollectionCollectionNameRouteChildren {
+  CollectionCollectionNameCategoryRoute: typeof CollectionCollectionNameCategoryRoute
+  CollectionCollectionNameIndexRoute: typeof CollectionCollectionNameIndexRoute
+}
+
+const CollectionCollectionNameRouteChildren: CollectionCollectionNameRouteChildren =
+  {
+    CollectionCollectionNameCategoryRoute:
+      CollectionCollectionNameCategoryRoute,
+    CollectionCollectionNameIndexRoute: CollectionCollectionNameIndexRoute,
+  }
+
+const CollectionCollectionNameRouteWithChildren =
+  CollectionCollectionNameRoute._addFileChildren(
+    CollectionCollectionNameRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlgemeneVoorwaardenRoute: AlgemeneVoorwaardenRoute,
+  BestellenRoute: BestellenRoute,
+  BetalenRoute: BetalenRoute,
+  CarriereRoute: CarriereRoute,
+  CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
+  ContactRoute: ContactRoute,
+  CookiebeleidRoute: CookiebeleidRoute,
+  CustomMadeKledingRoute: CustomMadeKledingRoute,
+  DisclaimerRoute: DisclaimerRoute,
+  FaqRoute: FaqRoute,
+  MediaAmbassadeursRoute: MediaAmbassadeursRoute,
+  OnsVerhaalRoute: OnsVerhaalRoute,
+  PrivacybeleidRoute: PrivacybeleidRoute,
+  RetourenRoute: RetourenRoute,
+  VerzendenRoute: VerzendenRoute,
+  CollectionCollectionNameRoute: CollectionCollectionNameRouteWithChildren,
+  ProductSlugRoute: ProductSlugRoute,
+  ProductCustomizeCreateSlugSizeRoute: ProductCustomizeCreateSlugSizeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
