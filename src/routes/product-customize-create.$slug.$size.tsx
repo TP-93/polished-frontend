@@ -191,17 +191,18 @@ function CustomizePage() {
             <div className="mb-3 flex items-center justify-between">
               <p className="label-caps text-muted-foreground">{t("cz.selectLayer")}</p>
               <span className="text-xs text-muted-foreground">
-                {layers.length} {t("cz.layers")}
+                {allLayers.length} {t("cz.layers")}
               </span>
             </div>
             <ul className="grid grid-cols-2 gap-2">
-              {layers.map((layer) => {
+              {allLayers.map(({ layer, designIndex, projection }) => {
                 const active = layer.id === activeLayerId;
                 return (
                   <li key={layer.id}>
                     <button
                       type="button"
                       onClick={() => {
+                        setViewIndex(designIndex);
                         setActiveLayerId(layer.id);
                         setHexDraft(layerColors[layer.id] ?? layer.defaultColor);
                       }}
@@ -214,13 +215,21 @@ function CustomizePage() {
                         className="size-6 shrink-0 rounded-sm border border-border-strong"
                         style={{ backgroundColor: layerColors[layer.id] ?? layer.defaultColor }}
                       />
-                      <span className="truncate text-sm">{layer.name}</span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm">{layer.name}</span>
+                        {designs.length > 1 ? (
+                          <span className="label-caps block text-[10px] capitalize text-muted-foreground">
+                            {projection}
+                          </span>
+                        ) : null}
+                      </span>
                     </button>
                   </li>
                 );
               })}
             </ul>
           </section>
+
 
           <section>
             <p className="label-caps mb-3 text-muted-foreground">{t("cz.selectSource")}</p>
