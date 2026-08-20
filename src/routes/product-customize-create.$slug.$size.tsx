@@ -94,7 +94,7 @@ function CustomizePage() {
 
   const color = product.colors[0]!;
   /** Only artwork layers flagged editable may be recoloured — as in the original tool. */
-  const layers = editableLayers(design);
+
   /** Every recolourable layer of the garment, front and back, in one list. */
   const allLayers = designs.flatMap((item, index) =>
     editableLayers(item).map((layer) => ({ layer, designIndex: index, projection: item.projection })),
