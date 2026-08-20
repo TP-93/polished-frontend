@@ -132,6 +132,80 @@ for node in raw["products"]:
         "designIds": [d for d in design_ids if d in designs],
     })
 
+# --- Fallback: products whose colourway has no artwork of its own reuse the
+# artwork of the same theme + garment (staging only ships designs for the base
+# colourways, e.g. SummerSet twin-set variants have none).
+PROJ = {"front", "back"}
+
+
+def parse_asset_name(name: str):
+    """-> (theme, garment, colour, projection) from a JORCUSTOM asset filename."""
+    stem = re.sub(r"\.(psd|jpg|jpeg|png)$", "", name, flags=re.I)
+    tokens = stem.split("_")
+    for i, token in enumerate(tokens):
+        if token.lower() in PROJ and i >= 3:
+            return tokens[i - 3], tokens[i - 2], tokens[i - 1], token.lower()
+    return None
+
+
+def norm(value: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (value or "").lower())
+
+
+def garment_keys(garment: str) -> list[str]:
+    base = norm(garment)
+    keys = [base]
+    for prefix in ("summerset", "twinset", "set"):
+        if base.startswith(prefix):
+            keys.append(base[len(prefix):])
+    return [k for k in keys if k]
+
+
+design_index: dict[tuple[str, str, str], list[str]] = {}
+design_index_any_colour: dict[tuple[str, str], list[str]] = {}
+for did, design in designs.items():
+    parsed = parse_asset_name(design["name"])
+    if not parsed:
+        continue
+    theme, garment, colour, _ = parsed
+    for gkey in garment_keys(garment):
+        design_index.setdefault((norm(theme), gkey, norm(colour)), []).append(did)
+        design_index_any_colour.setdefault((norm(theme), gkey), []).append(did)
+
+fallbacks = 0
+for product in products:
+    if product["designIds"] or not product["images"]:
+        continue
+    parsed = next(
+        (p for p in (parse_asset_name(i.rsplit("/", 1)[-1]) for i in product["images"]) if p),
+        None,
+    )
+    if not parsed:
+        continue
+    theme, garment, colour, _ = parsed
+    colours = [colour] + colour.split("-")
+    matched: list[str] = []
+    for gkey in garment_keys(garment):
+        for candidate in colours:
+            matched = design_index.get((norm(theme), gkey, norm(candidate)), [])
+            if matched:
+                break
+        if not matched:
+            matched = design_index_any_colour.get((norm(theme), gkey), [])
+        if matched:
+            break
+    if not matched:
+        continue
+    # keep one design per projection, preferring the first match
+    picked: dict[str, str] = {}
+    for did in matched:
+        projection = designs[did].get("projection") or "front"
+        picked.setdefault(projection, did)
+    product["designIds"] = list(picked.values())
+    fallbacks += 1
+
+
+
 os.makedirs(os.path.dirname(OUT_PRODUCTS), exist_ok=True)
 json.dump(
     {
