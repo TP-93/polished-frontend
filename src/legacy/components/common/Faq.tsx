@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/react';

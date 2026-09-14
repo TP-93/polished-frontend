@@ -4,12 +4,12 @@ import { useHistory } from 'react-router-dom';
 
 import styled from 'styled-components';
 import moment from 'moment-timezone';
-import DialogTitle from '@mui/material/DialogTitle';
+import { DialogTitle as DialogTitle } from '@mui/material';
 import { Fade, Stack, Typography } from '@mui/material';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery as useMediaQuery } from '@mui/material';
 import LoginFrom from './LoginForm';
 import RegisterFrom from './RegisterForm';
 import WelcomeTitle from './WelcomeTitle';

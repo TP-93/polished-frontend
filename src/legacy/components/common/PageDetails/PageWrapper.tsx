@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 
 import { useLocation } from 'react-router-dom';
 import Footer from '../../TheFooter';

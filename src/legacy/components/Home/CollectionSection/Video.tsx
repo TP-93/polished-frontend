@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 
 interface Props {
   videoLink: string;

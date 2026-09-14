@@ -2,11 +2,11 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import List from '@mui/material/List';
-import SvgIcon from '@mui/material/SvgIcon';
-import Collapse from '@mui/material/Collapse';
-import ListItem from '@mui/material/ListItem';
-import Typography from '@mui/material/Typography';
+import { List as List } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
+import { Collapse as Collapse } from '@mui/material';
+import { ListItem as ListItem } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { cocoBold, cocoRegular } from '../../../../styles/constants';
 

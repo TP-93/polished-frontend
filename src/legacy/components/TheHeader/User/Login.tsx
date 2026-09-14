@@ -6,8 +6,8 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useMutation, useApolloClient } from 'react-apollo';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import Input from './Input';
 import AuthButton from './Button';

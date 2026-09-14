@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Box as Box } from '@mui/material';
+import { Button as Button } from '@mui/material';
 
 import { useMediaQuery } from '@mui/material';
 

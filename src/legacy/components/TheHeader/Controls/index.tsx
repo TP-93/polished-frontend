@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import SvgIcon from '@mui/material/SvgIcon';
+import { Box as Box } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
 
 import { useMediaQuery } from '@mui/material';
 

@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Modal from '@mui/material/Modal';
-import IconButton from '@mui/material/IconButton';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
+import { Modal as Modal } from '@mui/material';
+import { IconButton as IconButton } from '@mui/material';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 

@@ -3,9 +3,9 @@ import React from 'react';
 
 import Swal from 'sweetalert2';
 
-import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
-import Typography from '@mui/material/Typography';
+import { Stack as Stack } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { makeStyles } from '@mui/styles';
 import { useMutation } from 'react-apollo';

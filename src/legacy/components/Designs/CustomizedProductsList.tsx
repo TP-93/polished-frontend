@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
 import ProductCard from '../common/ProductDetails/ProductCard';

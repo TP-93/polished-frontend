@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { useMediaQuery } from '@mui/material';
 import { cocoBold, cocoRegular } from '../../styles/constants';

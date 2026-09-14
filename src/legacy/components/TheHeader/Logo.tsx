@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { Link } from 'react-router-dom';
 
-import SvgIcon from '@mui/material/SvgIcon';
+import { SvgIcon as SvgIcon } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
 import { ReactComponent as LogoIcon } from '../../assets/images/icons/header/jorcustom_logo_min_simplified.svg.tsx';

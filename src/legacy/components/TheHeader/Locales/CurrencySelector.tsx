@@ -1,9 +1,9 @@
 // @ts-nocheck
-import Stack from '@mui/material/Stack';
-import Select from '@mui/material/Select';
-import SvgIcon from '@mui/material/SvgIcon';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import { Stack as Stack } from '@mui/material';
+import { Select as Select } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
+import { MenuItem as MenuItem } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { cocoRegular } from '../../../styles/constants';
 

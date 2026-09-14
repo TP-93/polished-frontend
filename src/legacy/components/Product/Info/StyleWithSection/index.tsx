@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
 
 import { useMediaQuery } from '@mui/material';
 import ProductCard from './ProductCard';

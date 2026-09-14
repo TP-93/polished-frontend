@@ -2,9 +2,9 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Collapse from '@mui/material/Collapse';
+import { List as List } from '@mui/material';
+import { ListItem as ListItem } from '@mui/material';
+import { Collapse as Collapse } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { cocoBold, cocoRegular } from '../../../../styles/constants';

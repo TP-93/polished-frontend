@@ -8,7 +8,7 @@ import { LoadingButton } from '@mui/lab';
 import { isPossiblePhoneNumber } from 'libphonenumber-js';
 import { TextField, Typography, FormControl } from '@mui/material';
 
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery as useMediaQuery } from '@mui/material';
 import { useUserProvider } from '../../context/user';
 import validateEmail from '../../utils/regExps/emailRegExp';
 import ErrorMessage from '../common/Errors';

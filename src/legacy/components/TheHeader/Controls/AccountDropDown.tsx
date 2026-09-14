@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom';
 import { v4 as uuid4 } from 'uuid';
 import { useApolloClient, useMutation } from 'react-apollo';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
 
 import {
   white,

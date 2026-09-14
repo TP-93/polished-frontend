@@ -1,8 +1,8 @@
 // @ts-nocheck
 import * as React from 'react';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import ShopDropDown from './Drawer';
 import { cocoRegular } from '../../../styles/constants';
