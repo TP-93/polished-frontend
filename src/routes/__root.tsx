@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  ClientOnly,
   Outlet,
   Link,
   createRootRouteWithContext,
@@ -7,13 +8,15 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { Suspense, lazy, useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { CartProvider } from "../lib/cart";
-import { I18nProvider } from "../lib/i18n";
-import { Toaster } from "../components/ui/sonner";
+
+// The legacy shell (Apollo, styled-components global styles, header) relies on
+// browser APIs, so it is only imported and rendered on the client.
+const LegacyShell = lazy(() => import("../legacy-compat/LegacyShell"));
+
 
 function NotFoundComponent() {
   return (
@@ -117,7 +120,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="nl">
       <head>
         <HeadContent />
       </head>
@@ -134,14 +137,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <CartProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <Toaster position="bottom-right" />
-        </CartProvider>
-      </I18nProvider>
+      <ClientOnly fallback={null}>
+        <Suspense fallback={null}>
+          <LegacyShell>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </LegacyShell>
+        </Suspense>
+      </ClientOnly>
     </QueryClientProvider>
   );
 }
+
 

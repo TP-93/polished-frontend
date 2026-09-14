@@ -10,31 +10,59 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
 import { Route as BestellenRouteImport } from './routes/bestellen'
 import { Route as BetalenRouteImport } from './routes/betalen'
 import { Route as CarriereRouteImport } from './routes/carriere'
-import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiebeleidRouteImport } from './routes/cookiebeleid'
 import { Route as CustomMadeKledingRouteImport } from './routes/custom-made-kleding'
+import { Route as CustomSpijkerjasRouteImport } from './routes/custom-spijkerjas'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as KioskServiceRouteImport } from './routes/kiosk-service'
 import { Route as MediaAmbassadeursRouteImport } from './routes/media-ambassadeurs'
 import { Route as OnsVerhaalRouteImport } from './routes/ons-verhaal'
 import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RetourenRouteImport } from './routes/retouren'
+import { Route as SamplesaleRouteImport } from './routes/samplesale'
+import { Route as SpecialEventRouteImport } from './routes/special-event'
+import { Route as StreetwearHerenRouteImport } from './routes/streetwear-heren'
+import { Route as StreetwearKledingRouteImport } from './routes/streetwear-kleding'
+import { Route as StreetwearMerkenRouteImport } from './routes/streetwear-merken'
+import { Route as SweaterMenRouteImport } from './routes/sweater-men'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as TracksuitHerenRouteImport } from './routes/tracksuit-heren'
+import { Route as TruiPersonaliserenRouteImport } from './routes/trui-personaliseren'
 import { Route as VerzendenRouteImport } from './routes/verzenden'
+import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as CollectionCollectionNameRouteImport } from './routes/collection.$collectionName'
+import { Route as MyDesignsIndexRouteImport } from './routes/my-designs.index'
+import { Route as MyDesignsIdRouteImport } from './routes/my-designs.$id'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CollectionCollectionNameIndexRouteImport } from './routes/collection.$collectionName.index'
 import { Route as CollectionCollectionNameCategoryRouteImport } from './routes/collection.$collectionName.$category'
 import { Route as ProductCustomizeCreateSlugSizeRouteImport } from './routes/product-customize-create.$slug.$size'
+import { Route as ProductCustomizeEditIdSizeRouteImport } from './routes/product-customize-edit.$id.$size'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
@@ -57,11 +85,6 @@ const CarriereRoute = CarriereRouteImport.update({
   path: '/carriere',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CartRoute = CartRouteImport.update({
-  id: '/cart',
-  path: '/cart',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
@@ -82,6 +105,11 @@ const CustomMadeKledingRoute = CustomMadeKledingRouteImport.update({
   path: '/custom-made-kleding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CustomSpijkerjasRoute = CustomSpijkerjasRouteImport.update({
+  id: '/custom-spijkerjas',
+  path: '/custom-spijkerjas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
@@ -90,6 +118,11 @@ const DisclaimerRoute = DisclaimerRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KioskServiceRoute = KioskServiceRouteImport.update({
+  id: '/kiosk-service',
+  path: '/kiosk-service',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MediaAmbassadeursRoute = MediaAmbassadeursRouteImport.update({
@@ -107,14 +140,74 @@ const PrivacybeleidRoute = PrivacybeleidRouteImport.update({
   path: '/privacybeleid',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RetourenRoute = RetourenRouteImport.update({
   id: '/retouren',
   path: '/retouren',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SamplesaleRoute = SamplesaleRouteImport.update({
+  id: '/samplesale',
+  path: '/samplesale',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpecialEventRoute = SpecialEventRouteImport.update({
+  id: '/special-event',
+  path: '/special-event',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StreetwearHerenRoute = StreetwearHerenRouteImport.update({
+  id: '/streetwear-heren',
+  path: '/streetwear-heren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StreetwearKledingRoute = StreetwearKledingRouteImport.update({
+  id: '/streetwear-kleding',
+  path: '/streetwear-kleding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StreetwearMerkenRoute = StreetwearMerkenRouteImport.update({
+  id: '/streetwear-merken',
+  path: '/streetwear-merken',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SweaterMenRoute = SweaterMenRouteImport.update({
+  id: '/sweater-men',
+  path: '/sweater-men',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TracksuitHerenRoute = TracksuitHerenRouteImport.update({
+  id: '/tracksuit-heren',
+  path: '/tracksuit-heren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TruiPersonaliserenRoute = TruiPersonaliserenRouteImport.update({
+  id: '/trui-personaliseren',
+  path: '/trui-personaliseren',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VerzendenRoute = VerzendenRouteImport.update({
   id: '/verzenden',
   path: '/verzenden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGraphqlRoute = ApiGraphqlRouteImport.update({
+  id: '/api/graphql',
+  path: '/api/graphql',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionCollectionNameRoute =
@@ -123,6 +216,16 @@ const CollectionCollectionNameRoute =
     path: '/collection/$collectionName',
     getParentRoute: () => rootRouteImport,
   } as any)
+const MyDesignsIndexRoute = MyDesignsIndexRouteImport.update({
+  id: '/my-designs/',
+  path: '/my-designs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyDesignsIdRoute = MyDesignsIdRouteImport.update({
+  id: '/my-designs/$id',
+  path: '/my-designs/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
@@ -146,174 +249,306 @@ const ProductCustomizeCreateSlugSizeRoute =
     path: '/product-customize-create/$slug/$size',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ProductCustomizeEditIdSizeRoute =
+  ProductCustomizeEditIdSizeRouteImport.update({
+    id: '/product-customize-edit/$id/$size',
+    path: '/product-customize-edit/$id/$size',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/account': typeof AccountRoute
   '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
   '/bestellen': typeof BestellenRoute
   '/betalen': typeof BetalenRoute
   '/carriere': typeof CarriereRoute
-  '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/cookiebeleid': typeof CookiebeleidRoute
   '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/custom-spijkerjas': typeof CustomSpijkerjasRoute
   '/disclaimer': typeof DisclaimerRoute
   '/faq': typeof FaqRoute
+  '/kiosk-service': typeof KioskServiceRoute
   '/media-ambassadeurs': typeof MediaAmbassadeursRoute
   '/ons-verhaal': typeof OnsVerhaalRoute
   '/privacybeleid': typeof PrivacybeleidRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/retouren': typeof RetourenRoute
+  '/samplesale': typeof SamplesaleRoute
+  '/special-event': typeof SpecialEventRoute
+  '/streetwear-heren': typeof StreetwearHerenRoute
+  '/streetwear-kleding': typeof StreetwearKledingRoute
+  '/streetwear-merken': typeof StreetwearMerkenRoute
+  '/sweater-men': typeof SweaterMenRoute
+  '/thank-you': typeof ThankYouRoute
+  '/tracksuit-heren': typeof TracksuitHerenRoute
+  '/trui-personaliseren': typeof TruiPersonaliserenRoute
   '/verzenden': typeof VerzendenRoute
+  '/api/graphql': typeof ApiGraphqlRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
+  '/my-designs/$id': typeof MyDesignsIdRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/my-designs/': typeof MyDesignsIndexRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
   '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
+  '/product-customize-edit/$id/$size': typeof ProductCustomizeEditIdSizeRoute
   '/collection/$collectionName/': typeof CollectionCollectionNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/account': typeof AccountRoute
   '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
   '/bestellen': typeof BestellenRoute
   '/betalen': typeof BetalenRoute
   '/carriere': typeof CarriereRoute
-  '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/cookiebeleid': typeof CookiebeleidRoute
   '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/custom-spijkerjas': typeof CustomSpijkerjasRoute
   '/disclaimer': typeof DisclaimerRoute
   '/faq': typeof FaqRoute
+  '/kiosk-service': typeof KioskServiceRoute
   '/media-ambassadeurs': typeof MediaAmbassadeursRoute
   '/ons-verhaal': typeof OnsVerhaalRoute
   '/privacybeleid': typeof PrivacybeleidRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/retouren': typeof RetourenRoute
+  '/samplesale': typeof SamplesaleRoute
+  '/special-event': typeof SpecialEventRoute
+  '/streetwear-heren': typeof StreetwearHerenRoute
+  '/streetwear-kleding': typeof StreetwearKledingRoute
+  '/streetwear-merken': typeof StreetwearMerkenRoute
+  '/sweater-men': typeof SweaterMenRoute
+  '/thank-you': typeof ThankYouRoute
+  '/tracksuit-heren': typeof TracksuitHerenRoute
+  '/trui-personaliseren': typeof TruiPersonaliserenRoute
   '/verzenden': typeof VerzendenRoute
+  '/api/graphql': typeof ApiGraphqlRoute
+  '/category/$slug': typeof CategorySlugRoute
+  '/my-designs/$id': typeof MyDesignsIdRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/my-designs': typeof MyDesignsIndexRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
   '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
+  '/product-customize-edit/$id/$size': typeof ProductCustomizeEditIdSizeRoute
   '/collection/$collectionName': typeof CollectionCollectionNameIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
+  '/account': typeof AccountRoute
   '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
   '/bestellen': typeof BestellenRoute
   '/betalen': typeof BetalenRoute
   '/carriere': typeof CarriereRoute
-  '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/cookiebeleid': typeof CookiebeleidRoute
   '/custom-made-kleding': typeof CustomMadeKledingRoute
+  '/custom-spijkerjas': typeof CustomSpijkerjasRoute
   '/disclaimer': typeof DisclaimerRoute
   '/faq': typeof FaqRoute
+  '/kiosk-service': typeof KioskServiceRoute
   '/media-ambassadeurs': typeof MediaAmbassadeursRoute
   '/ons-verhaal': typeof OnsVerhaalRoute
   '/privacybeleid': typeof PrivacybeleidRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/retouren': typeof RetourenRoute
+  '/samplesale': typeof SamplesaleRoute
+  '/special-event': typeof SpecialEventRoute
+  '/streetwear-heren': typeof StreetwearHerenRoute
+  '/streetwear-kleding': typeof StreetwearKledingRoute
+  '/streetwear-merken': typeof StreetwearMerkenRoute
+  '/sweater-men': typeof SweaterMenRoute
+  '/thank-you': typeof ThankYouRoute
+  '/tracksuit-heren': typeof TracksuitHerenRoute
+  '/trui-personaliseren': typeof TruiPersonaliserenRoute
   '/verzenden': typeof VerzendenRoute
+  '/api/graphql': typeof ApiGraphqlRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
+  '/my-designs/$id': typeof MyDesignsIdRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/my-designs/': typeof MyDesignsIndexRoute
   '/collection/$collectionName/$category': typeof CollectionCollectionNameCategoryRoute
   '/product-customize-create/$slug/$size': typeof ProductCustomizeCreateSlugSizeRoute
+  '/product-customize-edit/$id/$size': typeof ProductCustomizeEditIdSizeRoute
   '/collection/$collectionName/': typeof CollectionCollectionNameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$'
+    | '/account'
     | '/algemene-voorwaarden'
     | '/bestellen'
     | '/betalen'
     | '/carriere'
-    | '/cart'
     | '/checkout'
     | '/contact'
     | '/cookiebeleid'
     | '/custom-made-kleding'
+    | '/custom-spijkerjas'
     | '/disclaimer'
     | '/faq'
+    | '/kiosk-service'
     | '/media-ambassadeurs'
     | '/ons-verhaal'
     | '/privacybeleid'
+    | '/reset-password'
     | '/retouren'
+    | '/samplesale'
+    | '/special-event'
+    | '/streetwear-heren'
+    | '/streetwear-kleding'
+    | '/streetwear-merken'
+    | '/sweater-men'
+    | '/thank-you'
+    | '/tracksuit-heren'
+    | '/trui-personaliseren'
     | '/verzenden'
+    | '/api/graphql'
+    | '/category/$slug'
     | '/collection/$collectionName'
+    | '/my-designs/$id'
     | '/product/$slug'
+    | '/my-designs/'
     | '/collection/$collectionName/$category'
     | '/product-customize-create/$slug/$size'
+    | '/product-customize-edit/$id/$size'
     | '/collection/$collectionName/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$'
+    | '/account'
     | '/algemene-voorwaarden'
     | '/bestellen'
     | '/betalen'
     | '/carriere'
-    | '/cart'
     | '/checkout'
     | '/contact'
     | '/cookiebeleid'
     | '/custom-made-kleding'
+    | '/custom-spijkerjas'
     | '/disclaimer'
     | '/faq'
+    | '/kiosk-service'
     | '/media-ambassadeurs'
     | '/ons-verhaal'
     | '/privacybeleid'
+    | '/reset-password'
     | '/retouren'
+    | '/samplesale'
+    | '/special-event'
+    | '/streetwear-heren'
+    | '/streetwear-kleding'
+    | '/streetwear-merken'
+    | '/sweater-men'
+    | '/thank-you'
+    | '/tracksuit-heren'
+    | '/trui-personaliseren'
     | '/verzenden'
+    | '/api/graphql'
+    | '/category/$slug'
+    | '/my-designs/$id'
     | '/product/$slug'
+    | '/my-designs'
     | '/collection/$collectionName/$category'
     | '/product-customize-create/$slug/$size'
+    | '/product-customize-edit/$id/$size'
     | '/collection/$collectionName'
   id:
     | '__root__'
     | '/'
+    | '/$'
+    | '/account'
     | '/algemene-voorwaarden'
     | '/bestellen'
     | '/betalen'
     | '/carriere'
-    | '/cart'
     | '/checkout'
     | '/contact'
     | '/cookiebeleid'
     | '/custom-made-kleding'
+    | '/custom-spijkerjas'
     | '/disclaimer'
     | '/faq'
+    | '/kiosk-service'
     | '/media-ambassadeurs'
     | '/ons-verhaal'
     | '/privacybeleid'
+    | '/reset-password'
     | '/retouren'
+    | '/samplesale'
+    | '/special-event'
+    | '/streetwear-heren'
+    | '/streetwear-kleding'
+    | '/streetwear-merken'
+    | '/sweater-men'
+    | '/thank-you'
+    | '/tracksuit-heren'
+    | '/trui-personaliseren'
     | '/verzenden'
+    | '/api/graphql'
+    | '/category/$slug'
     | '/collection/$collectionName'
+    | '/my-designs/$id'
     | '/product/$slug'
+    | '/my-designs/'
     | '/collection/$collectionName/$category'
     | '/product-customize-create/$slug/$size'
+    | '/product-customize-edit/$id/$size'
     | '/collection/$collectionName/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
+  AccountRoute: typeof AccountRoute
   AlgemeneVoorwaardenRoute: typeof AlgemeneVoorwaardenRoute
   BestellenRoute: typeof BestellenRoute
   BetalenRoute: typeof BetalenRoute
   CarriereRoute: typeof CarriereRoute
-  CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   CookiebeleidRoute: typeof CookiebeleidRoute
   CustomMadeKledingRoute: typeof CustomMadeKledingRoute
+  CustomSpijkerjasRoute: typeof CustomSpijkerjasRoute
   DisclaimerRoute: typeof DisclaimerRoute
   FaqRoute: typeof FaqRoute
+  KioskServiceRoute: typeof KioskServiceRoute
   MediaAmbassadeursRoute: typeof MediaAmbassadeursRoute
   OnsVerhaalRoute: typeof OnsVerhaalRoute
   PrivacybeleidRoute: typeof PrivacybeleidRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RetourenRoute: typeof RetourenRoute
+  SamplesaleRoute: typeof SamplesaleRoute
+  SpecialEventRoute: typeof SpecialEventRoute
+  StreetwearHerenRoute: typeof StreetwearHerenRoute
+  StreetwearKledingRoute: typeof StreetwearKledingRoute
+  StreetwearMerkenRoute: typeof StreetwearMerkenRoute
+  SweaterMenRoute: typeof SweaterMenRoute
+  ThankYouRoute: typeof ThankYouRoute
+  TracksuitHerenRoute: typeof TracksuitHerenRoute
+  TruiPersonaliserenRoute: typeof TruiPersonaliserenRoute
   VerzendenRoute: typeof VerzendenRoute
+  ApiGraphqlRoute: typeof ApiGraphqlRoute
+  CategorySlugRoute: typeof CategorySlugRoute
   CollectionCollectionNameRoute: typeof CollectionCollectionNameRouteWithChildren
+  MyDesignsIdRoute: typeof MyDesignsIdRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  MyDesignsIndexRoute: typeof MyDesignsIndexRoute
   ProductCustomizeCreateSlugSizeRoute: typeof ProductCustomizeCreateSlugSizeRoute
+  ProductCustomizeEditIdSizeRoute: typeof ProductCustomizeEditIdSizeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -323,6 +558,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/algemene-voorwaarden': {
@@ -353,13 +602,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarriereRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cart': {
-      id: '/cart'
-      path: '/cart'
-      fullPath: '/cart'
-      preLoaderRoute: typeof CartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/checkout': {
       id: '/checkout'
       path: '/checkout'
@@ -388,6 +630,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomMadeKledingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/custom-spijkerjas': {
+      id: '/custom-spijkerjas'
+      path: '/custom-spijkerjas'
+      fullPath: '/custom-spijkerjas'
+      preLoaderRoute: typeof CustomSpijkerjasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/disclaimer': {
       id: '/disclaimer'
       path: '/disclaimer'
@@ -400,6 +649,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kiosk-service': {
+      id: '/kiosk-service'
+      path: '/kiosk-service'
+      fullPath: '/kiosk-service'
+      preLoaderRoute: typeof KioskServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/media-ambassadeurs': {
@@ -423,11 +679,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacybeleidRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/retouren': {
       id: '/retouren'
       path: '/retouren'
       fullPath: '/retouren'
       preLoaderRoute: typeof RetourenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/samplesale': {
+      id: '/samplesale'
+      path: '/samplesale'
+      fullPath: '/samplesale'
+      preLoaderRoute: typeof SamplesaleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/special-event': {
+      id: '/special-event'
+      path: '/special-event'
+      fullPath: '/special-event'
+      preLoaderRoute: typeof SpecialEventRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/streetwear-heren': {
+      id: '/streetwear-heren'
+      path: '/streetwear-heren'
+      fullPath: '/streetwear-heren'
+      preLoaderRoute: typeof StreetwearHerenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/streetwear-kleding': {
+      id: '/streetwear-kleding'
+      path: '/streetwear-kleding'
+      fullPath: '/streetwear-kleding'
+      preLoaderRoute: typeof StreetwearKledingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/streetwear-merken': {
+      id: '/streetwear-merken'
+      path: '/streetwear-merken'
+      fullPath: '/streetwear-merken'
+      preLoaderRoute: typeof StreetwearMerkenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sweater-men': {
+      id: '/sweater-men'
+      path: '/sweater-men'
+      fullPath: '/sweater-men'
+      preLoaderRoute: typeof SweaterMenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tracksuit-heren': {
+      id: '/tracksuit-heren'
+      path: '/tracksuit-heren'
+      fullPath: '/tracksuit-heren'
+      preLoaderRoute: typeof TracksuitHerenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trui-personaliseren': {
+      id: '/trui-personaliseren'
+      path: '/trui-personaliseren'
+      fullPath: '/trui-personaliseren'
+      preLoaderRoute: typeof TruiPersonaliserenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/verzenden': {
@@ -437,11 +763,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerzendenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/graphql': {
+      id: '/api/graphql'
+      path: '/api/graphql'
+      fullPath: '/api/graphql'
+      preLoaderRoute: typeof ApiGraphqlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collection/$collectionName': {
       id: '/collection/$collectionName'
       path: '/collection/$collectionName'
       fullPath: '/collection/$collectionName'
       preLoaderRoute: typeof CollectionCollectionNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-designs/': {
+      id: '/my-designs/'
+      path: '/my-designs'
+      fullPath: '/my-designs/'
+      preLoaderRoute: typeof MyDesignsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-designs/$id': {
+      id: '/my-designs/$id'
+      path: '/my-designs/$id'
+      fullPath: '/my-designs/$id'
+      preLoaderRoute: typeof MyDesignsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/product/$slug': {
@@ -472,6 +826,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductCustomizeCreateSlugSizeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/product-customize-edit/$id/$size': {
+      id: '/product-customize-edit/$id/$size'
+      path: '/product-customize-edit/$id/$size'
+      fullPath: '/product-customize-edit/$id/$size'
+      preLoaderRoute: typeof ProductCustomizeEditIdSizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -494,25 +855,43 @@ const CollectionCollectionNameRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
+  AccountRoute: AccountRoute,
   AlgemeneVoorwaardenRoute: AlgemeneVoorwaardenRoute,
   BestellenRoute: BestellenRoute,
   BetalenRoute: BetalenRoute,
   CarriereRoute: CarriereRoute,
-  CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   CookiebeleidRoute: CookiebeleidRoute,
   CustomMadeKledingRoute: CustomMadeKledingRoute,
+  CustomSpijkerjasRoute: CustomSpijkerjasRoute,
   DisclaimerRoute: DisclaimerRoute,
   FaqRoute: FaqRoute,
+  KioskServiceRoute: KioskServiceRoute,
   MediaAmbassadeursRoute: MediaAmbassadeursRoute,
   OnsVerhaalRoute: OnsVerhaalRoute,
   PrivacybeleidRoute: PrivacybeleidRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RetourenRoute: RetourenRoute,
+  SamplesaleRoute: SamplesaleRoute,
+  SpecialEventRoute: SpecialEventRoute,
+  StreetwearHerenRoute: StreetwearHerenRoute,
+  StreetwearKledingRoute: StreetwearKledingRoute,
+  StreetwearMerkenRoute: StreetwearMerkenRoute,
+  SweaterMenRoute: SweaterMenRoute,
+  ThankYouRoute: ThankYouRoute,
+  TracksuitHerenRoute: TracksuitHerenRoute,
+  TruiPersonaliserenRoute: TruiPersonaliserenRoute,
   VerzendenRoute: VerzendenRoute,
+  ApiGraphqlRoute: ApiGraphqlRoute,
+  CategorySlugRoute: CategorySlugRoute,
   CollectionCollectionNameRoute: CollectionCollectionNameRouteWithChildren,
+  MyDesignsIdRoute: MyDesignsIdRoute,
   ProductSlugRoute: ProductSlugRoute,
+  MyDesignsIndexRoute: MyDesignsIndexRoute,
   ProductCustomizeCreateSlugSizeRoute: ProductCustomizeCreateSlugSizeRoute,
+  ProductCustomizeEditIdSizeRoute: ProductCustomizeEditIdSizeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
