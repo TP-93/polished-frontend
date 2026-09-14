@@ -2,7 +2,7 @@
 import React from 'react';
 import { Stack, useMediaQuery } from '@mui/material';
 
-import SvgIcon from '@mui/material/SvgIcon';
+import { SvgIcon as SvgIcon } from '@mui/material';
 
 import { ReactComponent as Visa } from '../../assets/images/icons/paymanets/visa.svg.tsx';
 import { ReactComponent as Ideal } from '../../assets/images/icons/paymanets/ideal.svg.tsx';

@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React from 'react';
 
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
+import { Button as Button } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
+import { DialogTitle as DialogTitle } from '@mui/material';
+import { DialogContent as DialogContent } from '@mui/material';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 

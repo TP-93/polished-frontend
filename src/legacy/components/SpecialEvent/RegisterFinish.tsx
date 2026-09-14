@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Typography } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery as useMediaQuery } from '@mui/material';
 import { useUserProvider } from '../../context/user';
 import { cocoRegular } from '../../styles/constants';
 

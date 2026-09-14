@@ -5,8 +5,8 @@ import { useQuery, useMutation, useApolloClient } from 'react-apollo';
 
 import Swal from 'sweetalert2';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Box as Box } from '@mui/material';
+import { Button as Button } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useMediaQuery } from '@mui/material';

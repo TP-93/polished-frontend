@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React from 'react';
 
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Stack as Stack } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import LinearProgress from '@mui/material/LinearProgress';
+import { LinearProgress as LinearProgress } from '@mui/material';
 
 import { useMediaQuery } from '@mui/material';
 import { cocoBold, cocoRegular } from '../../styles/constants';

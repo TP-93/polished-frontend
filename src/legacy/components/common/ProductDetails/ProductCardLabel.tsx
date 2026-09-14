@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
 import { pink, white, black, cocoRegular } from '../../../styles/constants';

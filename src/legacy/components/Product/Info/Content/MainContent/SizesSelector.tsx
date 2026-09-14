@@ -1,11 +1,11 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
-import Dialog from '@mui/material/Dialog';
+import { Dialog as Dialog } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import ErrorMessage from '../../../../common/Errors';
 import { cocoBold, cocoRegular } from '../../../../../styles/constants';

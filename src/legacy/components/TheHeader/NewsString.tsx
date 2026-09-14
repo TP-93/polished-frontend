@@ -3,7 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 import { cocoRegular } from '../../styles/constants';
 import { useHeaderContext } from './Provider';
 

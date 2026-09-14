@@ -1,8 +1,8 @@
 // @ts-nocheck
 import * as React from 'react';
 
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Stack as Stack } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 

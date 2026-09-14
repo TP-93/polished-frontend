@@ -1,9 +1,9 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Divider as Divider } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { cocoRegular } from '../../../styles/constants';
 import { useUserProvider } from '../../../context/user';

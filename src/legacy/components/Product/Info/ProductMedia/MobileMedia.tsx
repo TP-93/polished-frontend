@@ -1,9 +1,9 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
+import { IconButton as IconButton } from '@mui/material';
 
 import { Add as AddIcon } from '@mui/icons-material';
 

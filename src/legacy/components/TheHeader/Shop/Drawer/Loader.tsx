@@ -1,6 +1,6 @@
 // @ts-nocheck
-import Stack from '@mui/material/Stack';
-import Skeleton from '@mui/material/Skeleton';
+import { Stack as Stack } from '@mui/material';
+import { Skeleton as Skeleton } from '@mui/material';
 
 const emptyColumns = Array(4).fill(null);
 const emptyColumRows = Array(5).fill(null);

@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
+import { Stack as Stack } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
 
 import { useQuery } from 'react-apollo';
 

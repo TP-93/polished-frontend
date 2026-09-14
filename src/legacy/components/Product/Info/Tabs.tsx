@@ -1,11 +1,11 @@
 // @ts-nocheck
 import React from 'react';
 
-import List from '@mui/material/List';
-import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
-import ListItem from '@mui/material/ListItem';
-import Typography from '@mui/material/Typography';
+import { List as List } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
+import { ListItem as ListItem } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
 import { useUserProvider } from '../../../context/user';

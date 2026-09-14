@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from 'react';
 
-import TextField from '@mui/material/TextField';
+import { TextField as TextField } from '@mui/material';
 import { cocoRegular } from '../../../styles/constants';
 
 interface Props {

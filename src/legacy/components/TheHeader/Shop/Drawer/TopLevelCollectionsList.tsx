@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 import moment from 'moment-timezone';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import { List as List } from '@mui/material';
+import { ListItem as ListItem } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { cocoBold } from '../../../../styles/constants';

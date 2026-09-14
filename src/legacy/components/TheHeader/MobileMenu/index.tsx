@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import SvgIcon from '@mui/material/SvgIcon';
+import { Box as Box } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
 
 import Drawer from './Drawer';
 

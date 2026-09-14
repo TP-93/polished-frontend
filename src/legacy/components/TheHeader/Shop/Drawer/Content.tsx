@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from 'react';
 
-import Stack from '@mui/material/Stack';
+import { Stack as Stack } from '@mui/material';
 
 import Error from './Error';
 import Loader from './Loader';

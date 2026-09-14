@@ -2,10 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import SvgIcon from '@mui/material/SvgIcon';
-import Typography from '@mui/material/Typography';
+import { Stack as Stack } from '@mui/material';
+import { Button as Button } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 
 import { useMediaQuery } from '@mui/material';
 import { cocoBold, cocoRegular } from '../../../styles/constants';

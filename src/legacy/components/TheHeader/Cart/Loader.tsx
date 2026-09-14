@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Box as Box } from '@mui/material';
+import { CircularProgress as CircularProgress } from '@mui/material';
 
 export default function Loader() {
   return (

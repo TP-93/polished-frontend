@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 
-import Stack from '@mui/material/Stack';
+import { Stack as Stack } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
 import { CheckBoxSharp as CheckBoxSharpIcon } from '@mui/icons-material';

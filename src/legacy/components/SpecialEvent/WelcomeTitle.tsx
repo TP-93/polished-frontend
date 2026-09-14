@@ -4,12 +4,12 @@ import React from 'react';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 
 import { makeStyles } from '@mui/styles';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Stack as Stack } from '@mui/material';
+import { Button as Button } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
+import { useMediaQuery as useMediaQuery } from '@mui/material';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 import { cocoBold } from '../../styles/constants';
 import { useUserProvider } from '../../context/user';
 

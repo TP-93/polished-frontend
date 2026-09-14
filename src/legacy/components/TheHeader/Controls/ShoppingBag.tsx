@@ -1,8 +1,8 @@
 // @ts-nocheck
 import * as React from 'react';
 
-import Badge from '@mui/material/Badge';
-import SvgIcon from '@mui/material/SvgIcon';
+import { Badge as Badge } from '@mui/material';
+import { SvgIcon as SvgIcon } from '@mui/material';
 
 import { useUserProvider } from '../../../context/user';
 import { useHeaderContext } from '../Provider';

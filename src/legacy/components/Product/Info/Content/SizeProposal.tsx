@@ -5,12 +5,12 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useLazyQuery } from 'react-apollo';
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Box as Box } from '@mui/material';
+import { Stack as Stack } from '@mui/material';
+import { TextField as TextField } from '@mui/material';
+import { Typography as Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import { InputAdornment as InputAdornment } from '@mui/material';
 
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/react';

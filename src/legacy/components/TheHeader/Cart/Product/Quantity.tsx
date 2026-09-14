@@ -1,8 +1,8 @@
 // @ts-nocheck
 import React from 'react';
 
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import { Select as Select } from '@mui/material';
+import { MenuItem as MenuItem } from '@mui/material';
 
 import { useMutation } from 'react-apollo';
 

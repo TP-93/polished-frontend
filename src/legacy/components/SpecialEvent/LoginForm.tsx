@@ -2,7 +2,7 @@
 import { Button, FormControl, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery as useMediaQuery } from '@mui/material';
 import { useUserProvider } from '../../context/user';
 import ErrorMessage from '../common/Errors';
 import { cocoRegular } from '../../styles/constants';

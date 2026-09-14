@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from 'react';
 
-import Box from '@mui/material/Box';
+import { Box as Box } from '@mui/material';
 
 import Login from './Login';
 import ResetPassword from './Reset';

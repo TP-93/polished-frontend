@@ -1,5 +1,5 @@
 // @ts-nocheck
-import Stack from '@mui/material/Stack';
+import { Stack as Stack } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 
 import Image from './Image';
