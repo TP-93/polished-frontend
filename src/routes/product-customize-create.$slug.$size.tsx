@@ -25,7 +25,7 @@ import {
   editableLayers,
   generateColor,
   generatePalette,
-  getDesigns,
+  getProductDesigns,
   initialLayerColors,
   isValidHex,
   listColorThemes,
@@ -63,8 +63,8 @@ function CustomizePage() {
 
   const designsQuery = useQuery({
     queryKey: ["designs", product?.slug],
-    queryFn: () => getDesigns(product!.designIds),
-    enabled: Boolean(product?.designIds.length),
+    queryFn: () => getProductDesigns(product!.slug),
+    enabled: Boolean(product?.slug),
   });
   const themesQuery = useQuery({ queryKey: ["colorThemes"], queryFn: listColorThemes });
 
