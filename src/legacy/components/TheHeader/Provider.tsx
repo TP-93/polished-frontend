@@ -79,19 +79,19 @@ export default function HeaderProvider({ children }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shopData]);
 
-  const { error: checkoutError, loading: isCheckoutLoading } = useQuery(
-    getCheckout,
-    {
-      // skip: !token,
-      fetchPolicy: 'network-only',
-      notifyOnNetworkStatusChange: true,
-      variables: { lang: currentLanguage, token, currency },
-      onError: (err: any) => {
-        console.log({ err });
+  const {
+    data: checkoutQueryData,
+    error: checkoutError,
+    loading: isCheckoutLoading,
+  } = useQuery(getCheckout, {
+    // skip: !token,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    variables: { lang: currentLanguage, token, currency },
+  });
 
-        setCheckoutData((prev: any) => ({ ...prev, cartProductsCounter: 0 }));
-      },
-      onCompleted: (data: any) => {
+  const handleCheckoutData = React.useCallback(
+    (data: any) => {
         if (data?.checkout?.lines) {
           const {
             id: checkoutId,
