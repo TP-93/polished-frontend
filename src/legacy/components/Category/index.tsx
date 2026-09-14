@@ -25,6 +25,21 @@ function mergeArraysUnique(arr1: string[], arr2: string[]) {
   return Array.from(new Set(combinedArray));
 }
 
+// The backend does not always fill salePercentValue, so fall back to the
+// difference between the regular price and the discounted price.
+function getDiscountPercent(node: any): number {
+  const fromBackend = Number(node?.salePercentValue || 0);
+
+  if (fromBackend > 0) return fromBackend;
+
+  const price = Number(node?.price?.amount || 0);
+  const discountPrice = Number(node?.discountPrice?.amount || 0);
+
+  if (!price || !discountPrice || discountPrice >= price) return 0;
+
+  return Math.round(((price - discountPrice) / price) * 100);
+}
+
 function arraysHaveCommonElement(arr1: string[], arr2: string[]) {
   const set1 = new Set(arr1);
 
