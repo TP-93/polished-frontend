@@ -160,7 +160,7 @@ export default function Category({
       const matchesDiscounts =
         selectedDiscounts.length === 0 ||
         selectedDiscounts.some(
-          (value: string) => Number(salePercentValue || 0) >= Number(value),
+          (value: string) => productDiscount >= Number(value),
         );
 
       return matchesSizes && matchesColors && matchesDiscounts;
