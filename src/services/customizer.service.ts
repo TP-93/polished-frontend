@@ -1,14 +1,16 @@
 /** Customizer service: designs, layers and colour sources. */
-import { loadDesigns, realColorThemes } from "./data/catalog";
+import { fetchLiveColorThemes, fetchLiveDesigns } from "@/lib/catalog.functions";
+
+import { loadDesigns, realColorThemes, realProducts } from "./data/catalog";
 import type { ColorTheme, Design } from "./types";
 
-/** A single print design with all of its artwork layers. */
+/** A single print design with all of its artwork layers (snapshot lookup). */
 export async function getDesign(id: string): Promise<Design | null> {
   const designs = await loadDesigns();
   return designs[id] ?? null;
 }
 
-/** All print designs of a product, ordered front first. */
+/** All print designs of a product, ordered front first (snapshot lookup). */
 export async function getDesigns(ids: string[]): Promise<Design[]> {
   const designs = await loadDesigns();
   return ids
@@ -17,7 +19,29 @@ export async function getDesigns(ids: string[]): Promise<Design[]> {
     .sort((a, b) => Number(a.projection === "back") - Number(b.projection === "back"));
 }
 
+/**
+ * Artwork for one product, straight from the live API. Colourways that carry no
+ * artwork of their own in the backend fall back to the snapshot, which matches
+ * artwork by theme + garment.
+ */
+export async function getProductDesigns(slug: string): Promise<Design[]> {
+  try {
+    const live = await fetchLiveDesigns({ data: { slug } });
+    if (live.length) return live;
+  } catch (error) {
+    console.warn("[customizer] live designs unavailable, using snapshot", error);
+  }
+  const snapshot = realProducts.find((product) => product.slug === slug);
+  return snapshot ? getDesigns(snapshot.designIds) : [];
+}
+
 export async function listColorThemes(): Promise<ColorTheme[]> {
+  try {
+    const themes = await fetchLiveColorThemes();
+    if (themes.length) return themes;
+  } catch (error) {
+    console.warn("[customizer] live colour themes unavailable, using snapshot", error);
+  }
   return realColorThemes;
 }
 

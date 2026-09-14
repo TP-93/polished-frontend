@@ -1,10 +1,18 @@
 /**
  * Catalog service.
  *
- * The storefront only talks to this module — never to the mock data directly.
- * Every function is async and shaped as a single backend call, so each one can
- * be swapped for a GraphQL query against the real API without touching the UI.
+ * Primary source is the live JORCUSTOM GraphQL API, reached through server
+ * functions in `@/lib/catalog.functions` (the API sits behind basic auth, so
+ * those calls must stay server-side). If the API is unreachable the bundled
+ * catalogue snapshot is served instead, so the storefront never goes blank.
  */
+import {
+  fetchLiveFacets,
+  fetchLiveProduct,
+  fetchLiveProducts,
+  fetchLiveRelated,
+} from "@/lib/catalog.functions";
+
 import {
   realCategories as categories,
   realCollections as collections,
@@ -20,26 +28,89 @@ import type {
   ProductQuery,
 } from "./types";
 
-const latency = 120;
-
-function delay<T>(value: T): Promise<T> {
-  if (typeof window === "undefined") return Promise.resolve(value);
-  return new Promise((resolve) => setTimeout(() => resolve(value), latency));
+/** Run a live API call, falling back to the bundled snapshot on any failure. */
+async function live<T>(call: () => Promise<T>, fallback: () => T | Promise<T>): Promise<T> {
+  try {
+    return await call();
+  } catch (error) {
+    console.warn("[catalog] live API unavailable, using snapshot", error);
+    return fallback();
+  }
 }
 
 export async function listCollections(): Promise<Collection[]> {
-  return delay(collections);
+  // Collections are not readable anonymously on the API; served from the snapshot.
+  return collections;
 }
 
 export async function getCollection(slug: string): Promise<Collection | null> {
-  return delay(collections.find((c) => c.slug === slug) ?? null);
+  return collections.find((c) => c.slug === slug) ?? null;
 }
 
 export async function listCategories(): Promise<Category[]> {
-  return delay(categories);
+  return categories;
 }
 
 export async function listProducts(query: ProductQuery = {}): Promise<ProductListResult> {
+  return live(
+    () => fetchLiveProducts({ data: query }),
+    () => snapshotProducts(query),
+  );
+}
+
+export async function getProduct(slug: string): Promise<Product | null> {
+  return live(
+    async () => (await fetchLiveProduct({ data: { slug } })) ?? snapshotProduct(slug),
+    () => snapshotProduct(slug),
+  );
+}
+
+export async function listRelatedProducts(slug: string, limit = 4): Promise<Product[]> {
+  return live(
+    async () => {
+      const items = await fetchLiveRelated({ data: { slug, limit } });
+      return items.length ? items : snapshotRelated(slug, limit);
+    },
+    () => snapshotRelated(slug, limit),
+  );
+}
+
+export async function listFilterFacets(): Promise<{
+  sizes: string[];
+  colors: { id: string; hex: string }[];
+  categories: Category[];
+  maxPriceCents: number;
+}> {
+  const snapshot = snapshotFacets();
+  return live(async () => {
+    const { sizes } = await fetchLiveFacets();
+    const known = new Set(snapshot.sizes);
+    return { ...snapshot, sizes: sizes.filter((size) => known.has(size)) };
+  }, () => snapshot);
+}
+
+export async function listFaq(): Promise<FaqEntry[]> {
+  return faqEntries;
+}
+
+export async function subscribeToNewsletter(email: string): Promise<{ ok: boolean }> {
+  return { ok: email.includes("@") };
+}
+
+export async function sendContactMessage(input: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}): Promise<{ ok: boolean }> {
+  return { ok: Boolean(input.email && input.message) };
+}
+
+/* ---------------------------------------------------------------------- */
+/* Snapshot fallbacks                                                     */
+/* ---------------------------------------------------------------------- */
+
+function snapshotProducts(query: ProductQuery): ProductListResult {
   const {
     collection,
     category,
@@ -78,18 +149,17 @@ export async function listProducts(query: ProductQuery = {}): Promise<ProductLis
 
   const total = items.length;
   const start = (page - 1) * perPage;
-
-  return delay({ items: items.slice(start, start + perPage), total, page, perPage });
+  return { items: items.slice(start, start + perPage), total, page, perPage };
 }
 
-export async function getProduct(slug: string): Promise<Product | null> {
-  return delay(products.find((p) => p.slug === slug) ?? null);
+function snapshotProduct(slug: string): Product | null {
+  return products.find((p) => p.slug === slug) ?? null;
 }
 
-export async function listRelatedProducts(slug: string, limit = 4): Promise<Product[]> {
+function snapshotRelated(slug: string, limit: number): Product[] {
   const product = products.find((p) => p.slug === slug);
-  if (!product) return delay([]);
-  const related = products
+  if (!product) return [];
+  return products
     .filter((p) => p.slug !== slug)
     .sort((a, b) => {
       const score = (p: Product) =>
@@ -98,15 +168,9 @@ export async function listRelatedProducts(slug: string, limit = 4): Promise<Prod
       return score(b) - score(a);
     })
     .slice(0, limit);
-  return delay(related);
 }
 
-export async function listFilterFacets(): Promise<{
-  sizes: string[];
-  colors: { id: string; hex: string }[];
-  categories: Category[];
-  maxPriceCents: number;
-}> {
+function snapshotFacets() {
   const sizeCounts = new Map<string, number>();
   products.forEach((p) =>
     p.sizes.forEach((s) => sizeCounts.set(s.label, (sizeCounts.get(s.label) ?? 0) + 1)),
@@ -132,27 +196,11 @@ export async function listFilterFacets(): Promise<{
       .map(([id, meta]) => [id, meta.hex]),
   );
   const maxPriceCents = Math.max(...products.map((p) => p.priceCents));
-  return delay({
+
+  return {
     sizes,
     colors: [...colorMap].map(([id, hex]) => ({ id, hex })),
     categories,
     maxPriceCents,
-  });
-}
-
-export async function listFaq(): Promise<FaqEntry[]> {
-  return delay(faqEntries);
-}
-
-export async function subscribeToNewsletter(email: string): Promise<{ ok: boolean }> {
-  return delay({ ok: email.includes("@") });
-}
-
-export async function sendContactMessage(input: {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}): Promise<{ ok: boolean }> {
-  return delay({ ok: Boolean(input.email && input.message) });
+  };
 }
