@@ -41,48 +41,57 @@ export default function HeaderProvider({ children }: Props) {
 
   const [checkoutData, setCheckoutData] = React.useState<any>(null);
 
-  const { error: shopError, loading: isShopLoading } = useQuery(getShopMenu, {
+  const {
+    data: shopData,
+    error: shopError,
+    loading: isShopLoading,
+  } = useQuery(getShopMenu, {
     variables: { lang: currentLanguage },
-    onCompleted: (data: any) => {
-      const { id } = data.shop.navigation.main;
-      const newsText: string = data.shop.topbarText;
-      const { languageCode } = data.shop;
-      const collectionsData: any[] = data.shop.navigation.main.items;
-      const shouldSubPopUpBeShown: boolean = data.shop.popUp;
-
-      if (languageCode && !localStorageLang?.length) {
-        dispatch({
-          type: 'CHANGE_LANGUAGE',
-          payload: languageCode.toUpperCase(),
-        });
-      }
-
-      if (shouldSubPopUpBeShown !== isSubsButtonVisible) {
-        dispatch({
-          type: 'CHANGE_POPUP_VISIBILIY',
-          payload: shouldSubPopUpBeShown,
-        });
-      }
-
-      setShopId(id);
-      setNewsLine(newsText);
-      setCollections(collectionsData);
-    },
   });
 
-  const { error: checkoutError, loading: isCheckoutLoading } = useQuery(
-    getCheckout,
-    {
-      // skip: !token,
-      fetchPolicy: 'network-only',
-      notifyOnNetworkStatusChange: true,
-      variables: { lang: currentLanguage, token, currency },
-      onError: (err: any) => {
-        console.log({ err });
+  React.useEffect(() => {
+    if (!shopData?.shop?.navigation?.main) return;
 
-        setCheckoutData((prev: any) => ({ ...prev, cartProductsCounter: 0 }));
-      },
-      onCompleted: (data: any) => {
+    const data = shopData;
+    const { id } = data.shop.navigation.main;
+    const newsText: string = data.shop.topbarText;
+    const { languageCode } = data.shop;
+    const collectionsData: any[] = data.shop.navigation.main.items || [];
+    const shouldSubPopUpBeShown: boolean = data.shop.popUp;
+
+    if (languageCode && !localStorageLang?.length) {
+      dispatch({
+        type: 'CHANGE_LANGUAGE',
+        payload: languageCode.toUpperCase(),
+      });
+    }
+
+    if (shouldSubPopUpBeShown !== isSubsButtonVisible) {
+      dispatch({
+        type: 'CHANGE_POPUP_VISIBILIY',
+        payload: shouldSubPopUpBeShown,
+      });
+    }
+
+    setShopId(id);
+    setNewsLine(newsText);
+    setCollections(collectionsData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shopData]);
+
+  const {
+    data: checkoutQueryData,
+    error: checkoutError,
+    loading: isCheckoutLoading,
+  } = useQuery(getCheckout, {
+    // skip: !token,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    variables: { lang: currentLanguage, token, currency },
+  });
+
+  const handleCheckoutData = React.useCallback(
+    (data: any) => {
         if (data?.checkout?.lines) {
           const {
             id: checkoutId,
@@ -171,9 +180,19 @@ export default function HeaderProvider({ children }: Props) {
         } else {
           setCheckoutData((prev: any) => ({ ...prev, cartProductsCounter: 0 }));
         }
-      },
     },
+    [],
   );
+
+  React.useEffect(() => {
+    if (checkoutError) {
+      setCheckoutData((prev: any) => ({ ...prev, cartProductsCounter: 0 }));
+      return;
+    }
+
+    if (checkoutQueryData) handleCheckoutData(checkoutQueryData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkoutQueryData, checkoutError]);
 
   return (
     <HeaderContext.Provider
