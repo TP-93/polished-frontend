@@ -180,9 +180,19 @@ export default function HeaderProvider({ children }: Props) {
         } else {
           setCheckoutData((prev: any) => ({ ...prev, cartProductsCounter: 0 }));
         }
-      },
     },
+    [],
   );
+
+  React.useEffect(() => {
+    if (checkoutError) {
+      setCheckoutData((prev: any) => ({ ...prev, cartProductsCounter: 0 }));
+      return;
+    }
+
+    if (checkoutQueryData) handleCheckoutData(checkoutQueryData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkoutQueryData, checkoutError]);
 
   return (
     <HeaderContext.Provider
