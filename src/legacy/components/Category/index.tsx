@@ -140,8 +140,10 @@ export default function Category({
 
     const filteredProducts: any[] = dataList.filter((product: any) => {
       const {
-        node: { color, stockItems, salePercentValue },
+        node: { color, stockItems },
       }: any = product || {};
+
+      const productDiscount = getDiscountPercent(product.node);
 
       const productStockSizes = stockItems
         .filter((tmp1: any) => tmp1.isInStock)
