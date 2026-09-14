@@ -41,34 +41,43 @@ export default function HeaderProvider({ children }: Props) {
 
   const [checkoutData, setCheckoutData] = React.useState<any>(null);
 
-  const { error: shopError, loading: isShopLoading } = useQuery(getShopMenu, {
+  const {
+    data: shopData,
+    error: shopError,
+    loading: isShopLoading,
+  } = useQuery(getShopMenu, {
     variables: { lang: currentLanguage },
-    onCompleted: (data: any) => {
-      const { id } = data.shop.navigation.main;
-      const newsText: string = data.shop.topbarText;
-      const { languageCode } = data.shop;
-      const collectionsData: any[] = data.shop.navigation.main.items;
-      const shouldSubPopUpBeShown: boolean = data.shop.popUp;
-
-      if (languageCode && !localStorageLang?.length) {
-        dispatch({
-          type: 'CHANGE_LANGUAGE',
-          payload: languageCode.toUpperCase(),
-        });
-      }
-
-      if (shouldSubPopUpBeShown !== isSubsButtonVisible) {
-        dispatch({
-          type: 'CHANGE_POPUP_VISIBILIY',
-          payload: shouldSubPopUpBeShown,
-        });
-      }
-
-      setShopId(id);
-      setNewsLine(newsText);
-      setCollections(collectionsData);
-    },
   });
+
+  React.useEffect(() => {
+    if (!shopData?.shop?.navigation?.main) return;
+
+    const data = shopData;
+    const { id } = data.shop.navigation.main;
+    const newsText: string = data.shop.topbarText;
+    const { languageCode } = data.shop;
+    const collectionsData: any[] = data.shop.navigation.main.items || [];
+    const shouldSubPopUpBeShown: boolean = data.shop.popUp;
+
+    if (languageCode && !localStorageLang?.length) {
+      dispatch({
+        type: 'CHANGE_LANGUAGE',
+        payload: languageCode.toUpperCase(),
+      });
+    }
+
+    if (shouldSubPopUpBeShown !== isSubsButtonVisible) {
+      dispatch({
+        type: 'CHANGE_POPUP_VISIBILIY',
+        payload: shouldSubPopUpBeShown,
+      });
+    }
+
+    setShopId(id);
+    setNewsLine(newsText);
+    setCollections(collectionsData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shopData]);
 
   const { error: checkoutError, loading: isCheckoutLoading } = useQuery(
     getCheckout,
