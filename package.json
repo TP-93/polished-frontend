@@ -99,6 +99,7 @@
     "react-spring": "^10.0.4",
     "react-swipeable": "^7.0.2",
     "recharts": "^2.15.4",
+    "slick-carousel": "1.8.1",
     "sonner": "^2.0.7",
     "styled-bootstrap-grid": "^3.1.2",
     "styled-components": "5",
