@@ -8,13 +8,18 @@ import { useMediaQuery } from '@mui/material';
 
 import Sizes from './Sizes';
 import Colors from './Colors';
+import Discount from './Discount';
 import { cocoBold } from '../../../styles/constants';
 import { useUserProvider } from '../../../context/user';
 
 interface Props {
   sizeFilters: any;
   colorFilters: any;
-  filterHandler: (type: 'size' | 'color', selectedValue: string) => void;
+  discountFilters?: any;
+  filterHandler: (
+    type: 'size' | 'color' | 'discount',
+    selectedValue: string,
+  ) => void;
   applyFiltersHandler: () => void;
   clearFiltersSelectionHandler: () => void;
 }
@@ -22,6 +27,7 @@ interface Props {
 export default function Filters({
   sizeFilters,
   colorFilters,
+  discountFilters,
   filterHandler,
   applyFiltersHandler,
   clearFiltersSelectionHandler,
@@ -55,6 +61,8 @@ export default function Filters({
         <Sizes sizes={sizeFilters} filterHandler={filterHandler} />
 
         <Colors colors={colorFilters} filterHandler={filterHandler} />
+
+        <Discount discounts={discountFilters} filterHandler={filterHandler} />
       </Box>
 
       <Box
