@@ -17,6 +17,14 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 // browser APIs, so it is only imported and rendered on the client.
 const LegacyShell = lazy(() => import("../legacy-compat/LegacyShell"));
 
+// Google Tag Manager is intentionally omitted, but the recovered pages push
+// analytics events onto window.dataLayer, so make sure it always exists.
+if (typeof window !== "undefined") {
+  const w = window as unknown as { dataLayer?: unknown[] };
+  w.dataLayer = w.dataLayer || [];
+}
+
+
 
 function NotFoundComponent() {
   return (
