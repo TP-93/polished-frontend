@@ -224,7 +224,7 @@ export default function Category({
         .filter((col: any, ind: any, arr: any) => arr.indexOf(col) === ind);
 
       const discountLevels = fetchedProducts
-        .map(({ node }: any) => Number(node.salePercentValue || 0))
+        .map(({ node }: any) => getDiscountPercent(node))
         .filter((value: number) => value > 0)
         .map((value: number) => String(Math.floor(value / 10) * 10))
         .filter((value: string) => value !== '0');
