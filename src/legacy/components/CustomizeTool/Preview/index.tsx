@@ -1,11 +1,11 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Slider from 'react-slick';
+import SliderModule from 'react-slick';
 import MediaQuery from 'react-responsive';
 import { isMobile } from 'react-device-detect';
 // @ts-ignore
-import PinchZoomPan from 'react-responsive-pinch-zoom-pan';
+import PinchZoomPanModule from 'react-responsive-pinch-zoom-pan';
 
 import {
   getDesignsForProduct_product_designs as DesignInterface,
@@ -13,6 +13,10 @@ import {
   getDesignsForProduct_product_designs_layers_options as OptionInterface,
 } from '../../../apollo/queries/types/getDesignsForProduct';
 import { useCustomizationStateValue } from '../../../context/customize';
+import { unwrapDefault } from '../../../../legacy-compat/interop';
+
+const Slider: any = unwrapDefault(SliderModule);
+const PinchZoomPan: any = unwrapDefault(PinchZoomPanModule);
 
 import loadImage from '../../../utils/loadImage';
 import { Rectangle } from '../../../interfaces/product';
