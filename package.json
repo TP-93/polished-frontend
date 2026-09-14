@@ -73,7 +73,7 @@
     "google-maps-react": "^2.0.6",
     "graphql-tag": "^2.12.7",
     "ifvisible.js": "^3.0.0",
-    "immer": "^11.1.18",
+    "immer": "9.0.21",
     "input-otp": "^1.4.2",
     "js-base64": "^3.9.3",
     "libphonenumber-js": "^1.13.13",
