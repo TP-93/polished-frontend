@@ -7,8 +7,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 
 import { useUserProvider } from '../../../../context/user';
 import { useHeaderContext } from '../../Provider';
-import NestedCollectionsList from './NestedCollectionsList';
-import TopLevelCollectionsList from './TopLevelCollectionsList';
+import Sections from './Sections';
 
 import { ReactComponent as NL } from '../../../../assets/images/icons/flags/FLAG_NL.svg.tsx';
 import { ReactComponent as GB } from '../../../../assets/images/icons/flags/FLAG_GB.svg.tsx';
@@ -51,12 +50,7 @@ export default function Content({ closeDrawer, openLocalesModal }: Props) {
           />
         </Box>
 
-        <TopLevelCollectionsList
-          collections={shop.collections}
-          closeDrawer={closeDrawer}
-        />
-
-        <NestedCollectionsList
+        <Sections
           collections={shop.collections}
           closeDrawer={closeDrawer}
         />

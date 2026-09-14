@@ -25,6 +25,21 @@ function mergeArraysUnique(arr1: string[], arr2: string[]) {
   return Array.from(new Set(combinedArray));
 }
 
+// The backend does not always fill salePercentValue, so fall back to the
+// difference between the regular price and the discounted price.
+function getDiscountPercent(node: any): number {
+  const fromBackend = Number(node?.salePercentValue || 0);
+
+  if (fromBackend > 0) return fromBackend;
+
+  const price = Number(node?.price?.amount || 0);
+  const discountPrice = Number(node?.discountPrice?.amount || 0);
+
+  if (!price || !discountPrice || discountPrice >= price) return 0;
+
+  return Math.round(((price - discountPrice) / price) * 100);
+}
+
 function arraysHaveCommonElement(arr1: string[], arr2: string[]) {
   const set1 = new Set(arr1);
 
@@ -92,6 +107,10 @@ export default function Category({
     data: [],
     selected: [],
   });
+  const [discountFilters, setDiscountFilters] = React.useState<any>({
+    data: [],
+    selected: [],
+  });
 
   function scrollToProduct() {
     const product: any = document.getElementById(`${sessionProductData.id}`);
@@ -132,43 +151,35 @@ export default function Category({
   const applyFilters = (dataList: any[]) => {
     const selectedSizes: string[] = sizeFilters.selected;
     const selectedColors: string[] = colorFilters.selected;
+    const selectedDiscounts: string[] = discountFilters.selected;
 
-    const filteredProducts: any[] = dataList.filter(
-      // eslint-disable-next-line array-callback-return,consistent-return
-      (product: any) => {
-        const {
-          node: { color, stockItems },
-        }: any = product || {};
+    const filteredProducts: any[] = dataList.filter((product: any) => {
+      const {
+        node: { color, stockItems },
+      }: any = product || {};
 
-        const productStockSizes = stockItems
-          .filter((tmp1: any) => tmp1.isInStock)
-          .map((tmp2: any) => tmp2.size);
+      const productDiscount = getDiscountPercent(product.node);
 
-        const hasSelectedSizes = arraysHaveCommonElement(
-          selectedSizes,
-          productStockSizes,
+      const productStockSizes = stockItems
+        .filter((tmp1: any) => tmp1.isInStock)
+        .map((tmp2: any) => tmp2.size);
+
+      const matchesSizes =
+        selectedSizes.length === 0 ||
+        arraysHaveCommonElement(selectedSizes, productStockSizes);
+
+      const matchesColors =
+        selectedColors.length === 0 ||
+        arraysHaveCommonElement(selectedColors, [color.value]);
+
+      const matchesDiscounts =
+        selectedDiscounts.length === 0 ||
+        selectedDiscounts.some(
+          (value: string) => productDiscount >= Number(value),
         );
 
-        const hasSelectedColors = arraysHaveCommonElement(selectedColors, [
-          color.value,
-        ]);
-
-        if (
-          (selectedSizes.length > 0 &&
-            !selectedColors.length &&
-            hasSelectedSizes) ||
-          (!selectedSizes.length &&
-            selectedColors.length > 0 &&
-            hasSelectedColors) ||
-          (selectedSizes.length > 0 &&
-            selectedColors.length > 0 &&
-            hasSelectedSizes &&
-            hasSelectedColors)
-        ) {
-          return product;
-        }
-      },
-    );
+      return matchesSizes && matchesColors && matchesDiscounts;
+    });
 
     return filteredProducts;
   };
@@ -176,7 +187,8 @@ export default function Category({
   const applyFiltersHandler = () => {
     if (
       sizeFilters.selected.length === 0 &&
-      colorFilters.selected.length === 0
+      colorFilters.selected.length === 0 &&
+      discountFilters.selected.length === 0
     ) {
       return setProducts((prev: any) => ({
         ...prev,
@@ -226,7 +238,17 @@ export default function Category({
         .map(({ node }: any) => node.color.value)
         .filter((col: any, ind: any, arr: any) => arr.indexOf(col) === ind);
 
-      if (sizeFilters.selected.length > 0 || colorFilters.selected.length > 0) {
+      const discountLevels = fetchedProducts
+        .map(({ node }: any) => getDiscountPercent(node))
+        .filter((value: number) => value > 0)
+        .map((value: number) => String(Math.floor(value / 10) * 10))
+        .filter((value: string) => value !== '0');
+
+      if (
+        sizeFilters.selected.length > 0 ||
+        colorFilters.selected.length > 0 ||
+        discountFilters.selected.length > 0
+      ) {
         const joinedProductsList = mergeArraysUnique(
           products.unfiltered,
           fetchedProducts,
@@ -262,6 +284,15 @@ export default function Category({
           data: mergeArraysUnique(prev.data, colors),
         };
       });
+
+      setDiscountFilters((prev: any) => {
+        return {
+          ...prev,
+          data: mergeArraysUnique(prev.data, discountLevels).sort(
+            (a: string, b: string) => Number(a) - Number(b),
+          ),
+        };
+      });
     }
   }, [productsInfo]);
 
@@ -289,7 +320,23 @@ export default function Category({
     }
   };
 
-  const filterHandler = (type: 'size' | 'color', selectedValue: string) => {
+  const filterHandler = (
+    type: 'size' | 'color' | 'discount',
+    selectedValue: string,
+  ) => {
+    if (type === 'discount') {
+      setDiscountFilters((prev: any) => {
+        const isValueAlreadySelected = prev.selected.includes(selectedValue);
+
+        return {
+          ...prev,
+          selected: isValueAlreadySelected
+            ? prev.selected.filter((i: any) => i !== selectedValue)
+            : [...prev.selected, selectedValue],
+        };
+      });
+    }
+
     if (type === 'size') {
       const isValueAlreadySelected =
         sizeFilters.selected.includes(selectedValue);
@@ -344,6 +391,7 @@ export default function Category({
   const clearSelection = () => {
     setSizeFilters((prev: any) => ({ ...prev, selected: [] }));
     setColorFilters((prev: any) => ({ ...prev, selected: [] }));
+    setDiscountFilters((prev: any) => ({ ...prev, selected: [] }));
 
     setProducts((prev: any) => ({
       ...prev,
@@ -431,6 +479,7 @@ export default function Category({
         <Filters
           sizeFilters={sizeFilters}
           colorFilters={colorFilters}
+          discountFilters={discountFilters}
           filterHandler={filterHandler}
           applyFiltersHandler={applyFiltersHandler}
           clearFiltersSelectionHandler={clearFiltersSelectionHandler}

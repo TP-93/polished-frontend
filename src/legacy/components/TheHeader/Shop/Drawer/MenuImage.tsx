@@ -20,10 +20,12 @@ export default function MenuImage({ shopId }: Props) {
   return (
     <img
       src={data?.menu?.menuImage || MockUp}
+      alt="JORCUSTOM collection"
       style={{
         display: 'block',
         height: '100%',
-        width: '20%',
+        width: '100%',
+        objectFit: 'cover',
       }}
     />
   );
