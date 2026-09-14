@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="12.745" viewBox="0 0 20 12.745">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_104" data-name="Path 104" d="M62.811,102.475c6.667,1.867,13.333-1.867,20,0v11.667c-6.667-1.867-13.333,1.867-20,0Z" transform="translate(-62.811 -101.936)"/>
+    </clipPath>
+  </defs>
+  <g id="FLAG" transform="translate(-62.811 -101.936)">
+    <g id="Group_70" data-name="Group 70" transform="translate(62.811 101.936)" clip-path="url(#clip-path)">
+      <path id="Path_103" data-name="Path 103" d="M62.811,114.142c6.667,1.867,13.333-1.867,20,0V102.475c-6.667-1.867-13.333,1.867-20,0Z" transform="translate(-62.811 -101.936)" fill="#314789"/>
+    </g>
+    <g id="Group_71" data-name="Group 71" transform="translate(62.811 101.936)" clip-path="url(#clip-path)">
+      <path id="Path_105" data-name="Path 105" d="M62.811,110.253c6.667,1.867,13.333-1.867,20,0v-7.778c-6.667-1.867-13.333,1.867-20,0Z" transform="translate(-62.811 -101.936)" fill="#fff"/>
+    </g>
+    <g id="Group_72" data-name="Group 72" transform="translate(62.811 101.936)" clip-path="url(#clip-path)">
+      <path id="Path_107" data-name="Path 107" d="M62.811,106.364c6.667,1.867,13.333-1.867,20,0v-3.889c-6.667-1.867-13.333,1.867-20,0Z" transform="translate(-62.811 -101.936)" fill="#9f1c34"/>
+    </g>
+  </g>
+</svg>
