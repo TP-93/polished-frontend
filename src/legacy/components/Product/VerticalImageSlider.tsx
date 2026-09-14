@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from 'react';
 import styled from 'styled-components';
-import Slider from 'react-slick';
+import SliderModule from 'react-slick';
 
 import {
   VerticalArrowTop,
@@ -13,6 +13,9 @@ import {
 } from '../common/Buttons/SliderButtons';
 
 import '../../styles/slick.css';
+import { unwrapDefault } from '../../../legacy-compat/interop';
+
+const Slider: any = unwrapDefault(SliderModule);
 
 interface Props {
   imageCollection: any;

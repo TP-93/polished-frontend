@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Cross } from 'styled-icons/entypo';
 // @ts-ignore
-import ZoomPanPinch from 'react-responsive-pinch-zoom-pan';
+import ZoomPanPinchModule from 'react-responsive-pinch-zoom-pan';
 import styled, { css } from 'styled-components';
 import { ChevronLeft, ChevronRight } from 'styled-icons/boxicons-regular';
 import React, { useEffect, useState } from 'react';
@@ -13,6 +13,9 @@ import {
   horizontalForwardAnimation,
   horizontalBackwardAnimation,
 } from './DesktopImagesSlider/animation';
+import { unwrapDefault } from '../../../legacy-compat/interop';
+
+const ZoomPanPinch: any = unwrapDefault(ZoomPanPinchModule);
 
 interface Props {
   currentImage: number;

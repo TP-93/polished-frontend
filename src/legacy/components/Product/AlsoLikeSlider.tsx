@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import React from 'react';
 import styled from 'styled-components';
-import Slider from 'react-slick';
+import SliderModule from 'react-slick';
 import { Link } from 'react-router-dom';
 
 import Price from '../common/ProductDetails/ProductPrice';
@@ -14,6 +14,9 @@ import CustomiseButton from '../common/Buttons/CustomizeButton';
 import BrokenImageWrapper from '../common/ProductDetails/BrokenImage';
 import { cocoBold } from '../../styles/constants';
 import { useUserProvider } from '../../context/user';
+import { unwrapDefault } from '../../../legacy-compat/interop';
+
+const Slider: any = unwrapDefault(SliderModule);
 
 interface Props {
   imageCollection: any;
