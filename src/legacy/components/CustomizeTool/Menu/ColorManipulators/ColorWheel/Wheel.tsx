@@ -4,17 +4,18 @@ import styled, { css } from 'styled-components';
 import { isMobile } from 'react-device-detect';
 // @ts-ignore
 import * as colorHelper from 'react-color/lib/helpers';
+// @ts-ignore
+import {
+  Hue,
+  ColorWrap,
+  Saturation,
+  EditableInput,
+} from 'react-color/lib/components/common';
 
 import { useCustomizationStateValue } from '../../../../../context/customize';
 
 import { cocoRegular, iphone7Width } from '../../../../../styles/constants';
 
-const {
-  Hue,
-  ColorWrap,
-  Saturation,
-  EditableInput,
-} = require('react-color/lib/components/common');
 
 interface Props {
   rgb: any;

@@ -1,5 +1,7 @@
 // @ts-nocheck
 import React from 'react';
+// @ts-ignore
+import randomColor from 'randomcolor';
 import styled, { css } from 'styled-components';
 import { isMobileOnly } from 'react-device-detect';
 
@@ -10,7 +12,6 @@ import { cocoRegular } from '../../../../styles/constants';
 import { ReactComponent as LeftArrow } from '../../../../assets/images/customize-tool/buttons/generateLeft.svg.tsx';
 import { ReactComponent as RightArrow } from '../../../../assets/images/customize-tool/buttons/generateRight.svg.tsx';
 
-const randomColor = require('randomcolor');
 
 interface Props {
   designs: any;
