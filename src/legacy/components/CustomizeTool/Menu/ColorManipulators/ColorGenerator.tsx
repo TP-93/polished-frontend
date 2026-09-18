@@ -1,5 +1,7 @@
 // @ts-nocheck
 import React from 'react';
+// @ts-ignore
+import randomColor from 'randomcolor';
 import styled, { css } from 'styled-components';
 import { isMobileOnly } from 'react-device-detect';
 
