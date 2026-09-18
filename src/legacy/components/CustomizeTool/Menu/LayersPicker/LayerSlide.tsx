@@ -98,6 +98,7 @@ export default ({
 
 const Container = styled.div`
   position: relative;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,6 +133,7 @@ const LayerDefaultColor = styled.div<{ bgColor: any }>`
 `;
 
 const ImageWrapper = styled.div<{ isActive: boolean }>`
+  flex: 0 0 auto;
   opacity: 0.95;
   border: 5px solid ${({ isActive }) => (isActive ? '#3C66D6' : 'transparent')};
   //border-radius: 30px;
@@ -140,11 +142,13 @@ const ImageWrapper = styled.div<{ isActive: boolean }>`
 
 const ImageContainer = styled.div<{ height: number }>`
   position: relative;
+  flex: 0 0 auto;
   height: ${({ height }) => height}px;
 `;
 
 const BgImage = styled.img`
   display: block;
+  width: auto;
   height: 100%;
   //border-radius: 25px;
   border-radius: 20px;
