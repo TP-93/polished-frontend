@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import SliderModule from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import MediaQuery from 'react-responsive';
 import { isMobile } from 'react-device-detect';
 // @ts-ignore
