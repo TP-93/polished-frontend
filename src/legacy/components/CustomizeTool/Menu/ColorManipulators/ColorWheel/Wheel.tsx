@@ -9,12 +9,6 @@ import { useCustomizationStateValue } from '../../../../../context/customize';
 
 import { cocoRegular, iphone7Width } from '../../../../../styles/constants';
 
-const {
-  Hue,
-  ColorWrap,
-  Saturation,
-  EditableInput,
-} = require('react-color/lib/components/common');
 
 interface Props {
   rgb: any;

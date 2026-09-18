@@ -10,7 +10,6 @@ import { cocoRegular } from '../../../../styles/constants';
 import { ReactComponent as LeftArrow } from '../../../../assets/images/customize-tool/buttons/generateLeft.svg.tsx';
 import { ReactComponent as RightArrow } from '../../../../assets/images/customize-tool/buttons/generateRight.svg.tsx';
 
-const randomColor = require('randomcolor');
 
 interface Props {
   designs: any;
