@@ -7,8 +7,8 @@ import { Typography as Typography } from '@mui/material';
 
 import {
   buildCategoryGroups,
+  buildCategoryColumns,
   getItemPathname,
-  orderCategoryGroups,
 } from '../../menuModel';
 import { cocoBold, cocoRegular } from '../../../../styles/constants';
 
@@ -75,7 +75,7 @@ export default function SalePanel({
       )}
 
       {menus.map((menu: any) => {
-        const groups = orderCategoryGroups(buildCategoryGroups(menu));
+        const groups = buildCategoryColumns(buildCategoryGroups(menu));
 
         return (
           <Box key={menu.name}>

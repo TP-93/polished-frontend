@@ -7,8 +7,8 @@ import { Typography as Typography } from '@mui/material';
 
 import {
   buildCategoryGroups,
+  buildCategoryColumns,
   getItemPathname,
-  orderCategoryGroups,
 } from '../../menuModel';
 import { cocoBold, cocoRegular } from '../../../../styles/constants';
 
@@ -26,7 +26,7 @@ export default function CategoriesPanel({
   return (
     <Box sx={{ pt: '20px' }}>
       {menus.map((menu: any) => {
-        const groups = orderCategoryGroups(buildCategoryGroups(menu));
+        const groups = buildCategoryColumns(buildCategoryGroups(menu));
         const allPathname = getItemPathname(menu);
 
         return (

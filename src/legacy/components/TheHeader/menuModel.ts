@@ -82,34 +82,68 @@ export function buildCategoryGroups(item: any): any[] {
   return groups;
 }
 
-const categoryGroupOrder: string[][] = [
-  ['tops', 'top'],
-  ['sweatshirts', 'sweatshirt', 'hoodies & zips', 'hoodies'],
-  ['bottoms', 'bottom'],
-  ['jackets & vests', 'jackets', 'jacket'],
-  ['accessoires', 'accessories', 'accessories & lifestyle'],
+const categoryColumns = [
+  {
+    id: 'tops',
+    name: 'Tops',
+    aliases: ['tops', 'top', 't-shirts', 't-shirt'],
+  },
+  {
+    id: 'sweatshirts',
+    name: 'Sweatshirts',
+    aliases: ['sweatshirts', 'sweatshirt', 'hoodies & zips', 'hoodies'],
+  },
+  {
+    id: 'bottoms',
+    name: 'Bottoms',
+    aliases: [
+      'bottoms',
+      'bottom',
+      'denim',
+      'pants',
+      'shorts',
+      'summer set',
+    ],
+  },
+  {
+    id: 'jackets',
+    name: 'Jackets',
+    aliases: ['jackets & vests', 'jackets', 'jacket'],
+  },
+  {
+    id: 'accessories',
+    name: 'Accessoires',
+    aliases: [
+      'accessoires',
+      'accessories',
+      'accessories & lifestyle',
+      'headwear',
+      'gifts',
+    ],
+  },
 ];
 
-export function orderCategoryGroups(groups: any[] = []): any[] {
-  const getRank = (name: string): number => {
-    const normalizedName = (name || '').trim().toLowerCase();
-    const rank = categoryGroupOrder.findIndex((aliases: string[]) =>
-      aliases.some(
+export function buildCategoryColumns(groups: any[] = []): any[] {
+  const columns = categoryColumns.map((column: any) => ({
+    id: column.id,
+    name: column.name,
+    items: [],
+  }));
+
+  groups.forEach((group: any) => {
+    const normalizedName = (group?.name || '').trim().toLowerCase();
+    const columnIndex = categoryColumns.findIndex((column: any) =>
+      column.aliases.some(
         (alias: string) =>
           normalizedName === alias || normalizedName.startsWith(`${alias} `),
       ),
     );
+    const targetColumn = columns[columnIndex === -1 ? 0 : columnIndex];
 
-    return rank === -1 ? categoryGroupOrder.length : rank;
-  };
+    targetColumn.items.push(...(group?.items || []));
+  });
 
-  return groups
-    .map((group: any, index: number) => ({ group, index }))
-    .sort((a: any, b: any) => {
-      const rankDifference = getRank(a.group?.name) - getRank(b.group?.name);
-      return rankDifference || a.index - b.index;
-    })
-    .map(({ group }: any) => group);
+  return columns.filter((column: any) => column.items.length > 0);
 }
 
 export function buildMenuModel(collections: any[] = []) {
