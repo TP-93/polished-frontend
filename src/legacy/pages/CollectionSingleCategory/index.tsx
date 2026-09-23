@@ -21,7 +21,9 @@ const descriptionFormatter = (value: string) =>
 export default function Collection() {
   const token = localStorage.getItem(GUEST_TOKEN_NAME);
 
-  const { collection, category } = useParams<any>();
+  const params = useParams<any>();
+  const collection: string = params.collection ?? params.collectionName ?? '';
+  const category: string = params.category ?? '';
 
   const sessionProductData: any = JSON.parse(
     sessionStorage.getItem('selected_product') as any,
