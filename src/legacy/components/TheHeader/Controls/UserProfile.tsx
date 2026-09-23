@@ -68,7 +68,7 @@ export default function UserProfile({ isWhiteHeader, openDrawer }: Props) {
     >
       <UserRound
         aria-hidden="true"
-        size={18}
+        size={19}
         strokeWidth={1.35}
         color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
       />

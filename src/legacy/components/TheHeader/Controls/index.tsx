@@ -54,7 +54,7 @@ export default function Controls({
               color: isWhiteHeader ? 'var(--foreground)' : 'var(--background)',
               cursor: 'pointer',
               fontFamily: 'inherit',
-              fontSize: '11px',
+              fontSize: '12px',
               fontWeight: 500,
               lineHeight: 1,
               background: 'transparent',
@@ -77,7 +77,7 @@ export default function Controls({
         >
           <MessageCircle
             aria-hidden="true"
-            size={18}
+            size={19}
             strokeWidth={1.35}
             color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
           />

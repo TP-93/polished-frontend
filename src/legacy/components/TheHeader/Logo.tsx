@@ -21,7 +21,7 @@ export default function Logo({ isWhiteHeader }: Props) {
         component={LogoIcon}
         inheritViewBox
         sx={{
-          height: isMobile ? '26px' : '30px',
+          height: isMobile ? '28px' : '32px',
           width: 'auto',
           fill: isWhiteHeader ? '#000' : '#fff',
         }}

@@ -30,7 +30,7 @@ export default function MobileMenu({
       >
         <Menu
           aria-hidden="true"
-          size={19}
+          size={20}
           strokeWidth={1.35}
           color={isWhiteColorHeader ? 'var(--foreground)' : 'var(--background)'}
         />
