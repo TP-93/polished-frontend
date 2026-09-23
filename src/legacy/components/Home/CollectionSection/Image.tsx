@@ -6,7 +6,6 @@ import { Typography as Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Button, useMediaQuery } from '@mui/material';
 
-import { ArrowRight } from 'lucide-react';
 
 import { useHistory } from 'react-router-dom';
 import { cocoBlack, cocoBold, defaultHomeBg } from '../../../styles/constants';
