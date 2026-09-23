@@ -44,7 +44,7 @@ export default function Shop({
           ...cocoRegular,
           color: isWhiteColorHeader ? '#454545' : '#fbfbfb',
           cursor: 'pointer',
-          fontSize: '0.75rem',
+          fontSize: '0.8125rem',
           fontWeight: 700,
           textTransform: 'uppercase',
         }}
