@@ -80,6 +80,7 @@ export default function Controls({
             size={19}
             strokeWidth={1.35}
             color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
+            style={{ width: '22px', height: '19px' }}
           />
         </Link>
       )}

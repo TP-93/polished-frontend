@@ -71,6 +71,7 @@ export default function UserProfile({ isWhiteHeader, openDrawer }: Props) {
         size={19}
         strokeWidth={1.35}
         color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
+        style={{ width: '22px', height: '19px' }}
       />
 
       {isProfileDropDown && (
