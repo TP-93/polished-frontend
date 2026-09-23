@@ -23,8 +23,8 @@ export function Drawer({ open, title, children, close }: Props) {
   const styles: any = {
     display: 'grid',
     width: '100vw',
-    height: isMobile ? `${window.innerHeight}px` : 'calc(100vh - 48px)',
-    maxHeight: isMobile ? `${window.innerHeight}px` : 'calc(100vh - 48px)',
+    height: isMobile ? `${window.innerHeight}px` : 'calc(100vh - 60px)',
+    maxHeight: isMobile ? `${window.innerHeight}px` : 'calc(100vh - 60px)',
     gridTemplateColumns: isMobile ? '10vw 90vw' : '70vw 30vw',
   };
 
@@ -34,7 +34,7 @@ export function Drawer({ open, title, children, close }: Props) {
         <Box
           sx={{
             position: 'fixed',
-            top: isMobile ? 0 : '48px',
+            top: isMobile ? 0 : '60px',
             left: 0,
             right: 0,
             bottom: 0,
@@ -63,7 +63,7 @@ export function Drawer({ open, title, children, close }: Props) {
                 sx={{
                   height: isMobile
                     ? `calc(${window.innerHeight}px - 4vh)`
-                    : `calc(${window.innerHeight}px - 4vh - 48px)`,
+                    : `calc(${window.innerHeight}px - 4vh - 60px)`,
                   width: '100%',
                   overflow: 'hidden',
                 }}

@@ -37,7 +37,7 @@ export default function Controls({
         alignItems: 'center',
         justifyContent: 'flex-end',
         height: '100%',
-        gap: '18px',
+        gap: '20px',
         p: '0 16px 0 0',
       }}
     >
@@ -54,7 +54,7 @@ export default function Controls({
               color: isWhiteHeader ? 'var(--foreground)' : 'var(--background)',
               cursor: 'pointer',
               fontFamily: 'inherit',
-              fontSize: '10px',
+              fontSize: '11px',
               fontWeight: 500,
               lineHeight: 1,
               background: 'transparent',
@@ -77,7 +77,7 @@ export default function Controls({
         >
           <MessageCircle
             aria-hidden="true"
-            size={17}
+            size={18}
             strokeWidth={1.35}
             color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
           />

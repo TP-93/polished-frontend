@@ -150,12 +150,12 @@ export default function TheHeader() {
           zIndex: 1100,
           position: 'fixed',
           display: 'flex',
-          top: showHeader ? '0' : '-48px',
+          top: showHeader ? '0' : '-60px',
           alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'center',
           width: '100%',
-          height: '48px',
+          height: '60px',
           transition: 'all 0.5s ease-in-out',
           backgroundColor: isWhiteBgHeader ? '#fff' : 'transparent',
         }}
@@ -169,6 +169,8 @@ export default function TheHeader() {
             display: 'grid',
             alignItems: 'center',
             gridTemplateColumns: '1fr 1fr 1fr',
+            pt: '4px',
+            pb: '2px',
           }}
         >
           {isMobile && (
