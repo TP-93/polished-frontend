@@ -94,7 +94,7 @@ export default ({ closeMenu, menuItemsProvider }: Props) => {
       onMouseLeave={closeMenu}
       sx={{
         position: 'absolute',
-        top: '60px',
+        top: '64px',
         right: '20px',
         width: 'max-content',
         height: 'auto',

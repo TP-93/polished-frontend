@@ -35,7 +35,7 @@ export default function PageWrapper({
       justifyContent="flex-end"
       sx={{
         minHeight: '100vh',
-        pt: !isHomePage && !isProductPage && !isSpecialEventPage ? '60px' : 0,
+        pt: !isHomePage && !isProductPage && !isSpecialEventPage ? '64px' : 0,
       }}
     >
       {children}

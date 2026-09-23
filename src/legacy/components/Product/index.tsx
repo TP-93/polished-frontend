@@ -91,13 +91,13 @@ export default function Product({ product }: Props) {
         <Box
           sx={{
             position: isMobile ? 'static' : 'sticky',
-            top: isMobile ? 0 : '60px',
+            top: isMobile ? 0 : '64px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             p: isMobile ? '10px' : 0,
             width: isMobile ? '100%' : '50%',
-            height: isMobile ? 'auto' : 'calc(100vh - 60px)',
+            height: isMobile ? 'auto' : 'calc(100vh - 64px)',
           }}
         >
           <ProductInfo product={product} />

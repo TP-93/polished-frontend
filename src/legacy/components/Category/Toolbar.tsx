@@ -54,7 +54,7 @@ export default function Toolbar({
 
   const mobileStyles = {
     position: 'fixed',
-    top: showToolbar ? '60px' : '-120px',
+    top: showToolbar ? '64px' : '-120px',
     left: 0,
     right: 0,
     zIndex: 1100,
@@ -66,7 +66,7 @@ export default function Toolbar({
 
   const desktopStyles = {
     position: 'fixed',
-    top: showToolbar ? '60px' : '-120px',
+    top: showToolbar ? '64px' : '-120px',
     left: 0,
     right: 0,
     zIndex: 1100,
