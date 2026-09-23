@@ -29,7 +29,7 @@ export default function Shop({
         width: 'min-content',
         display: 'flex',
         alignItems: 'center',
-        p: '0 0 0 20px',
+        p: '0 0 0 16px',
       }}
       onMouseEnter={() => {
         setShopDropDown(true);
@@ -44,8 +44,8 @@ export default function Shop({
           ...cocoRegular,
           color: isWhiteColorHeader ? '#454545' : '#fbfbfb',
           cursor: 'pointer',
-          fontSize: '0.9rem',
-          fontWeight: 600,
+          fontSize: '0.6875rem',
+          fontWeight: 500,
           textTransform: 'uppercase',
         }}
       >

@@ -150,12 +150,12 @@ export default function TheHeader() {
           zIndex: 1100,
           position: 'fixed',
           display: 'flex',
-          top: showHeader ? '0' : '-8vh',
+          top: showHeader ? '0' : '-48px',
           alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'center',
           width: '100%',
-          height: isMobile ? '6vh' : '8vh',
+          height: '48px',
           transition: 'all 0.5s ease-in-out',
           backgroundColor: isWhiteBgHeader ? '#fff' : 'transparent',
         }}
@@ -174,7 +174,7 @@ export default function TheHeader() {
           {isMobile && (
             <Stack
               sx={{
-                pl: '20px',
+                pl: '16px',
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',

@@ -23,7 +23,7 @@ export default function ShopDropDown({ open, close }: Props) {
   const styles: any = {
     display: 'grid',
     width: '100vw',
-    height: isMobile ? 'calc(100vh - 6vh)' : 'calc(100vh - 8vh)',
+    height: 'calc(100vh - 48px)',
     gridAutoRows: 'min-content 1fr',
   };
 
@@ -33,7 +33,7 @@ export default function ShopDropDown({ open, close }: Props) {
         <Box
           sx={{
             position: 'fixed',
-            top: '8vh',
+            top: '48px',
             left: 0,
             right: 0,
           }}

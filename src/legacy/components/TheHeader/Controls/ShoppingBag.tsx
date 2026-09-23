@@ -2,13 +2,10 @@
 import * as React from 'react';
 
 import { Badge as Badge } from '@mui/material';
-import { SvgIcon as SvgIcon } from '@mui/material';
+import { ShoppingBag as ShoppingBagIcon } from 'lucide-react';
 
 import { useUserProvider } from '../../../context/user';
 import { useHeaderContext } from '../Provider';
-
-import { ReactComponent as BagIconBlack } from '../../../assets/images/icons/checkout/bag_icon_black.svg.tsx';
-import { ReactComponent as BagIconWhite } from '../../../assets/images/icons/checkout/bag_icon_white.svg.tsx';
 
 interface Props {
   isHeaderWhite: boolean;
@@ -38,29 +35,27 @@ export default function ShoppingBag({ isHeaderWhite, openDrawer }: Props) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          top: '1px',
-          right: '2px',
+          top: '-1px',
+          right: '-3px',
           p: '0',
           minWidth: 0,
-          width: '9px',
-          height: '9px',
-          color: '#fff',
-          border: '1px solid black',
-          fontSize: '4px',
+          width: '11px',
+          height: '11px',
+          color: 'var(--primary-foreground)',
+          border: '1px solid var(--background)',
+          fontSize: '6px',
           lineHeight: 'auto',
           borderRadius: '50%',
-          backgroundColor: '#3c3c3c',
+          backgroundColor: 'var(--foreground)',
         },
       }}
     >
-      <SvgIcon
-        component={isHeaderWhite ? BagIconBlack : BagIconWhite}
-        inheritViewBox
-        sx={{
-          mr: '0 !important',
-          height: '22px',
-          cursor: 'pointer',
-        }}
+      <ShoppingBagIcon
+        aria-hidden="true"
+        size={17}
+        strokeWidth={1.35}
+        color={isHeaderWhite ? 'var(--foreground)' : 'var(--background)'}
+        style={{ cursor: 'pointer' }}
       />
     </Badge>
   );
