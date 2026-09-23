@@ -80,7 +80,14 @@ export default function Controls({
             size={19}
             strokeWidth={1.35}
             color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
-            style={{ width: '22px', height: '19px' }}
+            style={{
+              width: '19px',
+              height: '19px',
+              margin: '0 2px',
+              overflow: 'visible',
+              transform: 'scaleX(1.22)',
+              transformOrigin: 'center',
+            }}
           />
         </Link>
       )}
