@@ -55,7 +55,7 @@ export default function ShoppingBag({ isHeaderWhite, openDrawer }: Props) {
         size={19}
         strokeWidth={1.35}
         color={isHeaderWhite ? 'var(--foreground)' : 'var(--background)'}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', width: '22px', height: '19px' }}
       />
     </Badge>
   );
