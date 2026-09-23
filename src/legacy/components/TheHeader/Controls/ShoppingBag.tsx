@@ -52,7 +52,7 @@ export default function ShoppingBag({ isHeaderWhite, openDrawer }: Props) {
     >
       <ShoppingBagIcon
         aria-hidden="true"
-        size={17}
+        size={18}
         strokeWidth={1.35}
         color={isHeaderWhite ? 'var(--foreground)' : 'var(--background)'}
         style={{ cursor: 'pointer' }}

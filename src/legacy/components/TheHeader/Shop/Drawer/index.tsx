@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { Box as Box } from '@mui/material';
 import { Stack as Stack } from '@mui/material';
-import { useMediaQuery } from '@mui/material';
 
 import Content from './Content';
 
@@ -18,12 +17,10 @@ interface Props {
 export default function ShopDropDown({ open, close }: Props) {
   const { shop } = useHeaderContext();
 
-  const isMobile = useMediaQuery('(max-width:767px)');
-
   const styles: any = {
     display: 'grid',
     width: '100vw',
-    height: 'calc(100vh - 48px)',
+    height: 'calc(100vh - 60px)',
     gridAutoRows: 'min-content 1fr',
   };
 
@@ -33,7 +30,7 @@ export default function ShopDropDown({ open, close }: Props) {
         <Box
           sx={{
             position: 'fixed',
-            top: '48px',
+            top: '60px',
             left: 0,
             right: 0,
           }}
