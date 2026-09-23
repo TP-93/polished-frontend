@@ -111,7 +111,7 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: isMobile ? '18px 36px' : '24px 64px',
+              padding: isMobile ? '12px 24px' : '14px 36px',
               border: '2px solid rgba(255, 255, 255, 0.7)',
               borderRadius: 0,
               color: '#fff',
