@@ -18,7 +18,7 @@ import { useUserProvider } from '../../../../context/user';
 const translations: any = {
   categories: { EN: 'Categories', NL: "Categorieën" },
   collections: { EN: 'Collections', NL: 'Collecties' },
-  sale: { EN: 'Sale', NL: 'Sale' },
+  sale: { EN: 'Sales', NL: 'Sales' },
   viewAll: { EN: 'View all', NL: 'Alles bekijken' },
   discount: { EN: 'Discount', NL: 'Korting' },
 };

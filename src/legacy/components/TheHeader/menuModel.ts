@@ -82,6 +82,36 @@ export function buildCategoryGroups(item: any): any[] {
   return groups;
 }
 
+const categoryGroupOrder: string[][] = [
+  ['tops', 'top'],
+  ['sweatshirts', 'sweatshirt', 'hoodies & zips', 'hoodies'],
+  ['bottoms', 'bottom'],
+  ['jackets & vests', 'jackets', 'jacket'],
+  ['accessoires', 'accessories', 'accessories & lifestyle'],
+];
+
+export function orderCategoryGroups(groups: any[] = []): any[] {
+  const getRank = (name: string): number => {
+    const normalizedName = (name || '').trim().toLowerCase();
+    const rank = categoryGroupOrder.findIndex((aliases: string[]) =>
+      aliases.some(
+        (alias: string) =>
+          normalizedName === alias || normalizedName.startsWith(`${alias} `),
+      ),
+    );
+
+    return rank === -1 ? categoryGroupOrder.length : rank;
+  };
+
+  return groups
+    .map((group: any, index: number) => ({ group, index }))
+    .sort((a: any, b: any) => {
+      const rankDifference = getRank(a.group?.name) - getRank(b.group?.name);
+      return rankDifference || a.index - b.index;
+    })
+    .map(({ group }: any) => group);
+}
+
 export function buildMenuModel(collections: any[] = []) {
   const submenuItems = collections.filter((item: any) => item?.enableSubmenu);
   const flatItems = collections.filter((item: any) => !item?.enableSubmenu);

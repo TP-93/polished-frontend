@@ -35,7 +35,7 @@ export default function CollectionsPanel({ items, closeDrawer }: Props) {
             onClick={closeDrawer}
             style={{
               ...cocoBold,
-              fontSize: '0.7rem',
+              fontSize: '0.625rem',
               color: '#3c3c3c',
               letterSpacing: '0.03em',
             }}
