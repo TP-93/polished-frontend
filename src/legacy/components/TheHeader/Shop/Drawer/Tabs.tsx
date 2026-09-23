@@ -17,7 +17,7 @@ export default function Tabs({ tabs, active, onSelect }: Props) {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
+        gap: '6px',
         pb: '16px',
         borderBottom: '1px solid #ededed',
       }}
@@ -35,17 +35,21 @@ export default function Tabs({ tabs, active, onSelect }: Props) {
               ...cocoBold,
               cursor: 'pointer',
               userSelect: 'none',
-              fontSize: '0.7rem',
-              letterSpacing: '0.06em',
+              fontSize: '0.625rem',
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
-              padding: '8px 16px',
-              borderRadius: '999px',
+              padding: '9px 18px',
+              border: isActive ? '1px solid #8d8d8d' : '1px solid #d5d5d5',
+              borderRadius: '0',
+              boxShadow: isActive ? 'inset 0 -2px 0 #111' : 'none',
               transition: 'all 0.2s ease',
-              color: isActive ? '#fff' : '#5c5c5c',
-              backgroundColor: isActive ? '#111' : '#f4f4f4',
+              color: '#111',
+              background: isActive
+                ? 'linear-gradient(180deg, #ffffff 0%, #e6e6e6 100%)'
+                : 'linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%)',
               '&:hover': {
-                color: isActive ? '#fff' : '#111',
-                backgroundColor: isActive ? '#111' : '#ececec',
+                borderColor: '#8d8d8d',
+                background: 'linear-gradient(180deg, #ffffff 0%, #e9e9e9 100%)',
               },
             }}
           >

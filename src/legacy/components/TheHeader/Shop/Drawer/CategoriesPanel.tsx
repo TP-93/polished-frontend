@@ -5,7 +5,11 @@ import { NavLink } from 'react-router-dom';
 import { Box as Box } from '@mui/material';
 import { Typography as Typography } from '@mui/material';
 
-import { buildCategoryGroups, getItemPathname } from '../../menuModel';
+import {
+  buildCategoryGroups,
+  buildCategoryColumns,
+  getItemPathname,
+} from '../../menuModel';
 import { cocoBold, cocoRegular } from '../../../../styles/constants';
 
 interface Props {
@@ -22,7 +26,7 @@ export default function CategoriesPanel({
   return (
     <Box sx={{ pt: '20px' }}>
       {menus.map((menu: any) => {
-        const groups = buildCategoryGroups(menu);
+        const groups = buildCategoryColumns(buildCategoryGroups(menu));
         const allPathname = getItemPathname(menu);
 
         return (
@@ -32,7 +36,7 @@ export default function CategoriesPanel({
               onClick={closeDrawer}
               style={{
                 ...cocoBold,
-                fontSize: '0.7rem',
+                fontSize: '0.625rem',
                 color: '#111',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
@@ -45,7 +49,7 @@ export default function CategoriesPanel({
               sx={{
                 mt: '20px',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
                 columnGap: '24px',
                 rowGap: '24px',
               }}
@@ -55,7 +59,7 @@ export default function CategoriesPanel({
                   <Typography
                     sx={{
                       ...cocoBold,
-                      fontSize: '0.7rem',
+                      fontSize: '0.625rem',
                       color: '#111',
                       mb: '8px',
                       letterSpacing: '0.04em',
@@ -75,7 +79,7 @@ export default function CategoriesPanel({
                         onClick={closeDrawer}
                         style={{
                           ...cocoRegular,
-                          fontSize: '0.7rem',
+                          fontSize: '0.625rem',
                           color: '#6c6c6c',
                           textTransform: 'uppercase',
                         }}

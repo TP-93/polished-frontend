@@ -82,6 +82,70 @@ export function buildCategoryGroups(item: any): any[] {
   return groups;
 }
 
+const categoryColumns = [
+  {
+    id: 'tops',
+    name: 'Tops',
+    aliases: ['tops', 'top', 't-shirts', 't-shirt'],
+  },
+  {
+    id: 'sweatshirts',
+    name: 'Sweatshirts',
+    aliases: ['sweatshirts', 'sweatshirt', 'hoodies & zips', 'hoodies'],
+  },
+  {
+    id: 'bottoms',
+    name: 'Bottoms',
+    aliases: [
+      'bottoms',
+      'bottom',
+      'denim',
+      'pants',
+      'shorts',
+      'summer set',
+    ],
+  },
+  {
+    id: 'jackets',
+    name: 'Jackets',
+    aliases: ['jackets & vests', 'jackets', 'jacket'],
+  },
+  {
+    id: 'accessories',
+    name: 'Accessoires',
+    aliases: [
+      'accessoires',
+      'accessories',
+      'accessories & lifestyle',
+      'headwear',
+      'gifts',
+    ],
+  },
+];
+
+export function buildCategoryColumns(groups: any[] = []): any[] {
+  const columns = categoryColumns.map((column: any) => ({
+    id: column.id,
+    name: column.name,
+    items: [],
+  }));
+
+  groups.forEach((group: any) => {
+    const normalizedName = (group?.name || '').trim().toLowerCase();
+    const columnIndex = categoryColumns.findIndex((column: any) =>
+      column.aliases.some(
+        (alias: string) =>
+          normalizedName === alias || normalizedName.startsWith(`${alias} `),
+      ),
+    );
+    const targetColumn = columns[columnIndex === -1 ? 0 : columnIndex];
+
+    targetColumn.items.push(...(group?.items || []));
+  });
+
+  return columns.filter((column: any) => column.items.length > 0);
+}
+
 export function buildMenuModel(collections: any[] = []) {
   const submenuItems = collections.filter((item: any) => item?.enableSubmenu);
   const flatItems = collections.filter((item: any) => !item?.enableSubmenu);
