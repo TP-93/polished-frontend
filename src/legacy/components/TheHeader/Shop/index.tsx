@@ -45,7 +45,7 @@ export default function Shop({
           color: isWhiteColorHeader ? '#454545' : '#fbfbfb',
           cursor: 'pointer',
           fontSize: '0.75rem',
-          fontWeight: 500,
+          fontWeight: 700,
           textTransform: 'uppercase',
         }}
       >
