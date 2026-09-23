@@ -6,7 +6,7 @@ import { Typography as Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Button, useMediaQuery } from '@mui/material';
 
-import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import { ArrowRight } from 'lucide-react';
 
 import { useHistory } from 'react-router-dom';
 import { cocoBlack, cocoBold, defaultHomeBg } from '../../../styles/constants';
@@ -74,16 +74,19 @@ const useStyles = makeStyles({
   },
   shopLink: {
     position: 'relative',
-    overflow: 'hidden',
+    display: 'inline-block',
+    paddingBottom: '5px',
+    lineHeight: 1,
     '&::after': {
       content: '""',
       position: 'absolute',
       left: 0,
       bottom: 0,
       width: '100%',
-      height: '1px',
+      height: '2px',
       backgroundColor: '#fff',
       transition: 'transform 0.3s ease',
+      transformOrigin: 'right center',
     },
   },
 });
@@ -127,29 +130,27 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '75%',
-              outline: '1px solid transparent',
-              border: `1px solid #fff`,
-              p: '0.3rem 0',
+              width: isMobile ? '82vw' : 'min(420px, 32vw)',
+              height: isMobile ? '58px' : '72px',
+              border: `2px solid #fff`,
+              p: 0,
               borderRadius: 0,
-              backdropFilter: 'blur(10px)',
+              color: '#fff',
+              gap: isMobile ? '14px' : '20px',
+              transition: 'background-color 0.25s ease, color 0.25s ease',
               '&:hover': {
-                outline: '1px solid #fff',
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
               },
               '&:hover p::after': {
-                transform: 'translateX(101%)',
+                transform: 'scaleX(0)',
               },
             }}
           >
-            {!isMobile && (
-              <ArrowForwardIcon
-                sx={{
-                  mr: '0.5rem',
-                  fill: '#fff',
-                  width: '1.1rem',
-                }}
-              />
-            )}
+            <ArrowRight
+              aria-hidden="true"
+              size={isMobile ? 24 : 30}
+              strokeWidth={1.6}
+            />
 
             <Typography
               variant="body1"
@@ -157,8 +158,9 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
               sx={{
                 ...cocoBold,
                 color: '#fff',
-                fontSize: isMobile ? '0.6rem' : '0.75rem',
+                fontSize: isMobile ? '0.875rem' : '1.25rem',
                 textTransform: 'uppercase',
+                letterSpacing: 0,
               }}
             >
               Shop now
