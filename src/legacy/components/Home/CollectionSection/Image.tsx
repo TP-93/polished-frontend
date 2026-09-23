@@ -123,20 +123,19 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
           {sectionText || ''}
         </Typography>
 
-        {sectionLink && (
           <Button
             onClick={shopRedirectHandler}
             sx={{
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: isMobile ? '82vw' : 'min(420px, 32vw)',
-              height: isMobile ? '58px' : '72px',
-              border: `2px solid #fff`,
-              p: 0,
+              width: 'auto',
+              height: isMobile ? '36px' : '40px',
+              border: '1px solid #fff',
+              px: isMobile ? '16px' : '22px',
               borderRadius: 0,
               color: '#fff',
-              gap: isMobile ? '14px' : '20px',
+              gap: isMobile ? '8px' : '10px',
               transition: 'background-color 0.25s ease, color 0.25s ease',
               '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 0.12)',
@@ -148,8 +147,8 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
           >
             <ArrowRight
               aria-hidden="true"
-              size={isMobile ? 24 : 30}
-              strokeWidth={1.6}
+              size={isMobile ? 13 : 14}
+              strokeWidth={1.5}
             />
 
             <Typography
@@ -158,15 +157,15 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
               sx={{
                 ...cocoBold,
                 color: '#fff',
-                fontSize: isMobile ? '0.875rem' : '1.25rem',
+                fontSize: isMobile ? '0.6875rem' : '0.75rem',
                 textTransform: 'uppercase',
-                letterSpacing: 0,
+                letterSpacing: '0.06em',
+                whiteSpace: 'nowrap',
               }}
             >
               Shop now
             </Typography>
           </Button>
-        )}
       </Box>
     </Box>
   );
