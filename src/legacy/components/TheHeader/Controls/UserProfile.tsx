@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Stack as Stack } from '@mui/material';
-import { SvgIcon as SvgIcon } from '@mui/material';
+import { UserRound } from 'lucide-react';
 
 import { useQuery } from 'react-apollo';
 
@@ -13,8 +13,6 @@ import AccountDropDown from './AccountDropDown';
 import useClickOutside from '../../../utils/hooks/ClickOutside';
 import { useUserProvider } from '../../../context/user';
 import { isAuthenticated } from '../../../apollo/queries/auth';
-
-import { ReactComponent as ProfileIcon } from '../../../assets/images/icons/account/profile_icon_black.svg.tsx';
 
 interface Props {
   isWhiteHeader: boolean;
@@ -65,17 +63,14 @@ export default function UserProfile({ isWhiteHeader, openDrawer }: Props) {
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
-        mr: '1.5rem',
         cursor: 'pointer',
       }}
     >
-      <SvgIcon
-        component={ProfileIcon}
-        inheritViewBox
-        sx={{
-          height: '20px',
-          fill: isWhiteHeader ? '#0a0a0a' : '#fff',
-        }}
+      <UserRound
+        aria-hidden="true"
+        size={17}
+        strokeWidth={1.35}
+        color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
       />
 
       {isProfileDropDown && (

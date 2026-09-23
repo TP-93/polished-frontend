@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Box as Box } from '@mui/material';
-import { SvgIcon as SvgIcon } from '@mui/material';
+import { MessageCircle } from 'lucide-react';
 
 import { useMediaQuery } from '@mui/material';
 
@@ -11,10 +11,6 @@ import UserProfile from './UserProfile';
 import ShoppingBag from './ShoppingBag';
 
 import { useUserProvider } from '../../../context/user';
-
-import { ReactComponent as NL } from '../../../assets/images/icons/flags/FLAG_NL.svg.tsx';
-import { ReactComponent as GB } from '../../../assets/images/icons/flags/FLAG_GB.svg.tsx';
-import { ReactComponent as WhatsAppIcon } from '../../../assets/images/icons/socials/whatsapp_icon.svg.tsx';
 
 interface Props {
   isWhiteHeader: boolean;
@@ -41,21 +37,31 @@ export default function Controls({
         alignItems: 'center',
         justifyContent: 'flex-end',
         height: '100%',
-        p: '0 20px 0 0',
-        '& > .MuiSvgIcon-root': {
-          mr: '1.5rem',
-          height: '1.5vh',
-          cursor: 'pointer',
-        },
+        gap: '18px',
+        p: '0 16px 0 0',
       }}
     >
       {!isMobile && (
         <>
-          <SvgIcon
-            component={currentLanguage === 'NL' ? NL : GB}
-            inheritViewBox
+          <Box
+            component="button"
+            type="button"
+            aria-label="Taal en valuta wijzigen"
             onClick={openLocalesModal}
-          />
+            sx={{
+              p: 0,
+              border: 0,
+              color: isWhiteHeader ? 'var(--foreground)' : 'var(--background)',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              fontSize: '10px',
+              fontWeight: 500,
+              lineHeight: 1,
+              background: 'transparent',
+            }}
+          >
+            {currentLanguage} / EUR
+          </Box>
 
           <UserProfile isWhiteHeader={isWhiteHeader} openDrawer={openDrawer} />
         </>
@@ -67,20 +73,13 @@ export default function Controls({
             pathname: 'https://wa.me/31683206218',
           }}
           target="_blank"
-          style={{ marginRight: '20px' }}
+          style={{ display: 'flex', color: 'inherit' }}
         >
-          <SvgIcon
-            component={WhatsAppIcon}
-            inheritViewBox
-            sx={{
-              position: 'relative',
-              top: '4px',
-              height: '20px',
-              cursor: 'pointer',
-              path: {
-                fill: isWhiteHeader ? '#0a0a0a' : '#fff',
-              },
-            }}
+          <MessageCircle
+            aria-hidden="true"
+            size={17}
+            strokeWidth={1.35}
+            color={isWhiteHeader ? 'var(--foreground)' : 'var(--background)'}
           />
         </Link>
       )}

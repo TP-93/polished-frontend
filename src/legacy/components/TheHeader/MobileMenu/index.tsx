@@ -2,11 +2,9 @@
 import React from 'react';
 
 import { Box as Box } from '@mui/material';
-import { SvgIcon as SvgIcon } from '@mui/material';
+import { Menu } from 'lucide-react';
 
 import Drawer from './Drawer';
-
-import { ReactComponent as MenuIcon } from '../../../assets/images/icons/header/icon_menu_white.svg.tsx';
 
 interface Props {
   isWhiteColorHeader: boolean;
@@ -24,22 +22,17 @@ export default function MobileMenu({
       <Box
         onClick={() => setDrawer(true)}
         sx={{
-          mr: '20px',
+          mr: '18px',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
         }}
       >
-        <SvgIcon
-          component={MenuIcon}
-          inheritViewBox
-          sx={{
-            zIndex: 1120,
-            height: '20px',
-            path: {
-              fill: isWhiteColorHeader ? '#0a0a0a' : '#fff',
-            },
-          }}
+        <Menu
+          aria-hidden="true"
+          size={18}
+          strokeWidth={1.35}
+          color={isWhiteColorHeader ? 'var(--foreground)' : 'var(--background)'}
         />
       </Box>
 
