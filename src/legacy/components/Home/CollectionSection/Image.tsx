@@ -71,23 +71,6 @@ const useStyles = makeStyles({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
   },
-  shopLink: {
-    position: 'relative',
-    display: 'inline-block',
-    paddingBottom: '5px',
-    lineHeight: 1,
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      left: 0,
-      bottom: 0,
-      width: '100%',
-      height: '2px',
-      backgroundColor: '#fff',
-      transition: 'transform 0.3s ease',
-      transformOrigin: 'right center',
-    },
-  },
 });
 
 interface Props {
