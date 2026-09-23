@@ -6,7 +6,6 @@ import { Typography as Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Button, useMediaQuery } from '@mui/material';
 
-import { ArrowRight } from 'lucide-react';
 
 import { useHistory } from 'react-router-dom';
 import { cocoBlack, cocoBold, defaultHomeBg } from '../../../styles/constants';
@@ -72,23 +71,6 @@ const useStyles = makeStyles({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
   },
-  shopLink: {
-    position: 'relative',
-    display: 'inline-block',
-    paddingBottom: '5px',
-    lineHeight: 1,
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      left: 0,
-      bottom: 0,
-      width: '100%',
-      height: '2px',
-      backgroundColor: '#fff',
-      transition: 'transform 0.3s ease',
-      transformOrigin: 'right center',
-    },
-  },
 });
 
 interface Props {
@@ -129,42 +111,27 @@ export default function Image({ imageUrl, sectionText, sectionLink }: Props) {
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 'auto',
-              height: isMobile ? '36px' : '40px',
-              border: '1px solid #fff',
-              px: isMobile ? '16px' : '22px',
+              padding: isMobile ? '18px 36px' : '24px 64px',
+              border: '2px solid rgba(255, 255, 255, 0.7)',
               borderRadius: 0,
               color: '#fff',
-              gap: isMobile ? '8px' : '10px',
-              transition: 'background-color 0.25s ease, color 0.25s ease',
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(4px)',
+              ...cocoBold,
+              fontWeight: 500,
+              fontSize: '12px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.3em',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.7s ease',
               '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.12)',
-              },
-              '&:hover p::after': {
-                transform: 'scaleX(0)',
+                borderColor: '#fff',
+                letterSpacing: '0.4em',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
               },
             }}
           >
-            <ArrowRight
-              aria-hidden="true"
-              size={isMobile ? 13 : 14}
-              strokeWidth={1.5}
-            />
-
-            <Typography
-              variant="body1"
-              className={classes.shopLink}
-              sx={{
-                ...cocoBold,
-                color: '#fff',
-                fontSize: isMobile ? '0.6875rem' : '0.75rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Shop now
-            </Typography>
+            Shop now
           </Button>
       </Box>
     </Box>
