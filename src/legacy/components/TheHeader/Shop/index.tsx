@@ -12,6 +12,7 @@ import {
 } from '../menuModel';
 import { cocoBold, cocoRegular } from '../../../styles/constants';
 import PreventScrollWrapper from '../../common/PreventScrollWrapper';
+import MenuImage from './Drawer/MenuImage';
 
 interface Props {
   isShopDropDown: boolean;
@@ -44,44 +45,62 @@ const headingStyle = {
   textTransform: 'uppercase',
 };
 
-function CategoryGrid({ menu, allLabel, close }: any) {
+function CategoryGrid({ menu, allLabel, close, shopId }: any) {
   if (!menu) return null;
   const columns = buildCategoryColumns(buildCategoryGroups(menu));
 
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
-        columnGap: '24px',
-      }}
-    >
-      <Box>
-        <NavLink
-          to={{ pathname: getItemPathname(menu) }}
-          onClick={close}
-          style={headingStyle}
+    <Box sx={{ display: 'flex', gap: '32px' }}>
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
+            columnGap: '24px',
+          }}
         >
-          {allLabel}
-        </NavLink>
-      </Box>
+          <Box>
+            <NavLink
+              to={{ pathname: getItemPathname(menu) }}
+              onClick={close}
+              style={headingStyle}
+            >
+              {allLabel}
+            </NavLink>
+          </Box>
 
-      {columns.map((column: any) => (
-        <Box key={column.id}>
-          <Box sx={{ ...headingStyle, mb: '12px' }}>{column.name}</Box>
-          {column.items.map((item: any) => (
-            <Box key={item.id} sx={{ py: '4px' }}>
-              <NavLink
-                to={{ pathname: item.pathname, state: { title: item.name } }}
-                onClick={close}
-                style={linkStyle}
-              >
-                {item.name}
-              </NavLink>
+          {columns.map((column: any) => (
+            <Box key={column.id}>
+              <Box sx={{ ...headingStyle, mb: '12px' }}>{column.name}</Box>
+              {column.items.map((item: any) => (
+                <Box key={item.id} sx={{ py: '4px' }}>
+                  <NavLink
+                    to={{ pathname: item.pathname, state: { title: item.name } }}
+                    onClick={close}
+                    style={linkStyle}
+                  >
+                    {item.name}
+                  </NavLink>
+                </Box>
+              ))}
             </Box>
           ))}
         </Box>
-      ))}
+      </Box>
+
+      <Box
+        sx={{
+          flexBasis: '24%',
+          maxWidth: '24%',
+          alignSelf: 'stretch',
+          minHeight: '260px',
+          overflow: 'hidden',
+          borderRadius: '12px',
+          backgroundColor: '#f6f6f6',
+        }}
+      >
+        <MenuImage shopId={shopId} />
+      </Box>
     </Box>
   );
 }
@@ -92,6 +111,7 @@ export default function Shop({
   setHeaderHovered,
 }: Props) {
   const { shop } = useHeaderContext();
+  const shopId: string = shop?.shopId || '';
   const [active, setActive] = React.useState<string>('');
 
   const items: any[] = shop?.collections || [];
@@ -171,10 +191,10 @@ export default function Shop({
             }}
           >
             {active === 'shop' && (
-              <CategoryGrid menu={shopMenu} allLabel="Shop All Products" close={close} />
+              <CategoryGrid menu={shopMenu} allLabel="Shop All Products" close={close} shopId={shopId} />
             )}
             {active === 'sale' && (
-              <CategoryGrid menu={saleMenu} allLabel="Shop All Sale" close={close} />
+              <CategoryGrid menu={saleMenu} allLabel="Shop All Sale" close={close} shopId={shopId} />
             )}
             {active === 'collections' && (
               <Box
