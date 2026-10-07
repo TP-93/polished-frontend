@@ -111,6 +111,7 @@ export default function Shop({
   setHeaderHovered,
 }: Props) {
   const { shop } = useHeaderContext();
+  const shopId: string = shop?.shopId || '';
   const [active, setActive] = React.useState<string>('');
 
   const items: any[] = shop?.collections || [];
