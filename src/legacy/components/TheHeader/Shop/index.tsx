@@ -95,7 +95,6 @@ function CategoryGrid({ menu, allLabel, close, shopId }: any) {
           alignSelf: 'stretch',
           minHeight: '260px',
           overflow: 'hidden',
-          borderRadius: '12px',
           backgroundColor: '#f6f6f6',
         }}
       >
