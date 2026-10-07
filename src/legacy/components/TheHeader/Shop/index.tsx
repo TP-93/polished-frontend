@@ -25,7 +25,6 @@ const isSaleSlug = (slug: string) => slug === 'sale' || slug.startsWith('sale-')
 
 const navItems = [
   { id: 'new-in', label: 'New In', pathname: '/collection/new-in' },
-  { id: 'bestsellers', label: 'Bestsellers', pathname: '/collection/bestsellers' },
   { id: 'shop', label: 'Shop All', dropdown: true },
   { id: 'collections', label: 'Collections', dropdown: true },
   { id: 'sale', label: 'Sale', dropdown: true },
