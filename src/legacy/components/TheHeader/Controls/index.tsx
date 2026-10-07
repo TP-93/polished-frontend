@@ -64,9 +64,13 @@ export default function Controls({
             {currentLanguage} / EUR
           </Box>
 
+          <Search isWhiteHeader={isWhiteHeader} />
+
           <UserProfile isWhiteHeader={isWhiteHeader} openDrawer={openDrawer} />
         </>
       )}
+
+      {isMobile && <Search isWhiteHeader={isWhiteHeader} />}
 
       {isMobile && (
         <Link
