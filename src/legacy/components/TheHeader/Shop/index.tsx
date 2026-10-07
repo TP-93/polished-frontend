@@ -46,7 +46,7 @@ const headingStyle = {
   textTransform: 'uppercase',
 };
 
-function CategoryGrid({ menu, allLabel, close, shopId }: any) {
+function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
   if (!menu) return null;
   const columns = buildCategoryColumns(buildCategoryGroups(menu));
 
@@ -68,6 +68,7 @@ function CategoryGrid({ menu, allLabel, close, shopId }: any) {
             >
               {allLabel}
             </NavLink>
+            {showSaleLinks && <SaleCollectionLinks close={close} />}
           </Box>
 
           {columns.map((column: any) => (
@@ -194,7 +195,13 @@ export default function Shop({
               <CategoryGrid menu={shopMenu} allLabel="Shop All Products" close={close} shopId={shopId} />
             )}
             {active === 'sale' && (
-              <CategoryGrid menu={saleMenu} allLabel="Shop All Sale" close={close} shopId={shopId} />
+              <CategoryGrid
+                menu={saleMenu}
+                allLabel="Shop All Sale"
+                close={close}
+                shopId={shopId}
+                showSaleLinks
+              />
             )}
             {active === 'collections' && (
               <Box
