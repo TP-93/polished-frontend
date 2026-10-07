@@ -1,14 +1,15 @@
 // @ts-nocheck
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
 import { Box as Box } from '@mui/material';
 import { ClickAwayListener as ClickAwayListener } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { Search as SearchIcon, X as CloseIcon } from 'lucide-react';
 import { gql } from 'apollo-boost';
 
 import client from '../../../apollo/client';
 import { useUserProvider } from '../../../context/user';
+import ProductCard from '../../common/ProductDetails/ProductCard';
 
 const searchProductsQuery = gql`
   query headerSearchProducts($currency: String) {
@@ -16,14 +17,33 @@ const searchProductsQuery = gql`
       edges {
         node {
           id
+          __typename
           name
           slug
+          new
+          blackFriday
+          salePercentValue
+          color {
+            name
+            value
+          }
           price(currency: $currency) {
+            currency
+            amount
             localized
+          }
+          discountPrice(currency: $currency) {
+            currency
+            amount
+            localized
+          }
+          designs {
+            id
           }
           imageGroups {
             id
             url
+            name
             imageSide
             images {
               url
@@ -34,6 +54,8 @@ const searchProductsQuery = gql`
     }
   }
 `;
+
+const MAX_RESULTS = 10;
 
 let cachedProducts: any[] | null = null;
 let pendingFetch: Promise<any[]> | null = null;
@@ -58,13 +80,6 @@ function fetchAllProducts(): Promise<any[]> {
   return pendingFetch;
 }
 
-function getThumb(product: any): string | null {
-  const groups = product?.imageGroups || [];
-  const front =
-    groups.find((g: any) => g.imageSide === 'FRONT') || groups[0] || null;
-  return front?.images?.[0]?.url || front?.url || null;
-}
-
 interface Props {
   isWhiteHeader: boolean;
 }
@@ -73,6 +88,8 @@ export default function Search({ isWhiteHeader }: Props) {
   const {
     state: { currentLanguage },
   } = useUserProvider();
+
+  const isMobile = useMediaQuery('(max-width:767px)');
 
   const [isOpen, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
@@ -106,7 +123,7 @@ export default function Search({ isWhiteHeader }: Props) {
       const all = await fetchAllProducts();
       const matches = all
         .filter((p: any) => p.name?.toLowerCase().includes(q))
-        .slice(0, 8);
+        .slice(0, MAX_RESULTS);
       setResults(matches);
       setLoading(false);
     }, 200);
@@ -163,6 +180,8 @@ export default function Search({ isWhiteHeader }: Props) {
               left: 0,
               right: 0,
               zIndex: 1200,
+              maxHeight: 'calc(100vh - 68px)',
+              overflowY: 'auto',
               backgroundColor: '#fff',
               borderTop: '1px solid rgba(0,0,0,0.08)',
               boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
@@ -226,68 +245,51 @@ export default function Search({ isWhiteHeader }: Props) {
                   <CloseIcon aria-hidden="true" size={16} strokeWidth={1.5} />
                 </Box>
               </Box>
-
-              {query.trim().length >= 2 && (
-                <Box sx={{ pt: '8px' }}>
-                  {!isLoading && results.length === 0 && (
-                    <Box
-                      sx={{
-                        py: '16px',
-                        fontSize: '13px',
-                        color: 'rgba(0,0,0,0.5)',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {labels.noResults}
-                    </Box>
-                  )}
-
-                  {results.map((product: any) => {
-                    const thumb = getThumb(product);
-                    return (
-                      <Box
-                        key={product.id}
-                        component={Link}
-                        to={`/product/${product.slug}`}
-                        onClick={close}
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          py: '8px',
-                          px: '4px',
-                          color: 'var(--foreground)',
-                          textDecoration: 'none',
-                          '&:hover': { backgroundColor: 'rgba(0,0,0,0.04)' },
-                        }}
-                      >
-                        {thumb ? (
-                          <Box
-                            component="img"
-                            src={thumb}
-                            alt=""
-                            sx={{
-                              width: '40px',
-                              height: '40px',
-                              objectFit: 'contain',
-                              flexShrink: 0,
-                            }}
-                          />
-                        ) : (
-                          <Box sx={{ width: '40px', height: '40px', flexShrink: 0 }} />
-                        )}
-                        <Box sx={{ flex: 1, fontSize: '13px', lineHeight: 1.3 }}>
-                          {product.name}
-                        </Box>
-                        <Box sx={{ fontSize: '13px', color: 'rgba(0,0,0,0.6)' }}>
-                          {product.price?.localized}
-                        </Box>
-                      </Box>
-                    );
-                  })}
-                </Box>
-              )}
             </Box>
+
+            {query.trim().length >= 2 && (
+              <Box
+                onClick={close}
+                sx={{
+                  width: '100%',
+                  display: 'grid',
+                  gridRowGap: isMobile ? '0.5rem' : '2rem',
+                  alignItems: 'start',
+                  padding: isMobile ? '1.5rem 0' : '3rem 0',
+                  gridTemplateColumns: isMobile
+                    ? '50vw 50vw'
+                    : `repeat(5, 1fr)`,
+                }}
+              >
+                {!isLoading && results.length === 0 && (
+                  <Box
+                    sx={{
+                      gridColumn: '1 / -1',
+                      py: '16px',
+                      fontSize: '13px',
+                      color: 'rgba(0,0,0,0.5)',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {labels.noResults}
+                  </Box>
+                )}
+
+                {results.map((product: any, index: number) => (
+                  <ProductCard
+                    key={product.id}
+                    sessionStorageInfo={{
+                      id: product.id,
+                      index,
+                      category: null,
+                      collection: null,
+                    }}
+                    discount={false}
+                    initData={product}
+                  />
+                ))}
+              </Box>
+            )}
           </Box>
         )}
       </Box>
