@@ -123,12 +123,20 @@ export default function Shop({
     return item?.collection && slug !== 'shop' && slug !== 'accessoires' && !isSaleSlug(slug);
   });
 
+  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+  React.useEffect(() => cancelClose, []);
   const open = (id: string) => {
+    cancelClose();
     setActive(id);
     setShopDropDown(!!id);
     if (id) setHeaderHovered(true);
   };
   const close = () => {
+    cancelClose();
     setActive('');
     setShopDropDown(false);
     setHeaderHovered(false);
@@ -139,7 +147,11 @@ export default function Shop({
   return (
     <Box
       id="shop-item"
-      onMouseLeave={close}
+      onMouseEnter={cancelClose}
+      onMouseLeave={() => {
+        cancelClose();
+        closeTimer.current = setTimeout(close, 300);
+      }}
       sx={{ height: '100%', display: 'flex', alignItems: 'center', gap: '20px', pl: '16px' }}
     >
       {navItems.map((nav) => {
