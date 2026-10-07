@@ -126,7 +126,6 @@ export default function Content({
           sx={{
             height: '100%',
             overflow: 'hidden',
-            borderRadius: '12px',
             backgroundColor: '#f6f6f6',
           }}
         >
