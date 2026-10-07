@@ -159,14 +159,14 @@ export default function Shop({
           <Box
             sx={{
               position: 'fixed',
-              top: '68px',
+              top: '76px',
               left: 0,
               right: 0,
               backgroundColor: '#fff',
               borderTop: '1px solid #ededed',
               borderBottom: '1px solid #ededed',
               padding: '32px 40px 40px',
-              maxHeight: 'calc(100vh - 68px)',
+              maxHeight: 'calc(100vh - 76px)',
               overflowY: 'auto',
             }}
           >

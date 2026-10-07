@@ -54,7 +54,7 @@ export default function Toolbar({
 
   const mobileStyles = {
     position: 'fixed',
-    top: showToolbar ? '68px' : '-136px',
+    top: showToolbar ? '76px' : '-136px',
     left: 0,
     right: 0,
     zIndex: 1100,

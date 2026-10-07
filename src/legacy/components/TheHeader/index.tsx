@@ -150,12 +150,12 @@ export default function TheHeader() {
           zIndex: 1100,
           position: 'fixed',
           display: 'flex',
-          top: showHeader ? '0' : '-68px',
+          top: showHeader ? '0' : '-76px',
           alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'center',
           width: '100%',
-          height: '68px',
+          height: '76px',
           transition: 'all 0.5s ease-in-out',
           backgroundColor: isWhiteBgHeader ? '#fff' : 'transparent',
         }}
@@ -164,13 +164,13 @@ export default function TheHeader() {
 
         <Stack
           sx={{
-            flexGrow: 1,
+            flexGrow: 0, height: '54px', boxSizing: 'border-box',
             width: '100%',
             display: 'grid',
             alignItems: 'center',
             gridTemplateColumns: '1fr 1fr 1fr',
-            pt: '4px',
-            pb: '4px',
+            pt: '6px',
+            pb: '6px',
           }}
         >
           {isMobile && (

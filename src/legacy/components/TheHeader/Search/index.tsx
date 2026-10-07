@@ -176,11 +176,11 @@ export default function Search({ isWhiteHeader }: Props) {
           <Box
             sx={{
               position: 'fixed',
-              top: '68px',
+              top: '76px',
               left: 0,
               right: 0,
               zIndex: 1200,
-              maxHeight: 'calc(100vh - 68px)',
+              maxHeight: 'calc(100vh - 76px)',
               overflowY: 'auto',
               backgroundColor: '#fff',
               borderTop: '1px solid rgba(0,0,0,0.08)',
