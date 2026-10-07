@@ -4,105 +4,94 @@ import { NavLink } from 'react-router-dom';
 
 import { Box as Box } from '@mui/material';
 import { Collapse as Collapse } from '@mui/material';
-import { Typography as Typography } from '@mui/material';
-
-import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { Plus, Minus } from 'lucide-react';
 
 import {
   buildCategoryGroups,
-  buildMenuModel,
+  buildCategoryColumns,
   getItemPathname,
 } from '../../menuModel';
 import { cocoBold, cocoRegular } from '../../../../styles/constants';
-import { useUserProvider } from '../../../../context/user';
 
-const translations: any = {
-  categories: { EN: 'Categories', NL: 'Categorieën' },
-  collections: { EN: 'Collections', NL: 'Collecties' },
-  sale: { EN: 'Sale', NL: 'Sale' },
-  viewAll: { EN: 'View all', NL: 'Alles bekijken' },
-  discount: { EN: 'Discount', NL: 'Korting' },
+const slugOf = (item: any) => (item?.collection?.slug || '').toLowerCase();
+const isSaleSlug = (slug: string) => slug === 'sale' || slug.startsWith('sale-');
+
+const topStyle = {
+  ...cocoBold,
+  fontSize: '0.8125rem',
+  color: '#111',
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
 };
 
-function TabButton({ label, isActive, onClick }: any) {
+const subHeadStyle = {
+  ...cocoBold,
+  fontSize: '0.75rem',
+  color: '#111',
+  textTransform: 'uppercase',
+  letterSpacing: '0.03em',
+};
+
+const linkStyle = {
+  ...cocoRegular,
+  fontSize: '0.75rem',
+  color: '#6c6c6c',
+};
+
+function Row({ children, onClick, open, level = 0 }: any) {
+  const Icon = open ? Minus : Plus;
   return (
     <Box
       onClick={onClick}
       sx={{
-        ...cocoBold,
-        flex: 1,
-        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        py: level === 0 ? '16px' : '12px',
         cursor: 'pointer',
         userSelect: 'none',
-        fontSize: '0.7rem',
-        padding: '10px 8px',
-        borderRadius: '999px',
-        textTransform: 'uppercase',
-        color: isActive ? '#fff' : '#5c5c5c',
-        backgroundColor: isActive ? '#111' : '#f4f4f4',
       }}
     >
-      {label}
+      {children}
+      <Icon size={level === 0 ? 16 : 14} strokeWidth={1.35} color="#111" />
     </Box>
   );
 }
 
-function Group({ group, closeDrawer }: any) {
-  const [open, setOpen] = React.useState<boolean>(false);
+function CategoryAccordion({ menu, allLabel, closeDrawer }: any) {
+  const [open, setOpen] = React.useState<string>('');
+  if (!menu) return null;
+  const columns = buildCategoryColumns(buildCategoryGroups(menu));
 
   return (
-    <Box sx={{ borderBottom: '1px solid #f0f0f0' }}>
-      <Box
-        onClick={() => setOpen((prev: boolean) => !prev)}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '14px 0',
-          cursor: 'pointer',
-        }}
-      >
-        <Typography
-          sx={{
-            ...cocoBold,
-            fontSize: '0.75rem',
-            color: '#111',
-            textTransform: 'uppercase',
-          }}
-        >
-          {group.name}
-        </Typography>
-
-        <ExpandMoreIcon
-          sx={{
-            fontSize: '1.1rem',
-            color: '#8c8c8c',
-            transition: 'transform 0.2s ease',
-            transform: open ? 'rotate(180deg)' : 'none',
-          }}
-        />
+    <Box sx={{ pl: '12px', pb: '8px' }}>
+      <Box sx={{ py: '12px' }}>
+        <NavLink to={{ pathname: getItemPathname(menu) }} onClick={closeDrawer} style={subHeadStyle}>
+          {allLabel}
+        </NavLink>
       </Box>
-
-      <Collapse in={open}>
-        <Box sx={{ pb: '8px' }}>
-          {group.items.map((item: any) => (
-            <Box key={item.id} sx={{ padding: '8px 0 8px 12px' }}>
-              <NavLink
-                to={{ pathname: item.pathname, state: { title: item.name } }}
-                onClick={closeDrawer}
-                style={{
-                  ...cocoRegular,
-                  fontSize: '0.72rem',
-                  color: '#6c6c6c',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {item.name}
-              </NavLink>
+      {columns.map((column: any) => (
+        <Box key={column.id}>
+          <Row level={1} open={open === column.id} onClick={() => setOpen(open === column.id ? '' : column.id)}>
+            <Box sx={subHeadStyle}>{column.name}</Box>
+          </Row>
+          <Collapse in={open === column.id}>
+            <Box sx={{ pl: '12px', pb: '8px' }}>
+              {column.items.map((item: any) => (
+                <Box key={item.id} sx={{ py: '8px' }}>
+                  <NavLink
+                    to={{ pathname: item.pathname, state: { title: item.name } }}
+                    onClick={closeDrawer}
+                    style={linkStyle}
+                  >
+                    {item.name}
+                  </NavLink>
+                </Box>
+              ))}
             </Box>
-          ))}
+          </Collapse>
         </Box>
-      </Collapse>
+      ))}
     </Box>
   );
 }
@@ -112,153 +101,61 @@ interface Props {
   closeDrawer: () => void;
 }
 
-export default function Sections({ collections, closeDrawer }: Props) {
-  const {
-    state: { currentLanguage },
-  } = useUserProvider();
+export default function Sections({ collections = [], closeDrawer }: Props) {
+  const [open, setOpen] = React.useState<string>('');
+  const toggle = (id: string) => setOpen(open === id ? '' : id);
 
-  const lang: string = currentLanguage === 'NL' ? 'NL' : 'EN';
+  const shopMenu = collections.find((item) => slugOf(item) === 'shop');
+  const saleMenu = collections.find((item) => slugOf(item) === 'sale');
+  const collectionItems = collections.filter((item) => {
+    const slug = slugOf(item);
+    return item?.collection && slug !== 'shop' && slug !== 'accessoires' && !isSaleSlug(slug);
+  });
 
-  const { categoryMenus, saleMenus, discounts, collectionItems } =
-    React.useMemo(() => buildMenuModel(collections), [collections]);
-
-  const [activeTab, setActiveTab] = React.useState<string>('categories');
+  const border = { borderBottom: '1px solid #ededed' };
 
   return (
-    <Box sx={{ pt: '12px' }}>
-      <Box sx={{ display: 'flex', gap: '8px', mb: '8px' }}>
-        <TabButton
-          label={translations.categories[lang]}
-          isActive={activeTab === 'categories'}
-          onClick={() => setActiveTab('categories')}
-        />
-
-        <TabButton
-          label={translations.collections[lang]}
-          isActive={activeTab === 'collections'}
-          onClick={() => setActiveTab('collections')}
-        />
-
-        <TabButton
-          label={translations.sale[lang]}
-          isActive={activeTab === 'sale'}
-          onClick={() => setActiveTab('sale')}
-        />
+    <Box sx={{ pt: '16px' }}>
+      <Box sx={{ ...border, py: '16px' }}>
+        <NavLink to={{ pathname: '/collection/new-in' }} onClick={closeDrawer} style={topStyle}>
+          New In
+        </NavLink>
       </Box>
 
-      {activeTab === 'categories' &&
-        categoryMenus.map((menu: any) => (
-          <Box key={menu.name}>
-            <Box sx={{ padding: '14px 0', borderBottom: '1px solid #f0f0f0' }}>
-              <NavLink
-                to={{ pathname: getItemPathname(menu) }}
-                onClick={closeDrawer}
-                style={{
-                  ...cocoBold,
-                  fontSize: '0.75rem',
-                  color: '#111',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {translations.viewAll[lang]}
-              </NavLink>
-            </Box>
+      <Box sx={border}>
+        <Row open={open === 'shop'} onClick={() => toggle('shop')}>
+          <Box sx={topStyle}>Shop All</Box>
+        </Row>
+        <Collapse in={open === 'shop'}>
+          <CategoryAccordion menu={shopMenu} allLabel="Shop All Products" closeDrawer={closeDrawer} />
+        </Collapse>
+      </Box>
 
-            {buildCategoryGroups(menu).map((group: any) => (
-              <Group key={group.id} group={group} closeDrawer={closeDrawer} />
-            ))}
-          </Box>
-        ))}
-
-      {activeTab === 'collections' &&
-        collectionItems.map((item: any) => (
-          <Box
-            key={item.name}
-            sx={{ padding: '14px 0', borderBottom: '1px solid #f0f0f0' }}
-          >
-            <NavLink
-              to={{ pathname: getItemPathname(item) }}
-              onClick={closeDrawer}
-              style={{
-                ...cocoBold,
-                fontSize: '0.75rem',
-                color: '#3c3c3c',
-              }}
-            >
-              {item.collection?.name || item.name}
-            </NavLink>
-          </Box>
-        ))}
-
-      {activeTab === 'sale' && (
-        <Box>
-          {discounts.length > 0 && (
-            <Box sx={{ padding: '14px 0' }}>
-              <Typography
-                sx={{
-                  ...cocoBold,
-                  fontSize: '0.7rem',
-                  color: '#111',
-                  mb: '10px',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {translations.discount[lang]}
-              </Typography>
-
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {discounts.map((discount: any) => (
-                  <NavLink
-                    key={discount.name}
-                    to={{ pathname: discount.pathname }}
-                    onClick={closeDrawer}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Box
-                      sx={{
-                        ...cocoBold,
-                        fontSize: '0.7rem',
-                        color: '#111',
-                        padding: '8px 14px',
-                        borderRadius: '999px',
-                        border: '1px solid #e2e2e2',
-                        backgroundColor: '#fafafa',
-                      }}
-                    >
-                      {`-${discount.value}%`}
-                    </Box>
-                  </NavLink>
-                ))}
-              </Box>
-            </Box>
-          )}
-
-          {saleMenus.map((menu: any) => (
-            <Box key={menu.name}>
-              <Box
-                sx={{ padding: '14px 0', borderBottom: '1px solid #f0f0f0' }}
-              >
-                <NavLink
-                  to={{ pathname: getItemPathname(menu) }}
-                  onClick={closeDrawer}
-                  style={{
-                    ...cocoBold,
-                    fontSize: '0.75rem',
-                    color: '#111',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {translations.viewAll[lang]}
+      <Box sx={border}>
+        <Row open={open === 'collections'} onClick={() => toggle('collections')}>
+          <Box sx={topStyle}>Collections</Box>
+        </Row>
+        <Collapse in={open === 'collections'}>
+          <Box sx={{ pl: '12px', pb: '8px' }}>
+            {collectionItems.map((item: any) => (
+              <Box key={item.name} sx={{ py: '10px' }}>
+                <NavLink to={{ pathname: getItemPathname(item) }} onClick={closeDrawer} style={subHeadStyle}>
+                  {item.collection?.name || item.name}
                 </NavLink>
               </Box>
+            ))}
+          </Box>
+        </Collapse>
+      </Box>
 
-              {buildCategoryGroups(menu).map((group: any) => (
-                <Group key={group.id} group={group} closeDrawer={closeDrawer} />
-              ))}
-            </Box>
-          ))}
-        </Box>
-      )}
+      <Box sx={border}>
+        <Row open={open === 'sale'} onClick={() => toggle('sale')}>
+          <Box sx={topStyle}>Sale</Box>
+        </Row>
+        <Collapse in={open === 'sale'}>
+          <CategoryAccordion menu={saleMenu} allLabel="Shop All Sale" closeDrawer={closeDrawer} />
+        </Collapse>
+      </Box>
     </Box>
   );
 }
