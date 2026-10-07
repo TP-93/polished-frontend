@@ -9,6 +9,7 @@ import { useMediaQuery } from '@mui/material';
 
 import UserProfile from './UserProfile';
 import ShoppingBag from './ShoppingBag';
+import Search from '../Search';
 
 import { useUserProvider } from '../../../context/user';
 
