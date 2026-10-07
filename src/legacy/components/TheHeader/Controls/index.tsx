@@ -9,6 +9,7 @@ import { useMediaQuery } from '@mui/material';
 
 import UserProfile from './UserProfile';
 import ShoppingBag from './ShoppingBag';
+import Search from '../Search';
 
 import { useUserProvider } from '../../../context/user';
 
@@ -63,9 +64,13 @@ export default function Controls({
             {currentLanguage} / EUR
           </Box>
 
+          <Search isWhiteHeader={isWhiteHeader} />
+
           <UserProfile isWhiteHeader={isWhiteHeader} openDrawer={openDrawer} />
         </>
       )}
+
+      {isMobile && <Search isWhiteHeader={isWhiteHeader} />}
 
       {isMobile && (
         <Link
