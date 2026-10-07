@@ -90,8 +90,14 @@ const categoryColumns = [
   },
   {
     id: 'sweatshirts',
-    name: 'Sweatshirts',
-    aliases: ['sweatshirts', 'sweatshirt', 'hoodies & zips', 'hoodies'],
+    name: 'Sweats, Hoodies & Zips',
+    aliases: [
+      'sweats, hoodies & zips',
+      'sweatshirts',
+      'sweatshirt',
+      'hoodies & zips',
+      'hoodies',
+    ],
   },
   {
     id: 'bottoms',
