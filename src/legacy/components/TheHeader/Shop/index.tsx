@@ -63,7 +63,7 @@ function CategoryGrid({ menu, allLabel, close, shopId }: any) {
             <NavLink
               to={{ pathname: getItemPathname(menu) }}
               onClick={close}
-              style={headingStyle}
+              style={{ ...headingStyle, display: 'block' }}
             >
               {allLabel}
             </NavLink>
