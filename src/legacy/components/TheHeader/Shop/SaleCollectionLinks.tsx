@@ -6,7 +6,10 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { linkStyle } from './styles';
+import { Box } from '@mui/material';
+
+import { cocoRegular } from '../../../styles/constants';
+import { getDiscountValue } from '../../menuModel';
 
 const SALE_SLABS = [20, 30, 40, 50, 60, 70];
 
@@ -19,8 +22,15 @@ ${SALE_SLABS.map(
 }
 `;
 
+const linkStyle = {
+  ...cocoRegular,
+  fontSize: '0.6875rem',
+  color: '#6c6c6c',
+};
+
 interface SaleCollection {
   name: string;
+  slug: string;
   products: { totalCount: number } | null;
 }
 
@@ -45,7 +55,12 @@ export default function SaleCollectionLinks({ close }: any) {
         SALE_SLABS.forEach((value) => {
           const collection = data[`c${value}`];
 
-          if (collection?.products?.totalCount > 0) found.push(collection);
+          if (collection?.products?.totalCount > 0)
+            found.push({
+              name: collection.name,
+              slug: `sale-${value}-off`,
+              products: collection.products,
+            });
         });
 
         setSales(found);
@@ -62,11 +77,9 @@ export default function SaleCollectionLinks({ close }: any) {
   return (
     <Box sx={{ mt: '12px' }}>
       {sales.map((sale) => (
-        <Box key={sale.name} sx={{ py: '4px' }}>
+        <Box key={sale.slug} sx={{ py: '4px' }}>
           <NavLink
-            to={{
-              pathname: `/collection/${sale.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-            }}
+            to={{ pathname: `/collection/${sale.slug}` }}
             onClick={close}
             style={linkStyle}
           >
