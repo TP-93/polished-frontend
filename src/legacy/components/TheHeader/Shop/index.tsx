@@ -201,15 +201,6 @@ export default function Shop({
               padding: '32px 40px 40px',
               maxHeight: 'calc(100vh - 76px)',
               overflowY: 'auto',
-              '&::before': {
-                content: '""',
-                position: 'fixed',
-                top: '22px',
-                left: 0,
-                right: 0,
-                height: '54px',
-                zIndex: -1,
-              },
             }}
           >
             {active === 'shop' && (
