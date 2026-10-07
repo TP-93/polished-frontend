@@ -13,6 +13,7 @@ import {
 import { cocoBold, cocoRegular } from '../../../styles/constants';
 import PreventScrollWrapper from '../../common/PreventScrollWrapper';
 import MenuImage from './Drawer/MenuImage';
+import SaleCollectionLinks from './SaleCollectionLinks';
 
 interface Props {
   isShopDropDown: boolean;

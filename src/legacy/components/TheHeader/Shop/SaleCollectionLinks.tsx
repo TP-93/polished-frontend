@@ -9,7 +9,6 @@ import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { cocoRegular } from '../../../styles/constants';
-import { getDiscountValue } from '../../menuModel';
 
 const SALE_SLABS = [20, 30, 40, 50, 60, 70];
 
