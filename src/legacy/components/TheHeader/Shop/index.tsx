@@ -25,7 +25,6 @@ const isSaleSlug = (slug: string) => slug === 'sale' || slug.startsWith('sale-')
 
 const navItems = [
   { id: 'new-in', label: 'New In', pathname: '/collection/new-in' },
-  { id: 'bestsellers', label: 'Bestsellers', pathname: '/collection/bestsellers' },
   { id: 'shop', label: 'Shop All', dropdown: true },
   { id: 'collections', label: 'Collections', dropdown: true },
   { id: 'sale', label: 'Sale', dropdown: true },
@@ -181,20 +180,19 @@ export default function Shop({
               <Box
                 sx={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                  columnGap: '24px',
-                  rowGap: '12px',
+                  gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
                 }}
               >
                 {collectionItems.map((item: any) => (
-                  <NavLink
-                    key={item.id || item.name}
-                    to={{ pathname: getItemPathname(item) }}
-                    onClick={close}
-                    style={{ ...linkStyle, textTransform: 'uppercase' }}
-                  >
-                    {item.collection?.name || item.name}
-                  </NavLink>
+                  <Box key={item.id || item.name} sx={{ padding: '8px 0' }}>
+                    <NavLink
+                      to={{ pathname: getItemPathname(item) }}
+                      onClick={close}
+                      style={{ ...headingStyle }}
+                    >
+                      {item.collection?.name || item.name}
+                    </NavLink>
+                  </Box>
                 ))}
               </Box>
             )}
