@@ -191,10 +191,10 @@ export default function Shop({
             }}
           >
             {active === 'shop' && (
-              <CategoryGrid menu={shopMenu} allLabel="Shop All Products" close={close} />
+              <CategoryGrid menu={shopMenu} allLabel="Shop All Products" close={close} shopId={shopId} />
             )}
             {active === 'sale' && (
-              <CategoryGrid menu={saleMenu} allLabel="Shop All Sale" close={close} />
+              <CategoryGrid menu={saleMenu} allLabel="Shop All Sale" close={close} shopId={shopId} />
             )}
             {active === 'collections' && (
               <Box
