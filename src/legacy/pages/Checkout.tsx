@@ -1,6 +1,5 @@
 // @ts-nocheck
 import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
 import { useState } from 'react';
 import { LockKeyhole, ShoppingBag } from 'lucide-react';
@@ -9,21 +8,16 @@ import CheckoutCartWrapper, {
   CheckoutCartProps,
 } from '../components/Checkout/CheckoutCartWrapper';
 import NoData from '../components/common/PageDetails/NoData';
-import Section from '../components/Checkout/Section';
 import Shipping from '../components/Checkout/Shipping';
-import PageTitle from '../components/common/PageDetails/PageTitle';
 import PromoCode from '../components/PromoCode';
-import PageWrapper from '../components/common/PageDetails/PageWrapper';
 import AddressForms from '../components/Checkout/AddressForms';
 import CheckoutFinish from '../components/Checkout/CheckoutFinish';
 import JorCustomPerks from '../components/common/JorCustomPerks';
-import { ContinueBtn } from '../components/common/Buttons';
 import CheckoutSummary from '../components/Checkout/CheckoutSummary';
 import CartProductsSummary from '../components/Checkout/CartProductsSummary';
-import MobilePurchaseBlock from '../components/Checkout/MobilePurchaseBlock';
 import { useUserProvider } from '../context/user';
 import { Address, ShippingAddress } from '../interfaces/checkout';
-import { tablet, noTablet, noDesktop } from '../styles/constants';
+import { tablet, noTablet } from '../styles/constants';
 import { createCheckout_checkoutCreate_quantityErrors as ServerQuantityError } from '../apollo/mutations/types/createCheckout';
 
 interface CacheProps {
@@ -60,7 +54,6 @@ export default function Checkout() {
   const {
     Checkout: {
       errorMessage,
-      pageTitle,
       sections: {
         shoppingCart,
         AddressDetails,
@@ -74,15 +67,9 @@ export default function Checkout() {
     <CheckoutPage>
       <CheckoutHeader>
         <a href="/" aria-label="JORCUSTOM home"><img src="/static/media/jorcustom_logo_min_simplified.3f65452da1dc1649dad3775defb4f7aa.svg" alt="JORCUSTOM" /></a>
-        <LockKeyhole size={18} aria-label={currentLanguage === 'nl' ? 'Checkout' : 'Checkout'} />
+        <LockKeyhole size={18} aria-label="Checkout" />
       </CheckoutHeader>
-      <Helmet>
-        <title>JORCUSTOM - Make It Personal</title>
-        <meta
-          name="description"
-          content="JORCUSTOM is the webshop where you can buy your streetwear clothing. From hoodies to sweaters and from tracksuits to jackets, you will always find the stylish item you are looking for. Streetwear is undoubtedly the style that has formed its own culture."
-        />
-      </Helmet>
+
 
 
 
@@ -235,7 +222,7 @@ const CheckoutPage = styled.main`
   line-height: 1.5;
   h1, h2, h3, h4 { font-family: inherit; letter-spacing: 0; }
 
-  .checkout-form button:not(nav button) {
+  .checkout-form > button:not(nav button), .checkout-form button[type="submit"], .checkout-form button[role="none"] {
     min-height: 52px;
     max-height: none;
     height: auto;
@@ -250,8 +237,15 @@ const CheckoutPage = styled.main`
     border: 1px solid transparent;
     transition: background 150ms ease;
   }
-  .checkout-form button:not(nav button):hover { background: var(--checkout-action-hover); }
+  .checkout-form > button:not(nav button), .checkout-form button[type="submit"], .checkout-form button[role="none"]:hover { background: var(--checkout-action-hover); }
   .checkout-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .checkout-form button[role="none"][type="button"] { background: transparent; color: var(--checkout-action); min-height: 32px; padding: 0; border: 0; }
+  .checkout-form label > span { font: inherit; text-transform: none; color: var(--checkout-text); }
+  .checkout-form input::placeholder { font: inherit; text-transform: none; color: var(--checkout-muted); }
+  .checkout-form input[name="invoiceAddress"] + div { width: 18px; height: 18px; min-width: 18px; border-color: var(--checkout-border); border-radius: 3px; margin-right: 10px; }
+  .checkout-form input[name="invoiceAddress"] + div img { width: 12px; }
+  .checkout-order > ul:last-child li { font-family: inherit; font-size: 12px; line-height: 1.7; color: var(--checkout-muted); }
+  .checkout-order > ul:last-child { padding-top: 24px; border-top: 1px solid var(--checkout-border); }
   .checkout-form h3 { font-size: 18px; text-transform: none; font-weight: 500; }
   .checkout-form label { font-family: inherit; text-transform: none; font-weight: 400; }
   .checkout-form input[type="text"], .checkout-form input[type="email"], .checkout-form input[type="number"] {
@@ -280,7 +274,12 @@ const CheckoutPage = styled.main`
   .checkout-product h2 { font-size: 13px; text-transform: none; margin: 0 0 8px; padding-right: 8px; line-height: 1.4; }
   .checkout-product span { font-size: 12px; text-transform: none; }
   .checkout-product button { top: 12px; right: 0; }
-  .checkout-product select, .checkout-product input { max-width: 72px; font-size: 12px; }
+  .checkout-product select, .checkout-product input { max-width: 72px; font-size: 12px; background: transparent; border-bottom: 1px solid var(--checkout-border); }
+  .checkout-product button { min-height: 20px; padding: 0; background: transparent; color: var(--checkout-text); border: 0; }
+  .checkout-product button:hover { background: transparent; }
+  .checkout-product input[type="number"] { height: 28px; padding: 0; border-radius: 0; }
+  .checkout-form .checkout-discount button { min-height: 48px; height: 48px; padding: 0 16px; background: var(--secondary); color: var(--checkout-text); }
+  .checkout-product-info { padding-bottom: 24px; }
   .checkout-product svg { max-width: 18px; }
   .checkout-totals { border: 0; border-radius: 0; padding: 20px 0 0; border-top: 1px solid var(--checkout-border); }
   .checkout-totals h3 { display: none; }
