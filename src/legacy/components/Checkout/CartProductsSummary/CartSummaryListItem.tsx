@@ -252,12 +252,12 @@ const CartSummaryListItem = ({
   const isDiscount = discountPrice && discountPrice.localized;
 
   return (
-    <ListItemContainer>
-      <ImageContainer>
-        <ProductImage src={`${imageUrl}?${Date.now()}`} />
+    <ListItemContainer className="checkout-product">
+      <ImageContainer className="checkout-product-image">
+        <ProductImage alt={product.name} src={`${imageUrl}?${Date.now()}`} />
       </ImageContainer>
 
-      <InfoWrapper>
+      <InfoWrapper className="checkout-product-info">
         <ProductTitle>{product.name}</ProductTitle>
         <Info>
           <Span>Size</Span>

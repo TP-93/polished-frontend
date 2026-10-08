@@ -63,6 +63,15 @@
 
 :root {
   --radius: 0.25rem;
+  --checkout-background: oklch(1 0 0);
+  --checkout-summary: oklch(0.978 0 0);
+  --checkout-text: oklch(0.25 0 0);
+  --checkout-muted: oklch(0.55 0 0);
+  --checkout-border: oklch(0.87 0 0);
+  --checkout-action: oklch(0.48 0.12 243);
+  --checkout-action-hover: oklch(0.41 0.11 243);
+  --checkout-on-action: oklch(1 0 0);
+  --checkout-focus: oklch(0.48 0.12 243);
 
   --background: oklch(0.993 0.001 90);
   --foreground: oklch(0.19 0.006 264);
