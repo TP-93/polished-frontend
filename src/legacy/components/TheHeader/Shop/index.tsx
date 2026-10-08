@@ -3,6 +3,7 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Box as Box } from '@mui/material';
+import { styled } from '@mui/material';
 
 import { useHeaderContext } from '../Provider';
 import {
@@ -32,12 +33,6 @@ const navItems = [
   { id: 'sale', label: 'Sale', dropdown: true },
 ];
 
-const linkStyle = {
-  ...cocoRegular,
-  fontSize: '0.6875rem',
-  color: '#6c6c6c',
-};
-
 const headingStyle = {
   ...cocoBold,
   fontSize: '0.6875rem',
@@ -45,6 +40,56 @@ const headingStyle = {
   letterSpacing: '0.04em',
   textTransform: 'uppercase',
 };
+
+// Dropdown links: subtle grey -> black fade on hover.
+const MenuLink = styled(NavLink)(() => ({
+  ...cocoRegular,
+  fontSize: '0.6875rem',
+  color: '#6c6c6c',
+  textDecoration: 'none',
+  transition: 'color 180ms ease',
+  '&:hover': {
+    color: '#111',
+  },
+}));
+
+const HeadingLink = styled(NavLink)(() => ({
+  ...headingStyle,
+  display: 'block',
+  textDecoration: 'none',
+  transition: 'color 180ms ease',
+  '&:hover': {
+    color: '#000',
+  },
+}));
+
+const CollectionLink = styled(NavLink)(() => ({
+  ...headingStyle,
+  color: '#3c3c3c',
+  textDecoration: 'none',
+  transition: 'color 180ms ease',
+  '&:hover': {
+    color: '#000',
+  },
+}));
+
+// Main navigation: hairline underline that wipes in from the left.
+const navUnderlineSx = (isActive: boolean) => ({
+  position: 'relative',
+  display: 'inline-block',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    bottom: '-4px',
+    width: '100%',
+    height: '1px',
+    backgroundColor: 'currentColor',
+    transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+    transformOrigin: 'left center',
+    transition: 'transform 180ms ease',
+  },
+});
 
 function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
   if (!menu) return null;
@@ -61,13 +106,12 @@ function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
           }}
         >
           <Box>
-            <NavLink
+            <HeadingLink
               to={{ pathname: getItemPathname(menu) }}
               onClick={close}
-              style={{ ...headingStyle, display: 'block' }}
             >
               {allLabel}
-            </NavLink>
+            </HeadingLink>
             {showSaleLinks && <SaleCollectionLinks close={close} />}
           </Box>
 
@@ -76,13 +120,12 @@ function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
               <Box sx={{ ...headingStyle, mb: '12px' }}>{column.name}</Box>
               {column.items.map((item: any) => (
                 <Box key={item.id} sx={{ py: '4px' }}>
-                  <NavLink
+                  <MenuLink
                     to={{ pathname: item.pathname, state: { title: item.name } }}
                     onClick={close}
-                    style={linkStyle}
                   >
                     {item.name}
-                  </NavLink>
+                  </MenuLink>
                 </Box>
               ))}
             </Box>
@@ -164,22 +207,30 @@ export default function Shop({
           textTransform: 'uppercase',
           whiteSpace: 'nowrap',
           cursor: 'pointer',
-          textDecoration: active === nav.id ? 'underline' : 'none',
-          textUnderlineOffset: '4px',
+          textDecoration: 'none',
         };
 
         return (
           <Box
             key={nav.id}
             onMouseEnter={() => open(nav.dropdown ? nav.id : '')}
-            sx={{ height: '100%', display: 'flex', alignItems: 'center' }}
+            sx={{
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              '&:hover span::after': {
+                transform: 'scaleX(1)',
+              },
+            }}
           >
             {nav.pathname ? (
               <NavLink to={{ pathname: nav.pathname }} onClick={close} style={textSx}>
-                {nav.label}
+                <Box component="span" sx={navUnderlineSx(active === nav.id)}>
+                  {nav.label}
+                </Box>
               </NavLink>
             ) : (
-              <Box component="span" sx={textSx}>
+              <Box component="span" sx={{ ...textSx, ...navUnderlineSx(active === nav.id) }}>
                 {nav.label}
               </Box>
             )}
@@ -224,13 +275,12 @@ export default function Shop({
               >
                 {collectionItems.map((item: any) => (
                   <Box key={item.id || item.name} sx={{ padding: '8px 0' }}>
-                    <NavLink
+                    <CollectionLink
                       to={{ pathname: getItemPathname(item) }}
                       onClick={close}
-                      style={{ ...headingStyle }}
                     >
                       {item.collection?.name || item.name}
-                    </NavLink>
+                    </CollectionLink>
                   </Box>
                 ))}
               </Box>
