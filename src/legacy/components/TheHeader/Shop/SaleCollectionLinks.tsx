@@ -7,6 +7,7 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Box } from '@mui/material';
+import { styled } from '@mui/material';
 
 import { cocoRegular } from '../../../styles/constants';
 
@@ -21,11 +22,16 @@ ${SALE_SLABS.map(
 }
 `;
 
-const linkStyle = {
+const SaleLink = styled(NavLink)(() => ({
   ...cocoRegular,
   fontSize: '0.6875rem',
   color: '#6c6c6c',
-};
+  textDecoration: 'none',
+  transition: 'color 180ms ease',
+  '&:hover': {
+    color: '#111',
+  },
+}));
 
 interface SaleCollection {
   name: string;
@@ -77,13 +83,9 @@ export default function SaleCollectionLinks({ close }: any) {
     <Box sx={{ mt: '12px' }}>
       {sales.map((sale) => (
         <Box key={sale.slug} sx={{ py: '4px' }}>
-          <NavLink
-            to={{ pathname: `/collection/${sale.slug}` }}
-            onClick={close}
-            style={linkStyle}
-          >
+          <SaleLink to={{ pathname: `/collection/${sale.slug}` }} onClick={close}>
             {sale.name}
-          </NavLink>
+          </SaleLink>
         </Box>
       ))}
     </Box>
