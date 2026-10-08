@@ -101,43 +101,61 @@ export default function Checkout() {
         }: CheckoutCartProps) => {
           if (!linesNumber) return <NoData title={errorMessage} />;
 
+          const step = currentSection === 'shipping' || currentSection === 'checkout'
+            ? currentSection
+            : 'address';
+          const steps = [
+            { id: 'address', label: AddressDetails.title },
+            { id: 'shipping', label: shippingMethod.title },
+            { id: 'checkout', label: checkoutProvider.title },
+          ];
+          const stepIndex = steps.findIndex((s) => s.id === step);
+          const goTo = (id: string) => {
+            setCurrentSection(id);
+            if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+          };
+
           return (
             <Wrapper>
               <FormsWrapper>
+                <Breadcrumb aria-label="Checkout">
+                  <a href="/cart">{shoppingCart.title}</a>
+                  {steps.map((s, i) => (
+                    <span key={s.id}>
+                      <Chevron>›</Chevron>
+                      {i < stepIndex ? (
+                        <button type="button" onClick={() => goTo(s.id)}>{s.label}</button>
+                      ) : (
+                        <Crumb active={i === stepIndex}>{s.label}</Crumb>
+                      )}
+                    </span>
+                  ))}
+                </Breadcrumb>
+
+                {quantityErrors?.length ? (
+                  <Notice>{shoppingCart.title}: {quantityErrors.map((e) => e?.message).filter(Boolean).join(' · ')}</Notice>
+                ) : null}
+
                 <MediaQuery query={noTablet}>
-                  <PromoCode refetch={refetch} />
+                  <MobileSummary>
+                    <summary>
+                      <span>{shoppingCart.title} ({totalQuantity})</span>
+                      <strong>{totalPrice ?? subtotalPrice}</strong>
+                    </summary>
+                    <CartProductsSummary
+                      checkoutId={checkoutId}
+                      products={orderLines}
+                      linesNumber={linesNumber}
+                      quantityErrors={quantityErrors}
+                      setQuantityErrors={setQuantityErrors}
+                    />
+                    <PromoCode refetch={refetch} />
+                  </MobileSummary>
                 </MediaQuery>
 
-                <Section
-                  id="bag"
-                  title={`${shoppingCart.title} (${totalQuantity})`}
-                  currentSection={currentSection}
-                  changeSection={setCurrentSection}
-                >
-                  <CartProductsSummary
-                    checkoutId={checkoutId}
-                    products={orderLines}
-                    linesNumber={linesNumber}
-                    quantityErrors={quantityErrors}
-                    setQuantityErrors={setQuantityErrors}
-                  />
+                <StepTitle>{steps[stepIndex].label}</StepTitle>
 
-                  <ContinueBtn
-                    role="none"
-                    onClick={() => {
-                      setCurrentSection('address');
-                    }}
-                  >
-                    {shoppingCart.continueBtn}
-                  </ContinueBtn>
-                </Section>
-
-                <Section
-                  id="address"
-                  title={AddressDetails.title}
-                  currentSection={currentSection}
-                  changeSection={setCurrentSection}
-                >
+                {step === 'address' && (
                   <AddressForms
                     checkoutId={checkoutId}
                     checkoutEmail={email}
@@ -148,39 +166,25 @@ export default function Checkout() {
                     cachedShippingAddress={cachedShippingAddress}
                     orderLines={orderLines}
                     cacheUserData={cacheUserData}
-                    openNextSection={() => {
-                      setCurrentSection('shipping');
-                    }}
-                    showQuantityErrors={(
-                      errors: (ServerQuantityError | null)[],
-                    ) => {
+                    openNextSection={() => goTo('shipping')}
+                    showQuantityErrors={(errors: (ServerQuantityError | null)[]) => {
                       setQuantityErrors(errors);
-                      setCurrentSection('bag');
+                      goTo('address');
                     }}
                   />
-                </Section>
+                )}
 
-                <Section
-                  id="shipping"
-                  title={shippingMethod.title}
-                  currentSection={currentSection}
-                  changeSection={setCurrentSection}
-                >
-                  <Shipping changeSection={setCurrentSection} />
-                </Section>
+                {step === 'shipping' && <Shipping changeSection={goTo} />}
 
-                <Section
-                  id="checkout"
-                  title={checkoutProvider.title}
-                  currentSection={currentSection}
-                  changeSection={setCurrentSection}
-                >
-                  <CheckoutFinish
-                    hideButton
-                    products={orderLines}
-                    changeSection={setCurrentSection}
-                  />
-                </Section>
+                {step === 'checkout' && (
+                  <CheckoutFinish hideButton products={orderLines} changeSection={goTo} />
+                )}
+
+                {stepIndex > 0 && (
+                  <BackLink type="button" onClick={() => goTo(steps[stepIndex - 1].id)}>
+                    ‹ {steps[stepIndex - 1].label}
+                  </BackLink>
+                )}
 
                 <MediaQuery query={noTablet}>
                   <MobilePurchaseBlock
@@ -195,16 +199,22 @@ export default function Checkout() {
                     shippingPrice={shippingPrice}
                     totalPrice={totalPrice}
                     onClick={() => {}}
-                    changeSection={setCurrentSection}
-                    currentSection={currentSection}
+                    changeSection={goTo}
+                    currentSection={step}
                   />
                 </MediaQuery>
               </FormsWrapper>
 
               <MediaQuery query={tablet}>
                 <TotalWrapper>
+                  <CartProductsSummary
+                    checkoutId={checkoutId}
+                    products={orderLines}
+                    linesNumber={linesNumber}
+                    quantityErrors={quantityErrors}
+                    setQuantityErrors={setQuantityErrors}
+                  />
                   <PromoCode refetch={refetch} />
-
                   <CheckoutSummary
                     refetch={refetch}
                     discountAmount={discountAmount}
@@ -215,7 +225,6 @@ export default function Checkout() {
                     shippingPrice={shippingPrice}
                     totalPrice={totalPrice}
                   />
-
                   <JorCustomPerks />
                 </TotalWrapper>
               </MediaQuery>
@@ -229,27 +238,92 @@ export default function Checkout() {
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 0 85px;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid #e6e6e6;
 
-  @media ${noDesktop} {
-    padding: 0 10px;
+  @media ${noTablet} {
+    flex-direction: column;
   }
 `;
 
 const FormsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 65%;
+  width: 58%;
+  padding: 40px 48px 64px 16px;
 
   @media ${noTablet} {
     width: 100%;
+    padding: 24px 16px 120px;
   }
 `;
 
 const TotalWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  gap: 16px;
+  width: 42%;
+  padding: 40px 16px 64px 40px;
+  background: #fafafa;
+  border-left: 1px solid #e6e6e6;
+  position: relative;
+`;
+
+const Breadcrumb = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 24px;
+  color: #707070;
+  a, button { color: #1a1a1a; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; text-decoration: none; }
+  a:hover, button:hover { text-decoration: underline; }
+`;
+
+const Chevron = styled.span`
+  margin: 0 8px;
+  color: #a0a0a0;
+`;
+
+const Crumb = styled.span<{ active: boolean }>`
+  color: ${({ active }) => (active ? '#1a1a1a' : '#a0a0a0')};
+  font-weight: ${({ active }) => (active ? 700 : 400)};
+`;
+
+const StepTitle = styled.h2`
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px;
+`;
+
+const BackLink = styled.button`
+  align-self: flex-start;
+  margin-top: 24px;
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 13px;
+  color: #1a1a1a;
+  cursor: pointer;
+  &:hover { text-decoration: underline; }
+`;
+
+const Notice = styled.div`
+  border: 1px solid #e0b4b4;
+  background: #fff6f6;
+  color: #9f3a38;
+  padding: 12px 16px;
+  font-size: 13px;
+  margin-bottom: 16px;
+`;
+
+const MobileSummary = styled.details`
+  border: 1px solid #e6e6e6;
+  background: #fafafa;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  summary { display: flex; justify-content: space-between; cursor: pointer; font-size: 14px; list-style: none; }
+  &[open] summary { margin-bottom: 16px; }
 `;
