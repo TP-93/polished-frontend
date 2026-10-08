@@ -94,13 +94,15 @@ class CheckoutInput extends Component<Props, State> {
       this.props;
 
     return (
-      <Wrapper>
+      <Wrapper className="checkout-field">
         <InputGroup>
           <Input
             ref={this.input}
             type={type}
-            id={id}
-            style={error ? { borderColor: red } : { borderColor: platinum }}
+            id={id || name}
+            aria-label={label}
+            aria-invalid={Boolean(error)}
+            data-invalid={Boolean(error)}
             disabled={disabled}
             onBlur={this.onBlur}
             onChange={this.onChange}
@@ -110,8 +112,9 @@ class CheckoutInput extends Component<Props, State> {
             onFocus={this.onFocus}
           />
           <Label
-            style={error ? { color: red } : { color: grey }}
+            htmlFor={id || name}
             labelActive={labelActive}
+            data-active={labelActive}
           >
             {label}
           </Label>
@@ -145,7 +148,8 @@ const Label = styled.label`
   font-size: ${(p: LabelProps) => (p.labelActive ? '12px' : '14px;')};
   color: ${(p: LabelProps) => (p.labelActive ? black : grey)};
   transition: all 0.15s ease-in-out;
-  z-index: -1;
+  z-index: 1;
+  pointer-events: none;
 `;
 
 export const Input = styled.input`

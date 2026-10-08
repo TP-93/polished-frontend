@@ -86,7 +86,7 @@ export default ({
   } = languages[currentLanguage];
 
   return (
-    <CheckoutSummaryWrapper fixed={fixed}>
+    <CheckoutSummaryWrapper fixed={fixed} className="checkout-totals">
       {!fixed && <Title>{title}</Title>}
 
       {(!fixed || (fixed && isOpen)) && (
@@ -165,7 +165,7 @@ export default ({
         </>
       )}
 
-      <EntryTotal fixed={fixed}>
+      <EntryTotal fixed={fixed} className="checkout-total">
         <KeyBold>{total}</KeyBold>
         <KeyBold>{totalPrice || subtotalPrice}</KeyBold>
       </EntryTotal>

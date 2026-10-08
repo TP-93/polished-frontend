@@ -102,7 +102,7 @@ const PromoCode = ({ border = true, refetch }: Props) => {
     >
       {({ loading }: ResultQuery) => {
         return (
-          <PromoCodeWrapper onSubmit={submitHandler}>
+          <PromoCodeWrapper className="checkout-discount" onSubmit={submitHandler}>
             <ErrorMessage>{errorMsg}</ErrorMessage>
 
             <SuccessMessage>{successMsg}</SuccessMessage>

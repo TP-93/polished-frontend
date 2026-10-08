@@ -2,6 +2,7 @@
 // The original JORCUSTOM App shell, minus Sentry, Google Tag Manager and
 // BrowserRouter (routing is handled by TanStack file routes).
 import { useEffect, type ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { ApolloProvider } from "react-apollo";
 import { BaseCSS, GridThemeProvider } from "styled-bootstrap-grid";
 
@@ -37,6 +38,7 @@ function CurrentUser({ children }: { children: ReactNode }) {
 }
 
 export default function LegacyShell({ children }: { children: ReactNode }) {
+  const isCheckout = useRouterState({ select: (state) => state.location.pathname === '/checkout' });
   useEffect(() => {
     // Google Tag Manager is intentionally omitted; keep the dataLayer stub so
     // the original analytics helpers keep working without errors.
@@ -55,7 +57,7 @@ export default function LegacyShell({ children }: { children: ReactNode }) {
       <GridThemeProvider gridTheme={globalGrid}>
         <GuestTokenGuard>
           <UserProvider>
-            <TheHeader />
+            {!isCheckout && <TheHeader />}
 
             <LoginChecker>
               <CurrentUser>{children}</CurrentUser>
