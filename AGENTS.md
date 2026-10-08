@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep checkout presentation scoped to the checkout page; shared commerce components retain their existing appearance elsewhere, and existing Apollo order/payment operations remain unchanged.
