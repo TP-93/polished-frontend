@@ -135,7 +135,7 @@ export default ({ changeSection }: { changeSection: (s: string) => void }) => {
                     const selected = id === shippingMethodId;
 
                     return (
-                      <Wrapper key={id} onClick={changeHandler}>
+                      <Wrapper key={id} onClick={changeHandler} className="checkout-shipping-method" data-selected={selected}>
                         <Radio
                           checked={selected}
                           type="radio"
