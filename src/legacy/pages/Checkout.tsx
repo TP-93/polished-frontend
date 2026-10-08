@@ -119,7 +119,7 @@ export default function Checkout() {
             <Wrapper>
               <FormsWrapper>
                 <Breadcrumb aria-label="Checkout">
-                  <a href="/cart">{shoppingCart.title}</a>
+                  <span>{shoppingCart.title}</span>
                   {steps.map((s, i) => (
                     <span key={s.id}>
                       <Chevron>›</Chevron>
