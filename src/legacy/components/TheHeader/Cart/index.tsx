@@ -48,7 +48,6 @@ export default function Cart({ closeDrawer }: Props) {
           overflow: 'hidden auto',
         }}
       >
-        <ReservationTimer />
         <Products cartProducts={cartProducts} />
       </Stack>
 
