@@ -359,7 +359,7 @@ const TotalWrapper = styled.aside`
 const PaymentIcons = styled.div`
   margin-bottom: 28px;
   > div { margin: 0; gap: 10px; flex-wrap: wrap; justify-content: center; }
-  svg { width: 44px; height: 28px; max-width: none; margin: 0; }
+  svg { width: 32px; height: 21px; max-width: none; margin: 0; }
 `;
 const StepTitle = styled.h2`font-size: 20px; font-weight: bold; margin: 0 0 16px;`;
 const OnePageSection = styled.section`margin-top: 32px;`;
