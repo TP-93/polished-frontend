@@ -5,12 +5,10 @@ import {
   black,
   cocoBold,
   cocoRegular,
-  green,
   grey,
   platinum,
   red,
 } from '../../../styles/constants';
-import { ReactComponent as Check } from '../../../assets/images/icons/arrows/check_icon_fat_white.svg.tsx';
 
 interface State {
   labelActive: boolean;
@@ -118,7 +116,6 @@ class CheckoutInput extends Component<Props, State> {
           >
             {label}
           </Label>
-          {value && !error && <CheckIcon />}
         </InputGroup>
         {error && <ErrorMsg>{error}</ErrorMsg>}
       </Wrapper>
@@ -177,18 +174,6 @@ export const Input = styled.input`
     font-size: 12px;
     top: 14px;
     color: ${black};
-  }
-`;
-
-const CheckIcon = styled(Check)`
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: auto;
-  path {
-    fill: ${green};
   }
 `;
 

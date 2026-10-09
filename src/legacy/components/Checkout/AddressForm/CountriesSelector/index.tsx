@@ -17,7 +17,6 @@ import {
   platinum,
   red,
 } from '../../../../styles/constants';
-import { ReactComponent as Check } from '../../../../assets/images/icons/arrows/check_icon_fat_white.svg.tsx';
 import useClickOutside from '../../../../utils/hooks/ClickOutside';
 import { useUserProvider } from '../../../../context/user';
 
@@ -151,9 +150,6 @@ const CountriesSelector = ({
                     {label}
                   </Label>
 
-                  <CheckIconWrapper isValid={Boolean(selected && !error)}>
-                    <CheckIcon />
-                  </CheckIconWrapper>
                 </SelectedOption>
               )}
 
@@ -304,21 +300,4 @@ const Label = styled.label<{ selected: boolean; isError: boolean }>`
   color: ${(p) => (p.isError ? red : grey)};
   font-size: ${(p) => (p.selected ? '12px' : '14px;')};
   ${cocoBold};
-`;
-
-const CheckIconWrapper = styled.div<{ isValid: boolean }>`
-  display: ${(p) => (p.isValid ? 'block' : 'none')};
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-`;
-
-const CheckIcon = styled(Check)`
-  width: 20px;
-  height: auto;
-
-  path {
-    fill: ${green};
-  }
 `;
