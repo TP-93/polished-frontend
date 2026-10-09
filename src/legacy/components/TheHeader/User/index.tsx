@@ -8,9 +8,10 @@ import ResetPassword from './Reset';
 
 interface Props {
   closeDrawer: () => void;
+  checkout?: boolean;
 }
 
-export default function User({ closeDrawer }: Props) {
+export default function User({ closeDrawer, checkout = false }: Props) {
   const [formType, setFormType] = React.useState<'login' | 'reset'>('login');
 
   const toggleFormHandler = () => {
@@ -29,7 +30,7 @@ export default function User({ closeDrawer }: Props) {
       }}
     >
       {formType === 'login' && (
-        <Login openReset={toggleFormHandler} closeDrawer={closeDrawer} />
+        <Login openReset={toggleFormHandler} closeDrawer={closeDrawer} checkout={checkout} />
       )}
 
       {formType === 'reset' && (

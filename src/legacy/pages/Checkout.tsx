@@ -11,7 +11,8 @@ import NoData from '../components/common/PageDetails/NoData';
 import Shipping from '../components/Checkout/Shipping';
 import PromoCode from '../components/PromoCode';
 import AddressForms from '../components/Checkout/AddressForms';
-import CheckoutFinish from '../components/Checkout/CheckoutFinish';
+import PurchaseButton from '../components/Checkout/CheckoutFinish/Finish';
+import Payments from '../components/common/Payments';
 import CheckoutDeals from '../components/Checkout/CheckoutDeals';
 import JorCustomPerks from '../components/common/JorCustomPerks';
 import CheckoutSummary from '../components/Checkout/CheckoutSummary';
@@ -32,7 +33,8 @@ export default function Checkout() {
   const [cachedEmail, setCachedEmail] = useState<any>();
   const [cachedAddress, setCachedAddress] = useState<any>();
   const [quantityErrors, setQuantityErrors] = useState<any>();
-  const [currentSection, setCurrentSection] = useState('bag');
+  const [addressesReady, setAddressesReady] = useState(false);
+  const [shippingReady, setShippingReady] = useState(false);
   const [_cachedSameAddress, setSameAddress] = useState(false);
   const [cachedShippingAddress, setCachedShippingAddress] = useState<any>();
 
@@ -94,36 +96,10 @@ export default function Checkout() {
         }: CheckoutCartProps) => {
           if (!linesNumber) return <NoData title={errorMessage} />;
 
-          const step = currentSection === 'shipping' || currentSection === 'checkout'
-            ? currentSection
-            : 'address';
-          const steps = [
-            { id: 'address', label: AddressDetails.title },
-            { id: 'shipping', label: shippingMethod.title },
-            { id: 'checkout', label: checkoutProvider.title },
-          ];
-          const stepIndex = steps.findIndex((s) => s.id === step);
-          const goTo = (id: string) => {
-            setCurrentSection(id);
-            if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
-          };
 
           return (
             <Wrapper>
               <FormsWrapper className="checkout-form">
-                <Breadcrumb aria-label="Checkout">
-                  <span>{shoppingCart.title}</span>
-                  {steps.map((s, i) => (
-                    <span key={s.id}>
-                      <Chevron>›</Chevron>
-                      {i < stepIndex ? (
-                        <button type="button" onClick={() => goTo(s.id)}>{s.label}</button>
-                      ) : (
-                        <Crumb active={i === stepIndex}>{s.label}</Crumb>
-                      )}
-                    </span>
-                  ))}
-                </Breadcrumb>
 
                 {quantityErrors?.length ? (
                   <Notice>{shoppingCart.title}: {quantityErrors.map((e) => e?.message).filter(Boolean).join(' · ')}</Notice>
@@ -149,38 +125,31 @@ export default function Checkout() {
                   </MobileSummary>
                 </MediaQuery>
 
-                <StepTitle>{steps[stepIndex].label}</StepTitle>
-
-                {step === 'address' && (
-                  <AddressForms
-                    checkoutId={checkoutId}
-                    checkoutEmail={email}
-                    checkoutAddress={address}
-                    checkoutShippingAddress={shippingAddress}
-                    cachedEmail={cachedEmail}
-                    cachedAddress={cachedAddress}
-                    cachedShippingAddress={cachedShippingAddress}
-                    orderLines={orderLines}
-                    cacheUserData={cacheUserData}
-                    openNextSection={() => goTo('shipping')}
-                    showQuantityErrors={(errors: (ServerQuantityError | null)[]) => {
-                      setQuantityErrors(errors);
-                      goTo('address');
-                    }}
-                  />
-                )}
-
-                {step === 'shipping' && <Shipping changeSection={goTo} />}
-
-                {step === 'checkout' && (
-                  <CheckoutFinish products={orderLines} changeSection={goTo} />
-                )}
-
-                {stepIndex > 0 && (
-                  <BackLink type="button" onClick={() => goTo(steps[stepIndex - 1].id)}>
-                    ‹ {steps[stepIndex - 1].label}
-                  </BackLink>
-                )}
+                <PaymentIcons aria-label={currentLanguage === 'NL' ? 'Betaalmethoden' : 'Payment methods'}><Payments /></PaymentIcons>
+                <AddressForms
+                  onePage
+                  checkoutId={checkoutId}
+                  checkoutEmail={email}
+                  checkoutAddress={address}
+                  checkoutShippingAddress={shippingAddress}
+                  cachedEmail={cachedEmail}
+                  cachedAddress={cachedAddress}
+                  cachedShippingAddress={cachedShippingAddress}
+                  orderLines={orderLines}
+                  cacheUserData={cacheUserData}
+                  onDirty={() => { setAddressesReady(false); setShippingReady(false); }}
+                  openNextSection={() => { setAddressesReady(true); setShippingReady(false); }}
+                  showQuantityErrors={setQuantityErrors}
+                />
+                <OnePageSection aria-label={currentLanguage === 'NL' ? 'Verzendmethode' : 'Shipping method'}>
+                  <StepTitle>{currentLanguage === 'NL' ? 'Verzendmethode' : 'Shipping method'}</StepTitle>
+                  {addressesReady ? <Shipping onePage onDirty={() => setShippingReady(false)} changeSection={(section) => setShippingReady(section === 'checkout')} /> : <Pending>{currentLanguage === 'NL' ? 'Vul je adresgegevens in om de beschikbare verzendmethoden te bekijken.' : 'Enter your shipping address to view available shipping methods.'}</Pending>}
+                </OnePageSection>
+                <OnePageSection aria-label={currentLanguage === 'NL' ? 'Betaling' : 'Payment'}>
+                  <StepTitle>{currentLanguage === 'NL' ? 'Betaling' : 'Payment'}</StepTitle>
+                  <PaymentNote><LockKeyhole size={14} />{currentLanguage === 'NL' ? 'Alle betalingen zijn veilig en versleuteld.' : 'All transactions are secure and encrypted.'}</PaymentNote>
+                  {addressesReady && shippingReady && shippingMethodId ? <PurchaseButton id={checkoutId} /> : <Pending>{currentLanguage === 'NL' ? 'Vul je adres in en kies een verzendmethode om je bestelling af te ronden.' : 'Enter your address and select a shipping method to complete your order.'}</Pending>}
+                </OnePageSection>
 
 
               </FormsWrapper>
@@ -361,26 +330,15 @@ const TotalWrapper = styled.aside`
   position: relative;
   &::after { content: ''; position: absolute; top: 0; bottom: 0; left: 100%; width: max(0px, calc((100vw - 1100px) / 2)); background: var(--checkout-summary); }
 `;
-const Breadcrumb = styled.nav`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 12px;
-  margin-bottom: 32px;
-  color: var(--checkout-muted);
-  a, button { color: var(--checkout-action); background: none; border: 0; padding: 0; cursor: pointer; font: inherit; text-decoration: none; }
-  a:hover, button:hover { text-decoration: underline; }
+const PaymentIcons = styled.div`
+  margin-bottom: 28px;
+  > div { margin: 0; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  svg { width: 44px; height: 28px; max-width: none; margin: 0; }
 `;
-const Chevron = styled.span`margin: 0 8px; color: var(--checkout-muted);`;
-const Crumb = styled.span<{ active: boolean }>`
-  color: ${({ active }) => active ? 'var(--checkout-text)' : 'var(--checkout-muted)'};
-  font-weight: ${({ active }) => active ? 600 : 400};
-`;
-const StepTitle = styled.h2`font-size: 20px; font-weight: bold; margin: 0 0 20px;`;
-const BackLink = styled.button`
-  && { align-self: flex-start; margin-top: 16px; background: transparent; border: 0; padding: 0; min-height: 36px; font-size: 13px; font-weight: 400; color: var(--checkout-action); cursor: pointer; }
-  &&:hover { background: transparent; text-decoration: underline; }
-`;
+const StepTitle = styled.h2`font-size: 20px; font-weight: bold; margin: 0 0 16px;`;
+const OnePageSection = styled.section`margin-top: 32px;`;
+const Pending = styled.div`background: var(--checkout-summary); color: var(--checkout-muted); padding: 16px; border-radius: 5px; font-size: 13px;`;
+const PaymentNote = styled.p`display: flex; align-items: center; gap: 8px; color: var(--checkout-muted); font-size: 13px; margin-bottom: 16px;`;
 const Notice = styled.div`
   border: 1px solid var(--destructive);
   background: var(--background);

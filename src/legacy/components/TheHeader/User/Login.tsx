@@ -33,9 +33,10 @@ const validationSchema = yup.object({
 interface Props {
   openReset: () => void;
   closeDrawer: () => void;
+  checkout?: boolean;
 }
 
-export default function Login({ openReset, closeDrawer }: Props) {
+export default function Login({ openReset, closeDrawer, checkout = false }: Props) {
   const client = useApolloClient();
 
   const {
@@ -105,7 +106,13 @@ export default function Login({ openReset, closeDrawer }: Props) {
             },
           })
           .then((res: any) => {
-            if (res?.data) {
+            if (checkout && res?.data?.checkoutCreateOrMerge?.checkout) {
+              client.writeQuery({
+                query: getCheckout,
+                data: { checkout: res.data.checkoutCreateOrMerge.checkout },
+                variables: { token: null, currency, lang: currentLanguage },
+              });
+            } else if (res?.data) {
               client.writeQuery({
                 query: getCheckout,
                 data: res.data.checkoutCreateOrMerge,
