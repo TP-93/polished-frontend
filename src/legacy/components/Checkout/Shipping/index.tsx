@@ -180,7 +180,7 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                       }
                     };
                 return <>
-
+                  <Group>
                   {methods.map((method) => {
                     if (!method) return null;
 
@@ -196,6 +196,7 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                       e.stopPropagation();
                       if (mutationLoading) return;
                       if (id !== shippingMethodId || onePage) {
+                        if (id === shippingMethodId && (dateSelection || pickupSelection)) return;
                         onDirty?.();
                         setShippingMethodId(id);
                         setShippingDate(null);
@@ -207,76 +208,49 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                     };
 
                     const selected = id === shippingMethodId;
+                    const amount = price?.amount;
+                    const priceLabel = !price || amount === 0 ? (currentLanguage === 'NL' ? 'Gratis' : 'Free') : price.localized;
 
                     return (
-                      <div key={id}>
-                      <Wrapper onClick={changeHandler} className="checkout-shipping-method" data-selected={selected}>
-                        <Radio
-                          checked={selected}
-                          type="radio"
-                          name={name || 'radio'}
-                          value={shippingMethodId}
-                          disabled={mutationLoading}
-                          onChange={() => {}}
-                        />
-
-                        <CustomRadio />
-
-                        <Icon src={StandardShippingIcon} />
-
-                        <Content>
-                          <ShippingInfo>
-                            <UpSpan>{name}</UpSpan>
-                            <CapSpan>
-                              {price?.localized || 'Free shipping'}
-                            </CapSpan>
-                          </ShippingInfo>
-
-                          {dateSelection && (
-                            <DateWrapper>
-                              <Suspense fallback={<></>}>
-                                <DatePicker
-                                  minDate={new Date()}
-                                  selected={shippingDate || new Date()}
-                                  disabled={
-                                    !shippingMethodId && shippingMethodId !== id
-                                  }
-                                  onChange={(date) => {
-                                    setShippingDate(date);
-                                    onDirty?.();
-                                    if (onePage && date) void saveMethod(id, date, true);
-                                  }}
-                                />
-                              </Suspense>
-                            </DateWrapper>
-                          )}
-
-                          {(!selected || !isValid) && (
-                            <CheckMark isTransparent={true} />
-                          )}
-
-                          {selected && isValid && (
-                            <CheckMark isTransparent={false} />
-                          )}
-                        </Content>
-                      </Wrapper>
-                      {selected && pickupSelection && (
-                        <PickupPicker
-                          lang={currentLanguage}
-                          country={shippingAddress?.country?.code || 'NL'}
-                          postalCode={shippingAddress?.postalCode || ''}
-                          houseNumber={shippingAddress?.houseNumber ? String(shippingAddress.houseNumber) : ''}
-                          selected={pickupPoint}
-                          onSelect={(_p, label) => {
-                            onDirty?.();
-                            setPickupPoint(label);
-                            if (onePage) void saveMethod(id, null, false, true, label);
-                          }}
-                        />
-                      )}
-                      </div>
+                      <Option key={id} data-selected={selected}>
+                        <Row onClick={changeHandler}>
+                          <Dot data-active={selected} />
+                          <Name>{name}</Name>
+                          <Price>{priceLabel}</Price>
+                        </Row>
+                        {selected && dateSelection && (
+                          <DateWrapper>
+                            <Suspense fallback={<></>}>
+                              <DatePicker
+                                minDate={new Date()}
+                                selected={shippingDate || new Date()}
+                                onChange={(date) => {
+                                  setShippingDate(date);
+                                  onDirty?.();
+                                  if (onePage && date) void saveMethod(id, date, true);
+                                }}
+                              />
+                            </Suspense>
+                          </DateWrapper>
+                        )}
+                        {selected && pickupSelection && (
+                          <PickupPicker
+                            lang={currentLanguage}
+                            country={shippingAddress?.country?.code || 'NL'}
+                            postalCode={shippingAddress?.postalCode || ''}
+                            houseNumber={shippingAddress?.houseNumber ? String(shippingAddress.houseNumber) : ''}
+                            selected={pickupPoint}
+                            onSelect={(_p, label) => {
+                              onDirty?.();
+                              setPickupPoint(label);
+                              if (onePage) void saveMethod(id, null, false, true, label);
+                            }}
+                          />
+                        )}
+                      </Option>
                     );
                   })}
+                  </Group>
 
                   {validationMsg?.length > 0 && <Error>{validationMsg}</Error>}
 
@@ -299,8 +273,40 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
 };
 
 const DateWrapper = styled.div`
-  padding: 5px 0;
+  padding: 0 16px 16px 48px;
 `;
+
+const Group = styled.div`
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 16px;
+`;
+
+const Option = styled.div`
+  & + & { border-top: 1px solid #e6e6e6; }
+  &[data-selected='true'] { background: #fafafa; }
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #000;
+`;
+
+const Dot = styled.span`
+  width: 16px; min-width: 16px; height: 16px; border-radius: 50%;
+  border: 1px solid #bdbdbd; background: #fff;
+  transition: border 0.15s ease;
+  &[data-active='true'] { border: 5px solid #000; }
+`;
+
+const Name = styled.span` flex: 1; `;
+const Price = styled.span` font-weight: 600; white-space: nowrap; `;
 
 const Icon = styled.img`
   width: 40px;
