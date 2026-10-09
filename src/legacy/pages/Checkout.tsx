@@ -217,36 +217,38 @@ const CheckoutPage = styled.main`
   background: var(--checkout-background);
   color: var(--checkout-text);
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: var(--checkout-font);
   font-size: 14px;
   line-height: 1.5;
-  h1, h2, h3, h4 { font-family: inherit; letter-spacing: 0; }
+  h1, h2, h3, h4 { font-family: inherit; letter-spacing: 0; font-weight: bold; }
+  button, input, select, textarea, label, p, span { font-family: inherit; }
 
   .checkout-form > button:not(nav button), .checkout-form button[type="submit"], .checkout-form button[role="none"] {
     min-height: 52px;
     max-height: none;
     height: auto;
-    border-radius: 5px;
-    background: var(--checkout-action);
+    border-radius: 0;
+    background: var(--checkout-action-background);
+    box-shadow: var(--checkout-action-shadow);
     color: var(--checkout-on-action);
     font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
     padding: 16px 24px;
     border: 1px solid transparent;
-    transition: background 150ms ease;
+    transition: background-color 250ms ease, box-shadow 250ms ease;
   }
-  .checkout-form > button:not(nav button):hover, .checkout-form button[type="submit"]:hover, .checkout-form button[role="none"]:hover { background: var(--checkout-action-hover); }
+  .checkout-form > button:not(nav button):hover, .checkout-form button[type="submit"]:hover, .checkout-form button[role="none"]:hover { background: var(--checkout-action-background); box-shadow: var(--checkout-action-hover-shadow); opacity: 1; }
   .checkout-form button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .checkout-form button[role="none"][type="button"] { background: transparent; color: var(--checkout-action); min-height: 32px; padding: 0; border: 0; }
+  .checkout-form button[role="none"][type="button"], .checkout-form button[role="none"][type="button"]:hover { background: transparent; box-shadow: none; color: var(--checkout-action); min-height: 32px; padding: 0; border: 0; }
   .checkout-form label > span { font: inherit; text-transform: none; color: var(--checkout-text); }
   .checkout-form input::placeholder { font: inherit; text-transform: none; color: var(--checkout-muted); }
   .checkout-form input[name="invoiceAddress"] + div { width: 18px; height: 18px; min-width: 18px; border-color: var(--checkout-border); border-radius: 3px; margin-right: 10px; }
   .checkout-form input[name="invoiceAddress"] + div img { width: 12px; }
   .checkout-order > ul:last-child li { font-family: inherit; font-size: 12px; line-height: 1.7; color: var(--checkout-muted); }
   .checkout-order > ul:last-child { padding-top: 24px; border-top: 1px solid var(--checkout-border); }
-  .checkout-form h3 { font-size: 18px; text-transform: none; font-weight: 500; }
+  .checkout-form h3 { font-size: 18px; text-transform: none; font-weight: bold; }
   .checkout-form label { font-family: inherit; text-transform: none; font-weight: 400; }
   .checkout-form input[type="text"], .checkout-form input[type="email"], .checkout-form input[type="number"] {
     border-radius: 5px; height: 52px; font-family: inherit; font-size: 14px;
@@ -261,7 +263,7 @@ const CheckoutPage = styled.main`
   .checkout-field input[data-invalid="true"] + label { color: var(--destructive); }
   .checkout-form select { font-family: inherit; font-size: 14px; border-radius: 5px; }
   .checkout-shipping-method { border-color: var(--checkout-border); border-radius: 5px; padding: 16px; }
-  .checkout-shipping-method[data-selected="true"] { border-color: var(--checkout-action); background: var(--brand-soft); }
+  .checkout-shipping-method[data-selected="true"] { border-color: var(--checkout-action); background: var(--checkout-summary); }
   .checkout-shipping-method > img, .checkout-shipping-method > div > svg { display: none; }
   .checkout-shipping-method span { text-transform: none; font-weight: 400; }
   .checkout-shipping-method input:checked ~ div { border-color: var(--checkout-action); }
@@ -284,20 +286,22 @@ const CheckoutPage = styled.main`
   .checkout-product button { min-height: 20px; padding: 0; background: transparent; color: var(--checkout-text); border: 0; }
   .checkout-product button:hover { background: transparent; }
   .checkout-product input[type="number"] { height: 28px; padding: 0; border-radius: 0; }
-  .checkout-form .checkout-discount button { min-height: 48px; height: 48px; padding: 0 16px; background: var(--secondary); color: var(--checkout-text); }
+  .checkout-form .checkout-discount button { min-height: 48px; height: 48px; padding: 0 16px; }
   .checkout-product-info { padding-bottom: 24px; }
   .checkout-product svg { max-width: 18px; }
   .checkout-totals { border: 0; border-radius: 0; padding: 20px 0 0; border-top: 1px solid var(--checkout-border); }
   .checkout-totals h3 { display: none; }
   .checkout-totals span { font-size: 14px; text-transform: none; }
+  .checkout-totals span:first-child { font-weight: bold; }
   .checkout-total { border-top: 1px solid var(--checkout-border); margin-top: 16px; padding-top: 20px; }
-  .checkout-total span { font-size: 20px; font-weight: 500; }
+  .checkout-total span { font-size: 20px; font-weight: normal; }
+  .checkout-total span:first-child { font-weight: bold; }
   .checkout-discount { margin: 0; padding: 20px 0; border-top: 1px solid var(--checkout-border); }
   .checkout-discount > div { border: 0; padding: 0; border-radius: 0; gap: 12px; }
   .checkout-discount input { width: 100%; min-width: 0; height: 48px; border: 1px solid var(--checkout-border); border-radius: 5px; padding: 12px; background: var(--checkout-background); font-family: inherit; font-size: 14px; }
   .checkout-discount input::placeholder { font-family: inherit; font-size: 14px; text-transform: none; color: var(--checkout-muted); }
-  .checkout-discount button { width: auto; flex-shrink: 0; min-height: 48px; padding: 0 16px; border-radius: 5px; background: var(--secondary); color: var(--checkout-text); border: 1px solid var(--checkout-border); font-size: 13px; text-transform: none; }
-  .checkout-discount button:hover { background: var(--accent); }
+  .checkout-discount button { width: auto; flex-shrink: 0; min-height: 48px; padding: 0 16px; border-radius: 0; background: var(--checkout-action-background); color: var(--checkout-on-action); border: 1px solid transparent; font-family: inherit; font-size: 12px; font-weight: bold; text-transform: uppercase; box-shadow: var(--checkout-action-shadow); transition: box-shadow 250ms ease; }
+  .checkout-discount button:hover { background: var(--checkout-action-background); box-shadow: var(--checkout-action-hover-shadow); opacity: 1; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 `;
 
@@ -353,7 +357,7 @@ const Crumb = styled.span<{ active: boolean }>`
   color: ${({ active }) => active ? 'var(--checkout-text)' : 'var(--checkout-muted)'};
   font-weight: ${({ active }) => active ? 600 : 400};
 `;
-const StepTitle = styled.h2`font-size: 20px; font-weight: 500; margin: 0 0 20px;`;
+const StepTitle = styled.h2`font-size: 20px; font-weight: bold; margin: 0 0 20px;`;
 const BackLink = styled.button`
   && { align-self: flex-start; margin-top: 16px; background: transparent; border: 0; padding: 0; min-height: 36px; font-size: 13px; font-weight: 400; color: var(--checkout-action); cursor: pointer; }
   &&:hover { background: transparent; text-decoration: underline; }
