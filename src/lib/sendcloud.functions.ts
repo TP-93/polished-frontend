@@ -36,7 +36,7 @@ export const getServicePoints = createServerFn({ method: "POST" })
       carrier: data.carrier,
       radius: "10000",
     });
-    const res = await fetch(`https://servicepoints.sendcloud.sc/api/v2/service-points?${params}`, {
+    const res = await fetch(`https://servicepoints.sendcloud.sc/api/v2/service-points/?${params}`, {
       headers: { authorization: `Basic ${btoa(`${pub}:${secret}`)}`, accept: "application/json" },
     });
     if (!res.ok) {
