@@ -260,7 +260,7 @@ const CheckoutPage = styled.main`
 
   .checkout-product {
     display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: start; gap: 16px;
-    padding: 10px 0; border: 0; border-radius: 0; margin: 0;
+    padding: 12px 0; border: 0; border-radius: 0; margin: 0;
   }
   .checkout-product-image {
     width: 64px; height: 64px; border: 1px solid var(--checkout-border);
