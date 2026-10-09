@@ -11,6 +11,7 @@ import { useScrollTrigger as useScrollTrigger } from '@mui/material';
 
 import Shop from './Shop';
 import Cart from './Cart';
+import ReservationTimer from './Cart/ReservationTimer';
 import User from './User';
 import Logo from './Logo';
 import Controls from './Controls';
