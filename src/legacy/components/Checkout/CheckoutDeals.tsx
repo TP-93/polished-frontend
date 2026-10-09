@@ -1,5 +1,5 @@
 import { useQuery } from 'react-apollo';
-import { Link } from 'react-router-dom';
+import { Link } from '@/legacy-compat/router';
 import styled from 'styled-components';
 import { getCollection } from '../../apollo/queries/collection';
 import { getProducts } from '../../apollo/queries/products';
