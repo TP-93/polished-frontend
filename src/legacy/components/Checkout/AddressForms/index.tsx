@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { Component } from 'react';
+import CheckoutContact from '../CheckoutContact';
 import styled from 'styled-components';
 
 import { UserContext } from '../../../context/user';
@@ -107,6 +108,8 @@ interface State {
 
 interface Props {
   account?: boolean;
+  onePage?: boolean;
+  onDirty?: () => void;
   checkoutId?: string;
   checkoutEmail?: string;
   openNextSection: () => void;
@@ -179,7 +182,7 @@ class AddressForms extends Component<Props, State> {
           : blankShippingAddress,
         agree: Boolean(personalDataAgreed),
         sameAddress: compareAddresses(cachedAddress, cachedShippingAddress),
-      });
+      }, () => this.scheduleAccountSave?.());
     } else if (checkoutAddress && checkoutShippingAddress) {
       this.setState({
         email: checkoutEmail || '',
@@ -187,11 +190,31 @@ class AddressForms extends Component<Props, State> {
         shippingAddress: { ...checkoutShippingAddress },
         sameAddress: compareAddresses(checkoutAddress, checkoutShippingAddress),
         agree: Boolean(personalDataAgreed),
-      });
+      }, () => this.scheduleAccountSave?.());
     }
   }
 
+  saveTimer?: ReturnType<typeof setTimeout>;
+  scheduleAccountSave?: () => void;
+
+  populateAccount = (user: any) => {
+    const normalize = (value: any, defaults: any) => {
+      if (!value) return null;
+      const { id, __typename, country, ...fields } = value;
+      return { ...defaults, ...fields, country: country?.code || country || '' };
+    };
+    const billing = normalize(user.defaultBillingAddress, blankAddress);
+    const shipping = normalize(user.defaultShippingAddress, blankShippingAddress);
+    this.setState({
+      email: user.email || this.state.email,
+      address: billing || shipping || this.state.address,
+      shippingAddress: shipping || billing || this.state.shippingAddress,
+      sameAddress: !billing || !shipping || compareAddresses(billing, shipping),
+    }, () => { this.props.onDirty?.(); this.scheduleAccountSave?.(); });
+  };
+
   componentWillUnmount() {
+    clearTimeout(this.saveTimer);
     const { cacheUserData } = this.props;
     const { email, address, shippingAddress, sameAddress } = this.state;
 
@@ -499,6 +522,7 @@ class AddressForms extends Component<Props, State> {
 
   updateEmail = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+    this.props.onDirty?.();
     await this.setState({
       email: value,
     });
@@ -510,6 +534,7 @@ class AddressForms extends Component<Props, State> {
     event: React.ChangeEvent<HTMLInputElement> | FakeEvent,
   ) => {
     const { value, name } = event.target;
+    this.props.onDirty?.();
     const { address } = this.state;
 
     if (name === 'postalCode') {
@@ -537,6 +562,7 @@ class AddressForms extends Component<Props, State> {
     event: React.ChangeEvent<HTMLInputElement> | FakeEvent,
   ) => {
     const { value, name } = event.target;
+    this.props.onDirty?.();
     const { shippingAddress } = this.state;
 
     await this.setState({
@@ -550,6 +576,7 @@ class AddressForms extends Component<Props, State> {
   };
 
   handleCheck = () => {
+    this.props.onDirty?.();
     const { sameAddress } = this.state;
 
     if (sameAddress) {
@@ -735,7 +762,10 @@ class AddressForms extends Component<Props, State> {
 
     return (
       <>
-        <CheckoutInput
+        {this.props.onePage ? <>
+          <CheckoutContact email={email} error={emailError} updateEmail={this.updateEmail} validateEmail={this.validateEmail} onUserLoaded={this.populateAccount} />
+          <Title>{currentLanguage === 'NL' ? 'Bezorging' : 'Delivery'}</Title>
+        </> : <CheckoutInput
           type="email"
           label={profile.emailPlaceholder}
           name="email"
@@ -744,7 +774,7 @@ class AddressForms extends Component<Props, State> {
           error={emailError}
           validate={this.validateEmail}
           updateValue={this.updateEmail}
-        />
+        />}
 
         <AddressForm
           address={address}
@@ -919,38 +949,18 @@ class AddressForms extends Component<Props, State> {
             shipping: { continueBtn },
           } = shippingMethod;
 
-          return (
-            <>
-              {this.renderForms({
-                email,
-                emailError,
-                address,
-                addressErrors,
-                sameAddress,
-                shippingAddress,
-                shippingErrors,
-                networkError,
-              })}
-
-              <ContinueBtn
-                role="none"
-                type="submit"
-                disabled={
-                  addressesLoading ||
-                  exceptions.includes(address.country) ||
-                  exceptions.includes(shippingAddress.country)
-                }
-                onClick={async () => {
+          const saveAddresses = async () => {
+                  const { email, address, shippingAddress, sameAddress } = this.state;
                   if (this.validateAddressesSubmit()) {
                     const guestToken = localStorage.getItem(GUEST_TOKEN_NAME);
 
                     const billingAddress: AddressInput = {
-                      ...address,
+                      ...(this.props.onePage ? transformAddress(address) : address),
                       houseNumber: Number(address.houseNumber),
                     };
 
                     const transformedShippingAddress: AddressInput = {
-                      ...shippingAddress,
+                      ...(this.props.onePage ? transformAddress(shippingAddress) : shippingAddress),
                       houseNumber: Number(shippingAddress.houseNumber),
                     };
 
@@ -1017,7 +1027,7 @@ class AddressForms extends Component<Props, State> {
                               });
                             }
 
-                            openNextSection();
+                            if (JSON.stringify({ email, address, shippingAddress, sameAddress }) === JSON.stringify({ email: this.state.email, address: this.state.address, shippingAddress: this.state.shippingAddress, sameAddress: this.state.sameAddress }) || (sameAddress && email === this.state.email && JSON.stringify(address) === JSON.stringify(this.state.address))) openNextSection();
                           } else {
                             this.setState({
                               networkError: 'Er is iets fout gegaan',
@@ -1034,12 +1044,44 @@ class AddressForms extends Component<Props, State> {
                       }
                     }
                   }
-                }}
+                };
+          const scheduleSave = () => {
+            if (!this.props.onePage) return;
+            clearTimeout(this.saveTimer);
+            this.saveTimer = setTimeout(() => {
+              const valid = this.checkEmail(this.state.email) && !this.validateAddressSubmit('address').errorsNumber &&
+                (this.state.sameAddress || !this.validateAddressSubmit('shippingAddress').errorsNumber);
+              if (valid) void saveAddresses();
+            }, 250);
+          };
+          this.scheduleAccountSave = scheduleSave;
+          return (
+            <div onBlur={scheduleSave}>
+              {this.renderForms({
+                email,
+                emailError,
+                address,
+                addressErrors,
+                sameAddress,
+                shippingAddress,
+                shippingErrors,
+                networkError,
+              })}
+
+              {!this.props.onePage && <ContinueBtn
+                role="none"
+                type="submit"
+                disabled={
+                  addressesLoading ||
+                  exceptions.includes(address.country) ||
+                  exceptions.includes(shippingAddress.country)
+                }
+                onClick={saveAddresses}
               >
                 {continueBtn.start}
                 {continueBtn.end}
-              </ContinueBtn>
-            </>
+              </ContinueBtn>}
+            </div>
           );
         }}
       </UpdateAddressesMutation>

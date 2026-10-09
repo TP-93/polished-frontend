@@ -48,7 +48,7 @@ const UpdateShippingMethodMutation = TypedMutation<
   ShippingMethodVariables
 >(updateShippingMethod);
 
-export default ({ changeSection }: { changeSection: (s: string) => void }) => {
+export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s: string) => void; onePage?: boolean; onDirty?: () => void }) => {
   const token = localStorage.getItem(GUEST_TOKEN_NAME);
 
   const [isValid, setIsValid] = useState<any>(false);
@@ -89,7 +89,7 @@ export default ({ changeSection }: { changeSection: (s: string) => void }) => {
       {({ data, loading, error }: QueryProps) => {
         if (loading) return <Loader />;
         if (error) return <ErrorMessage>{generalErrorMessage}</ErrorMessage>;
-        if (!data?.checkout?.billingAddress) changeSection('address');
+        if (!data?.checkout?.billingAddress && !onePage) changeSection('address');
 
         if (data?.checkout?.availableShippingMethods?.length) {
           const {
@@ -110,8 +110,63 @@ export default ({ changeSection }: { changeSection: (s: string) => void }) => {
 
           return (
             <UpdateShippingMethodMutation>
-              {(checkoutShippingMethodUpdate, { loading: mutationLoading }) => (
-                <>
+              {(checkoutShippingMethodUpdate, { loading: mutationLoading }) => {
+                const saveMethod = async (methodId = shippingMethodId, date = shippingDate, dateSelection = isDateSelection) => {
+                      const msg = getValidationMsg(
+                        methodId,
+                        date,
+                        dateSelection,
+                      );
+
+                      if (msg) {
+                        setValidationMsg(msg);
+                      } else {
+                        const variables: ShippingMethodVariables = {
+                          lang: currentLanguage,
+                          token,
+                          currency,
+                          checkoutId,
+                          shippingMethodId: methodId,
+                        };
+
+                        if (date) {
+                          const [ISODate] = date
+                            .toISOString()
+                            .split('T');
+
+                          variables.date = ISODate;
+                        }
+
+                        try {
+                          const res = await checkoutShippingMethodUpdate({
+                            variables,
+                          });
+
+                          if (res?.data?.checkoutShippingMethodUpdate) {
+                            const { checkout, errors } =
+                              res.data.checkoutShippingMethodUpdate;
+
+                            if (errors && errors.length) {
+                              setValidationMsg(
+                                errors.reduce(
+                                  (sum: string, err: ValidationError) =>
+                                    `${sum}  ${err.message}`,
+                                  '',
+                                ),
+                              );
+                            } else if (checkout) {
+                              changeSection('checkout');
+                            } else {
+                              setValidationMsg(generalErrorMessage);
+                            }
+                          }
+                        } catch (e) {
+                          setValidationMsg(generalErrorMessage);
+                        }
+                      }
+                    };
+                return <>
+
                   {methods.map((method) => {
                     if (!method) return null;
 
@@ -124,11 +179,13 @@ export default ({ changeSection }: { changeSection: (s: string) => void }) => {
 
                     const changeHandler = (e: any) => {
                       e.stopPropagation();
-
-                      if (id !== shippingMethodId) {
+                      if (mutationLoading) return;
+                      if (id !== shippingMethodId || onePage) {
+                        onDirty?.();
                         setShippingMethodId(id);
                         setShippingDate(null);
                         setIsDateSelection(dateSelection);
+                        if (onePage && !dateSelection) void saveMethod(id, null, false);
                       }
                     };
 
@@ -168,6 +225,8 @@ export default ({ changeSection }: { changeSection: (s: string) => void }) => {
                                   }
                                   onChange={(date) => {
                                     setShippingDate(date);
+                                    onDirty?.();
+                                    if (onePage && date) void saveMethod(id, date, true);
                                   }}
                                 />
                               </Suspense>
@@ -188,67 +247,14 @@ export default ({ changeSection }: { changeSection: (s: string) => void }) => {
 
                   {validationMsg?.length > 0 && <Error>{validationMsg}</Error>}
 
-                  <ContinueBtn
+                  {!onePage && <ContinueBtn
                     role="none"
-                    onClick={async () => {
-                      const msg = getValidationMsg(
-                        shippingMethodId,
-                        shippingDate,
-                        isDateSelection,
-                      );
-
-                      if (msg) {
-                        setValidationMsg(msg);
-                      } else {
-                        const variables: ShippingMethodVariables = {
-                          lang: currentLanguage,
-                          token,
-                          currency,
-                          checkoutId,
-                          shippingMethodId,
-                        };
-
-                        if (shippingDate) {
-                          const [ISODate] = shippingDate
-                            .toISOString()
-                            .split('T');
-
-                          variables.date = ISODate;
-                        }
-
-                        try {
-                          const res = await checkoutShippingMethodUpdate({
-                            variables,
-                          });
-
-                          if (res?.data?.checkoutShippingMethodUpdate) {
-                            const { checkout, errors } =
-                              res.data.checkoutShippingMethodUpdate;
-
-                            if (errors && errors.length) {
-                              setValidationMsg(
-                                errors.reduce(
-                                  (sum: string, err: ValidationError) =>
-                                    `${sum}  ${err.message}`,
-                                  '',
-                                ),
-                              );
-                            } else if (checkout) {
-                              changeSection('checkout');
-                            } else {
-                              setValidationMsg(generalErrorMessage);
-                            }
-                          }
-                        } catch (e) {
-                          setValidationMsg(generalErrorMessage);
-                        }
-                      }
-                    }}
+                    onClick={() => saveMethod()}
                   >
                     {continueBtnProvider.start} {continueBtnProvider.end}
-                  </ContinueBtn>
-                </>
-              )}
+                  </ContinueBtn>}
+                </>;
+              }}
             </UpdateShippingMethodMutation>
           );
         }
