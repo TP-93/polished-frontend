@@ -6,6 +6,14 @@ import Page from "@/legacy/pages/Static";
 const RoutedPage = withRouter(Page as never);
 
 export const Route = createFileRoute("/faq")({
+  head: () => ({ meta: [
+    { title: 'Veelgestelde vragen — JORCUSTOM' },
+    { name: 'description', content: 'Veelgestelde vragen bij JORCUSTOM: streetwear en gepersonaliseerde kleding.' },
+    { property: 'og:title', content: 'Veelgestelde vragen — JORCUSTOM' },
+    { property: 'og:description', content: 'Veelgestelde vragen bij JORCUSTOM: streetwear en gepersonaliseerde kleding.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ] }),
   ssr: false,
   component: () => <RoutedPage />,
 });
