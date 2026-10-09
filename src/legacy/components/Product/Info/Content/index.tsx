@@ -52,11 +52,8 @@ export default function Content({
     state: { currentLanguage },
   } = useUserProvider();
 
-  const {
-    id: productId,
-    category: { faq, shippingFaq } = {},
-    sizeReference,
-  } = product || {};
+  const { id: productId, sizeReference } = product || {};
+  const { faq, shippingFaq } = (product && product.category) || {};
 
   return (
     <Box
