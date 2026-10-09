@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep checkout presentation scoped to the checkout page; shared commerce components retain their existing appearance elsewhere, and existing Apollo order/payment operations remain unchanged.
+- Load checkout recommendations from the existing collection/product Apollo queries in a checkout-only module; this keeps suggestion content backend-managed without changing checkout or payment operations.

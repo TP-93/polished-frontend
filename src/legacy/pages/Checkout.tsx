@@ -12,6 +12,7 @@ import Shipping from '../components/Checkout/Shipping';
 import PromoCode from '../components/PromoCode';
 import AddressForms from '../components/Checkout/AddressForms';
 import CheckoutFinish from '../components/Checkout/CheckoutFinish';
+import CheckoutDeals from '../components/Checkout/CheckoutDeals';
 import JorCustomPerks from '../components/common/JorCustomPerks';
 import CheckoutSummary from '../components/Checkout/CheckoutSummary';
 import CartProductsSummary from '../components/Checkout/CartProductsSummary';
@@ -135,6 +136,7 @@ export default function Checkout() {
                       <strong>{totalPrice ?? subtotalPrice}</strong>
                     </summary>
                     <CartProductsSummary
+                      delBtn={false}
                       checkoutId={checkoutId}
                       products={orderLines}
                       linesNumber={linesNumber}
@@ -143,6 +145,7 @@ export default function Checkout() {
                     />
                     <PromoCode refetch={refetch} />
                     <CheckoutSummary refetch={refetch} checkoutId={checkoutId} discountAmount={discountAmount} voucherCode={voucherCode} cartDiscount={cartDiscount} subtotalPrice={subtotalPrice} shippingPrice={shippingPrice} totalPrice={totalPrice} />
+                    <CheckoutDeals />
                   </MobileSummary>
                 </MediaQuery>
 
@@ -185,6 +188,7 @@ export default function Checkout() {
               <MediaQuery query={tablet}>
                 <TotalWrapper className="checkout-order">
                   <CartProductsSummary
+                    delBtn={false}
                     checkoutId={checkoutId}
                     products={orderLines}
                     linesNumber={linesNumber}
@@ -203,6 +207,7 @@ export default function Checkout() {
                     totalPrice={totalPrice}
                   />
                   <JorCustomPerks />
+                  <CheckoutDeals />
                 </TotalWrapper>
               </MediaQuery>
             </Wrapper>
@@ -270,16 +275,16 @@ const CheckoutPage = styled.main`
   .checkout-shipping-method input:checked ~ div::before { background: var(--checkout-action); }
 
   .checkout-product {
-    flex-direction: row; align-items: flex-start; gap: 16px;
-    padding: 12px 24px 12px 0; border: 0; border-radius: 0; margin: 0;
+    display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: start; gap: 16px;
+    padding: 12px 0; border: 0; border-radius: 0; margin: 0;
   }
   .checkout-product-image {
-    width: 72px; height: 88px; flex: 0 0 72px; border: 1px solid var(--checkout-border);
+    width: 64px; height: 64px; border: 1px solid var(--checkout-border);
     border-radius: 6px; overflow: hidden; background: var(--checkout-background);
   }
   .checkout-product-image img { width: 100%; height: 100%; object-fit: contain; }
-  .checkout-product-info { padding: 0; min-width: 0; }
-  .checkout-product h2 { font-size: 13px; text-transform: none; margin: 0 0 8px; padding-right: 8px; line-height: 1.4; }
+  .checkout-product-info { padding: 4px 0 0; min-width: 0; width: auto; }
+  .checkout-product h2 { font-size: 13px; text-transform: none; margin: 0 0 4px; padding: 0; line-height: 1.4; }
   .checkout-product span { font-size: 12px; text-transform: none; }
   .checkout-product button { top: 12px; right: 0; }
   .checkout-product select, .checkout-product input { max-width: 72px; font-size: 12px; background: transparent; border-bottom: 1px solid var(--checkout-border); }
@@ -287,7 +292,16 @@ const CheckoutPage = styled.main`
   .checkout-product button:hover { background: transparent; }
   .checkout-product input[type="number"] { height: 28px; padding: 0; border-radius: 0; }
   .checkout-form .checkout-discount button { min-height: 48px; height: 48px; padding: 0 16px; }
-  .checkout-product-info { padding-bottom: 24px; }
+  .checkout-product-unit-price { display: none; }
+  .checkout-product-size { justify-content: flex-start; gap: 8px; margin: 0; color: var(--checkout-muted); }
+  .checkout-product-size > span { display: none; }
+  .checkout-product-size select { height: 24px; border: 0; font-weight: normal; color: var(--checkout-muted); }
+  .checkout-product-line-total { position: static; padding-top: 4px; white-space: nowrap; font-size: 13px; text-transform: none; }
+  .checkout-product-line-total strong { display: none; }
+  .checkout-product-quantity { position: absolute; top: 4px; left: 52px; margin: 0; }
+  .checkout-product-quantity > span, .checkout-product-quantity button { display: none; }
+  .checkout-product .checkout-product-quantity input[type="number"] { width: 24px; height: 24px; max-width: 24px; padding: 0; border: 2px solid var(--checkout-summary); border-radius: 50%; background: var(--checkout-text); color: var(--checkout-on-action); font-size: 11px; text-align: center; appearance: textfield; }
+  .checkout-product-quantity input::-webkit-inner-spin-button, .checkout-product-quantity input::-webkit-outer-spin-button { appearance: none; margin: 0; }
   .checkout-product svg { max-width: 18px; }
   .checkout-totals { border: 0; border-radius: 0; padding: 20px 0 0; border-top: 1px solid var(--checkout-border); }
   .checkout-totals h3 { display: none; }
@@ -306,6 +320,11 @@ const CheckoutPage = styled.main`
 `;
 
 const CheckoutHeader = styled.header`
+  border-bottom: 1px solid var(--checkout-border);
+  position: relative;
+  &::before, &::after { content: ''; position: absolute; bottom: -1px; width: max(0px, calc((100vw - 1100px) / 2)); border-bottom: 1px solid var(--checkout-border); }
+  &::before { right: 100%; }
+  &::after { left: 100%; }
   height: 88px;
   max-width: 1100px;
   margin: 0 auto;
