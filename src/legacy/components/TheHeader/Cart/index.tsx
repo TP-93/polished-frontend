@@ -8,6 +8,7 @@ import NoData from './NoData';
 import Loader from './Loader';
 import Summary from './Summary';
 import Products from './Products';
+import ReservationTimer from './ReservationTimer';
 import Payments from '../../common/Payments';
 import TrustIndicators from '../../common/TrustIndicators';
 import { useHeaderContext } from '../Provider';
@@ -47,6 +48,7 @@ export default function Cart({ closeDrawer }: Props) {
           overflow: 'hidden auto',
         }}
       >
+        <ReservationTimer />
         <Products cartProducts={cartProducts} />
       </Stack>
 

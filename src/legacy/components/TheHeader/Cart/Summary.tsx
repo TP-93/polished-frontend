@@ -37,6 +37,7 @@ export default function Summary({
         proceed,
         subTotal,
         shipping,
+        shippingFree,
         shippingValue,
         voucherValue,
         voucherQuestion,
@@ -75,12 +76,30 @@ export default function Summary({
         justifyContent="space-between"
         sx={{ mb: '0.5rem' }}
       >
-        <Typography
-          variant="body1"
-          sx={{ fontSize: '0.7rem', color: '#050505', ...cocoBold }}
+        <Stack
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          sx={{ gap: '6px' }}
         >
-          {shipping}
-        </Typography>
+          <Typography
+            variant="body1"
+            sx={{ fontSize: '0.7rem', color: '#050505', ...cocoBold }}
+          >
+            {shipping}
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: '0.6rem',
+              color: '#6b6b6b',
+              ...cocoRegular,
+            }}
+          >
+            {shippingFree}
+          </Typography>
+        </Stack>
 
         <Typography
           variant="body1"
