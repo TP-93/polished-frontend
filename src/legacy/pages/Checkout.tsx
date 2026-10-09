@@ -145,7 +145,7 @@ export default function Checkout() {
                     />
                     <PromoCode refetch={refetch} />
                     <CheckoutSummary refetch={refetch} checkoutId={checkoutId} discountAmount={discountAmount} voucherCode={voucherCode} cartDiscount={cartDiscount} subtotalPrice={subtotalPrice} shippingPrice={shippingPrice} totalPrice={totalPrice} />
-                    <CheckoutDeals />
+                    <CheckoutDeals checkoutId={checkoutId} />
                   </MobileSummary>
                 </MediaQuery>
 
@@ -206,7 +206,7 @@ export default function Checkout() {
                     shippingPrice={shippingPrice}
                     totalPrice={totalPrice}
                   />
-                  <CheckoutDeals />
+                  <CheckoutDeals checkoutId={checkoutId} />
                   <JorCustomPerks />
                 </TotalWrapper>
               </MediaQuery>
