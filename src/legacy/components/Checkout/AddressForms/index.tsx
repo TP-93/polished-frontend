@@ -182,7 +182,7 @@ class AddressForms extends Component<Props, State> {
           : blankShippingAddress,
         agree: Boolean(personalDataAgreed),
         sameAddress: compareAddresses(cachedAddress, cachedShippingAddress),
-      });
+      }, () => this.scheduleAccountSave?.());
     } else if (checkoutAddress && checkoutShippingAddress) {
       this.setState({
         email: checkoutEmail || '',
@@ -190,7 +190,7 @@ class AddressForms extends Component<Props, State> {
         shippingAddress: { ...checkoutShippingAddress },
         sameAddress: compareAddresses(checkoutAddress, checkoutShippingAddress),
         agree: Boolean(personalDataAgreed),
-      });
+      }, () => this.scheduleAccountSave?.());
     }
   }
 
