@@ -65,13 +65,17 @@
   --radius: 0.25rem;
   --checkout-background: oklch(1 0 0);
   --checkout-summary: oklch(0.978 0 0);
-  --checkout-text: oklch(0.25 0 0);
+  --checkout-text: #050505;
   --checkout-muted: oklch(0.55 0 0);
   --checkout-border: oklch(0.87 0 0);
-  --checkout-action: oklch(0.48 0.12 243);
-  --checkout-action-hover: oklch(0.41 0.11 243);
+  --checkout-action: #2c2c2e;
+  --checkout-action-hover: #000000;
+  --checkout-action-background: linear-gradient(96deg, var(--checkout-action) 0%, var(--checkout-action-hover) 100%);
+  --checkout-action-shadow: 10px 10px 20px #00000040;
+  --checkout-action-hover-shadow: 0px 3px 5px -1px #00000033, 0px 6px 10px 0px #00000024, 0px 1px 18px 0px #0000001f;
+  --checkout-font: 'Coco Gothic', Arial, sans-serif;
   --checkout-on-action: oklch(1 0 0);
-  --checkout-focus: oklch(0.48 0.12 243);
+  --checkout-focus: var(--checkout-action);
 
   --background: oklch(0.993 0.001 90);
   --foreground: oklch(0.19 0.006 264);
