@@ -11,6 +11,8 @@ export interface ServicePoint {
   distance: number | null;
   carrier: string;
   openToday: string;
+  lat: number | null;
+  lng: number | null;
 }
 
 // Looks up nearby DPD parcel shops via the Sendcloud Service Points API.
@@ -57,6 +59,8 @@ export const getServicePoints = createServerFn({ method: "POST" })
         distance: typeof p.distance === "number" ? p.distance : null,
         carrier: String(p.carrier ?? data.carrier),
         openToday: Array.isArray(hours) ? hours.join(", ") : "",
+        lat: Number(p.latitude) || null,
+        lng: Number(p.longitude) || null,
       };
     });
     return { points };
