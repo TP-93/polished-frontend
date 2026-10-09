@@ -21,6 +21,7 @@ import { useUserProvider } from '../../../context/user';
 import Loader from '../../common/PageDetails/Loader';
 import ErrorMessage from '../../common/Errors';
 import { ContinueBtn } from '../../common/Buttons';
+import PickupPicker from './PickupPicker';
 import { GUEST_TOKEN_NAME } from '../../../constants';
 import StandardShippingIcon from '../../../assets/images/icons/checkout/standard_shipping_icon.svg.tsx';
 import {
@@ -56,6 +57,8 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
   const [validationMsg, setValidationMsg] = useState('');
   const [isDateSelection, setIsDateSelection] = useState(false);
   const [shippingMethodId, setShippingMethodId] = useState('');
+  const [pickupPoint, setPickupPoint] = useState('');
+  const [isPickup, setIsPickup] = useState(false);
 
   const {
     state: { languages, currency, currentLanguage },
@@ -67,8 +70,9 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
   const { shipping } = shippingMethodProvider;
   const { continueBtn: continueBtnProvider } = shipping;
 
-  const getValidationMsg = (id: string, date: string, isDate: boolean) => {
+  const getValidationMsg = (id: string, date: string, isDate: boolean, pickup = isPickup, point = pickupPoint) => {
     if (!id) return 'Select shipping method please';
+    if (pickup && !point) return currentLanguage === 'NL' ? 'Kies een pakketpunt' : 'Select a parcel shop, please';
     if (isDate && !date) return 'Select shipping date, please';
 
     return '';
@@ -79,7 +83,7 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
       !getValidationMsg(shippingMethodId, shippingDate, isDateSelection),
     );
     setValidationMsg('');
-  }, [shippingDate, isDateSelection, shippingMethodId]);
+  }, [shippingDate, isDateSelection, shippingMethodId, isPickup, pickupPoint]);
 
   return (
     <Query
@@ -97,10 +101,17 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
             availableShippingMethods: methods,
             shippingMethod,
             shippingPreferredDate,
+            shippingPreferredPickupLocation,
+            shippingAddress,
           } = data.checkout;
 
           if (shippingMethod && !shippingMethodId) {
             setShippingMethodId(shippingMethod.id);
+            const current = methods.find((m) => m?.id === shippingMethod.id);
+            if (current?.hasPreferredPickupLocationSelection) {
+              setIsPickup(true);
+              setPickupPoint(shippingPreferredPickupLocation || '');
+            }
 
             if (shippingPreferredDate) {
               setShippingDate(new Date(shippingPreferredDate));
@@ -111,11 +122,13 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
           return (
             <UpdateShippingMethodMutation>
               {(checkoutShippingMethodUpdate, { loading: mutationLoading }) => {
-                const saveMethod = async (methodId = shippingMethodId, date = shippingDate, dateSelection = isDateSelection) => {
+                const saveMethod = async (methodId = shippingMethodId, date = shippingDate, dateSelection = isDateSelection, pickup = isPickup, point = pickupPoint) => {
                       const msg = getValidationMsg(
                         methodId,
                         date,
                         dateSelection,
+                        pickup,
+                        point,
                       );
 
                       if (msg) {
@@ -128,6 +141,7 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                           checkoutId,
                           shippingMethodId: methodId,
                         };
+                        if (pickup && point) variables.pickupPoint = point;
 
                         if (date) {
                           const [ISODate] = date
@@ -175,6 +189,7 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                       name,
                       price,
                       hasPreferredDateSelection: dateSelection,
+                      hasPreferredPickupLocationSelection: pickupSelection,
                     } = method;
 
                     const changeHandler = (e: any) => {
@@ -185,14 +200,17 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                         setShippingMethodId(id);
                         setShippingDate(null);
                         setIsDateSelection(dateSelection);
-                        if (onePage && !dateSelection) void saveMethod(id, null, false);
+                        setIsPickup(!!pickupSelection);
+                        setPickupPoint('');
+                        if (onePage && !dateSelection && !pickupSelection) void saveMethod(id, null, false, false, '');
                       }
                     };
 
                     const selected = id === shippingMethodId;
 
                     return (
-                      <Wrapper key={id} onClick={changeHandler} className="checkout-shipping-method" data-selected={selected}>
+                      <div key={id}>
+                      <Wrapper onClick={changeHandler} className="checkout-shipping-method" data-selected={selected}>
                         <Radio
                           checked={selected}
                           type="radio"
@@ -242,6 +260,21 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                           )}
                         </Content>
                       </Wrapper>
+                      {selected && pickupSelection && (
+                        <PickupPicker
+                          lang={currentLanguage}
+                          country={shippingAddress?.country?.code || 'NL'}
+                          postalCode={shippingAddress?.postalCode || ''}
+                          houseNumber={shippingAddress?.houseNumber ? String(shippingAddress.houseNumber) : ''}
+                          selected={pickupPoint}
+                          onSelect={(_p, label) => {
+                            onDirty?.();
+                            setPickupPoint(label);
+                            if (onePage) void saveMethod(id, null, false, true, label);
+                          }}
+                        />
+                      )}
+                      </div>
                     );
                   })}
 
