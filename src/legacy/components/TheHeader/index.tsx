@@ -231,6 +231,11 @@ export default function TheHeader() {
           drawerTitles[drawerContent || 'user'][currentLanguage || 'NL'] || ''
         }
         close={closeDrawer}
+        top={
+          drawerContent === 'cart' ? (
+            <ReservationTimer />
+          ) : undefined
+        }
       >
         {drawerContent === 'cart' && <Cart closeDrawer={closeDrawer} />}
         {drawerContent === 'user' && <User closeDrawer={closeDrawer} />}

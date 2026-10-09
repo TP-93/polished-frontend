@@ -13,9 +13,10 @@ interface Props {
   title: string;
   children: React.ReactNode;
   close: () => void;
+  top?: React.ReactNode;
 }
 
-export function Drawer({ open, title, children, close }: Props) {
+export function Drawer({ open, title, children, close, top }: Props) {
   const isMobile = useMediaQuery('(max-width:767px)');
 
   const height = window.innerHeight;
@@ -55,6 +56,7 @@ export function Drawer({ open, title, children, close }: Props) {
                 backgroundColor: '#fff',
               }}
             >
+              {top}
               <Title text={title} close={close} />
 
               <Stack
