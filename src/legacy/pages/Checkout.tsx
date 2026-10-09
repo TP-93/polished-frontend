@@ -169,6 +169,7 @@ export default function Checkout() {
 
               <MediaQuery query={tablet}>
                 <TotalWrapper className="checkout-order">
+                  <SummarySticky>
                   <CartProductsSummary
                     delBtn={false}
                     checkoutId={checkoutId}
@@ -190,6 +191,7 @@ export default function Checkout() {
                   />
                   <CheckoutDeals checkoutId={checkoutId} />
                   <JorCustomPerks />
+                  </SummarySticky>
                 </TotalWrapper>
               </MediaQuery>
             </Wrapper>
@@ -331,6 +333,16 @@ const FormsWrapper = styled.div`
   min-width: 0;
   padding: 32px 56px 64px 24px;
   @media ${noTablet} { padding: 8px 20px 40px; }
+`;
+const SummarySticky = styled.div`
+  position: sticky;
+  top: 32px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
 `;
 const TotalWrapper = styled.aside`
   display: flex;
