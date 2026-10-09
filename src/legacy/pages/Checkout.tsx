@@ -1,7 +1,7 @@
 // @ts-nocheck
 import styled from 'styled-components';
 import MediaQuery from 'react-responsive';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LockKeyhole, ShoppingBag } from 'lucide-react';
 
 import CheckoutCartWrapper, {
@@ -30,6 +30,19 @@ interface CacheProps {
 }
 
 export default function Checkout() {
+  // Release scroll locks left behind by drawers/modals (e.g. the cart drawer) opened before navigating here.
+  useEffect(() => {
+    const release = () => {
+      [document.documentElement, document.body].forEach(el => {
+        if (el.style.overflow === 'hidden') el.style.overflow = '';
+        el.style.touchAction = '';
+        el.style.paddingRight = '';
+      });
+    };
+    release();
+    const t = setTimeout(release, 600);
+    return () => clearTimeout(t);
+  }, []);
   const [cachedEmail, setCachedEmail] = useState<any>();
   const [cachedAddress, setCachedAddress] = useState<any>();
   const [quantityErrors, setQuantityErrors] = useState<any>();
