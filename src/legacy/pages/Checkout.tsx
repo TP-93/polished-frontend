@@ -206,8 +206,8 @@ export default function Checkout() {
                     shippingPrice={shippingPrice}
                     totalPrice={totalPrice}
                   />
-                  <JorCustomPerks />
                   <CheckoutDeals />
+                  <JorCustomPerks />
                 </TotalWrapper>
               </MediaQuery>
             </Wrapper>
