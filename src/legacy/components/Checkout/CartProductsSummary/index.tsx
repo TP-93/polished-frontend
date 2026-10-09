@@ -58,5 +58,5 @@ const ItemsList = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 0;
 `;
