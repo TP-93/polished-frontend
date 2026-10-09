@@ -280,7 +280,8 @@ const CheckoutPage = styled.main`
   .checkout-product-size { justify-content: flex-start; gap: 8px; margin: 0; color: var(--checkout-muted); }
   .checkout-product-size > span { display: none; }
   .checkout-product-size select { height: 24px; border: 0; font-weight: normal; color: var(--checkout-muted); }
-  .checkout-product-line-total { position: static; padding-top: 4px; white-space: nowrap; font-size: 13px; text-transform: none; }
+  .checkout-product-line-total { position: static; padding-top: 4px; white-space: nowrap; font-size: 13px; text-transform: none; grid-column: 3; grid-row: 1; text-align: right; }
+  .checkout-product > :empty { display: none; }
   .checkout-product-line-total strong { display: none; }
   .checkout-product-quantity { position: absolute; top: 4px; left: 52px; margin: 0; }
   .checkout-product-quantity > span, .checkout-product-quantity button { display: none; }
@@ -332,7 +333,7 @@ const Wrapper = styled.div`
 const FormsWrapper = styled.div`
   min-width: 0;
   padding: 32px 56px 64px 24px;
-  @media ${noTablet} { padding: 8px 20px 40px; }
+  @media ${noTablet} { padding: 0 20px 40px; }
 `;
 const SummarySticky = styled.div`
   position: sticky;
@@ -372,10 +373,9 @@ const Notice = styled.div`
 `;
 const MobileSummary = styled.details`
   background: var(--checkout-summary);
-  border-top: 1px solid var(--checkout-border);
   border-bottom: 1px solid var(--checkout-border);
-  padding: 16px 20px;
-  margin: 0 -20px 28px;
+  padding: 12px 20px;
+  margin: 0 -20px 24px;
   summary { display: flex; gap: 12px; justify-content: space-between; cursor: pointer; font-size: 14px; list-style: none; }
   summary > span { display: flex; gap: 8px; align-items: center; color: var(--checkout-action); }
   summary > span::after { content: '⌄'; }
