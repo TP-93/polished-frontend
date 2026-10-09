@@ -54,9 +54,9 @@ export default function Content({
 
   const {
     id: productId,
-    category: { faq, shippingFaq },
+    category: { faq, shippingFaq } = {},
     sizeReference,
-  } = product;
+  } = product || {};
 
   return (
     <Box
