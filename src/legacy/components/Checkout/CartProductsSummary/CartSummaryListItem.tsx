@@ -117,6 +117,7 @@ const CartSummaryListItem = ({
   quantityErrors,
   setQuantityErrors,
   checkoutId,
+  delBtn,
 }: Props) => {
   const quantityRef = useRef<HTMLInputElement>(null);
 
@@ -259,7 +260,7 @@ const CartSummaryListItem = ({
 
       <InfoWrapper className="checkout-product-info">
         <ProductTitle>{product.name}</ProductTitle>
-        <Info>
+        <Info className="checkout-product-size">
           <Span>Size</Span>
           <UpdateCheckoutLineMutation>
             {(checkoutLineUdpate) => {
@@ -333,7 +334,7 @@ const CartSummaryListItem = ({
           </UpdateCheckoutLineMutation>
         </Info>
 
-        <Info>
+        <Info className="checkout-product-unit-price">
           <Span>Price</Span>
 
           {isDiscount ? (
@@ -348,7 +349,7 @@ const CartSummaryListItem = ({
           )}
         </Info>
 
-        <Info>
+        <Info className="checkout-product-quantity">
           <Span>Quantity</Span>
           <UpdateCheckoutLineMutation>
             {(checkoutLinesUpdate) => {
@@ -374,6 +375,7 @@ const CartSummaryListItem = ({
                   </MinusBtn>
 
                   <Quantity
+                    aria-label={`Quantity: ${product.name}`}
                     type="number"
                     ref={quantityRef}
                     min={1}
@@ -410,12 +412,12 @@ const CartSummaryListItem = ({
       </InfoWrapper>
 
       <MediaQuery query={tablet}>
-        <Total>
+        <Total className="checkout-product-line-total">
           <strong>{total}</strong> {lineTotalPrice}
         </Total>
       </MediaQuery>
 
-      <DeleteCheckoutMutationWrapper
+      {delBtn !== false && <DeleteCheckoutMutationWrapper
         update={(cache, res) => {
           if (res?.data) {
             cache.writeQuery({
@@ -514,12 +516,12 @@ const CartSummaryListItem = ({
             </DeleteCheckoutLineMutation>
           );
         }}
-      </DeleteCheckoutMutationWrapper>
+      </DeleteCheckoutMutationWrapper>}
 
       <ErrorMessage>{quantityError}</ErrorMessage>
 
       <MediaQuery query={noTablet}>
-        <MobileTotal>
+        <MobileTotal className="checkout-product-line-total">
           <strong>{total}</strong>
           {lineTotalPrice}
         </MobileTotal>
