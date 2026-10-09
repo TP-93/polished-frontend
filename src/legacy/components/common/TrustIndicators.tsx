@@ -6,6 +6,7 @@ import { useUserProvider } from '../../context/user';
 import { cocoBold, cocoRegular } from '../../styles/constants';
 
 const FEEDBACK_URL = 'https://www.feedbackcompany.com/nl-nl/reviews/jorcustom/';
+const WHATSAPP_URL = 'https://wa.me/31683206218';
 const WHATSAPP_ICON = '/static/media/whatsapp_icon.ed85186294bc17b04b65f2f77978cf56.svg';
 const FEEDBACK_ICON = '/static/media/feedback.a947a11f57e7173ce552e0feae0f6a39.svg';
 
@@ -118,10 +119,10 @@ export default function TrustIndicators() {
         <CalendarCheck style={iconStyle} />
         <span style={text}>{t.days}</span>
       </div>
-      <div style={row}>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" style={row}>
         <img src={WHATSAPP_ICON} alt="" style={imgStyle} />
         <span style={text}>{t.whatsapp}</span>
-      </div>
+      </a>
       <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" style={row}>
         <img src={FEEDBACK_ICON} alt="Feedback Company" style={{ height: 16, width: 'auto', flexShrink: 0 }} />
         <span style={{ ...text, textDecoration: 'underline', textUnderlineOffset: 2 }}>{t.reviews}</span>
