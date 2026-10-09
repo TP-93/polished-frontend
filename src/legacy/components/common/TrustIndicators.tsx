@@ -119,10 +119,10 @@ export default function TrustIndicators() {
         <CalendarCheck style={iconStyle} />
         <span style={text}>{t.days}</span>
       </div>
-      <div style={row}>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" style={row}>
         <img src={WHATSAPP_ICON} alt="" style={imgStyle} />
         <span style={text}>{t.whatsapp}</span>
-      </div>
+      </a>
       <a href={FEEDBACK_URL} target="_blank" rel="noopener noreferrer" style={row}>
         <img src={FEEDBACK_ICON} alt="Feedback Company" style={{ height: 16, width: 'auto', flexShrink: 0 }} />
         <span style={{ ...text, textDecoration: 'underline', textUnderlineOffset: 2 }}>{t.reviews}</span>
