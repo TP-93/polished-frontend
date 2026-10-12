@@ -64,7 +64,7 @@ export default function Cart({ closeDrawer }: Props) {
           closeDrawer={closeDrawer}
         />
 
-        <Payments />
+        <Payments margin="0 0 4px" />
 
         <FeedbackCompanyReview />
       </Stack>
