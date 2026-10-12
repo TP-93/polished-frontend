@@ -22,7 +22,7 @@ const Icons: any[] = [
   MasterCard,
 ];
 
-export default function Payments() {
+export default function Payments({ margin = '1.5rem 0' }: { margin?: string }) {
   const isMobile = useMediaQuery('(max-width:767px)');
 
   return (
@@ -31,7 +31,7 @@ export default function Payments() {
       flexDirection="row"
       alignItems="center"
       justifyContent="center"
-      sx={{ m: '1.5rem 0' }}
+      sx={{ m: margin }}
     >
       {Icons.map((Icon: any, index: number) => (
         <SvgIcon

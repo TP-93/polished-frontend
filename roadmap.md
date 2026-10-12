@@ -7,3 +7,4 @@
 - [x] Match checkout dividers and reference product summary; show live CHECKOUT DEALS below totals and verify presentation and product links with a temporary test cart.
 - [x] Verify populated checkout appearance, focus/error states and mobile order-summary disclosure using browser-only test responses; real payment completion is not tested.
 - [x] Remove green success checkmarks from checkout fields and the country selector; only error messages remain (verified in a populated checkout).
+- [x] Fine-tune the cart spacing between the payment icons and the Feedback Company review link to about 12px; verified 12px on mobile and desktop.
