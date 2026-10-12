@@ -39,6 +39,7 @@ import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as TracksuitHerenRouteImport } from './routes/tracksuit-heren'
 import { Route as TruiPersonaliserenRouteImport } from './routes/trui-personaliseren'
 import { Route as VerzendenRouteImport } from './routes/verzenden'
+import { Route as ZoekenRouteImport } from './routes/zoeken'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as CollectionCollectionNameRouteImport } from './routes/collection.$collectionName'
@@ -200,6 +201,11 @@ const VerzendenRoute = VerzendenRouteImport.update({
   path: '/verzenden',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZoekenRoute = ZoekenRouteImport.update({
+  id: '/zoeken',
+  path: '/zoeken',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiGraphqlRoute = ApiGraphqlRouteImport.update({
   id: '/api/graphql',
   path: '/api/graphql',
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/tracksuit-heren': typeof TracksuitHerenRoute
   '/trui-personaliseren': typeof TruiPersonaliserenRoute
   '/verzenden': typeof VerzendenRoute
+  '/zoeken': typeof ZoekenRoute
   '/api/graphql': typeof ApiGraphqlRoute
   '/category/$slug': typeof CategorySlugRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
@@ -329,6 +336,7 @@ export interface FileRoutesByTo {
   '/tracksuit-heren': typeof TracksuitHerenRoute
   '/trui-personaliseren': typeof TruiPersonaliserenRoute
   '/verzenden': typeof VerzendenRoute
+  '/zoeken': typeof ZoekenRoute
   '/api/graphql': typeof ApiGraphqlRoute
   '/category/$slug': typeof CategorySlugRoute
   '/my-designs/$id': typeof MyDesignsIdRoute
@@ -371,6 +379,7 @@ export interface FileRoutesById {
   '/tracksuit-heren': typeof TracksuitHerenRoute
   '/trui-personaliseren': typeof TruiPersonaliserenRoute
   '/verzenden': typeof VerzendenRoute
+  '/zoeken': typeof ZoekenRoute
   '/api/graphql': typeof ApiGraphqlRoute
   '/category/$slug': typeof CategorySlugRoute
   '/collection/$collectionName': typeof CollectionCollectionNameRouteWithChildren
@@ -415,6 +424,7 @@ export interface FileRouteTypes {
     | '/tracksuit-heren'
     | '/trui-personaliseren'
     | '/verzenden'
+    | '/zoeken'
     | '/api/graphql'
     | '/category/$slug'
     | '/collection/$collectionName'
@@ -457,6 +467,7 @@ export interface FileRouteTypes {
     | '/tracksuit-heren'
     | '/trui-personaliseren'
     | '/verzenden'
+    | '/zoeken'
     | '/api/graphql'
     | '/category/$slug'
     | '/my-designs/$id'
@@ -498,6 +509,7 @@ export interface FileRouteTypes {
     | '/tracksuit-heren'
     | '/trui-personaliseren'
     | '/verzenden'
+    | '/zoeken'
     | '/api/graphql'
     | '/category/$slug'
     | '/collection/$collectionName'
@@ -541,6 +553,7 @@ export interface RootRouteChildren {
   TracksuitHerenRoute: typeof TracksuitHerenRoute
   TruiPersonaliserenRoute: typeof TruiPersonaliserenRoute
   VerzendenRoute: typeof VerzendenRoute
+  ZoekenRoute: typeof ZoekenRoute
   ApiGraphqlRoute: typeof ApiGraphqlRoute
   CategorySlugRoute: typeof CategorySlugRoute
   CollectionCollectionNameRoute: typeof CollectionCollectionNameRouteWithChildren
@@ -763,6 +776,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerzendenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/zoeken': {
+      id: '/zoeken'
+      path: '/zoeken'
+      fullPath: '/zoeken'
+      preLoaderRoute: typeof ZoekenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/graphql': {
       id: '/api/graphql'
       path: '/api/graphql'
@@ -884,6 +904,7 @@ const rootRouteChildren: RootRouteChildren = {
   TracksuitHerenRoute: TracksuitHerenRoute,
   TruiPersonaliserenRoute: TruiPersonaliserenRoute,
   VerzendenRoute: VerzendenRoute,
+  ZoekenRoute: ZoekenRoute,
   ApiGraphqlRoute: ApiGraphqlRoute,
   CategorySlugRoute: CategorySlugRoute,
   CollectionCollectionNameRoute: CollectionCollectionNameRouteWithChildren,
