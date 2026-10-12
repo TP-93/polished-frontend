@@ -33,13 +33,30 @@ const SaleLink = styled(NavLink)(() => ({
   },
 }));
 
+// Mobile drawer variant: same behaviour, sized to match the drawer's other links.
+const MobileSaleLink = styled(NavLink)(() => ({
+  ...cocoRegular,
+  fontSize: '0.75rem',
+  color: '#6c6c6c',
+  textDecoration: 'none',
+  transition: 'color 180ms ease',
+  '&:hover': {
+    color: '#111',
+  },
+}));
+
 interface SaleCollection {
   name: string;
   slug: string;
   products: { totalCount: number } | null;
 }
 
-export default function SaleCollectionLinks({ close }: any) {
+interface Props {
+  close?: () => void;
+  variant?: 'desktop' | 'mobile';
+}
+
+export default function SaleCollectionLinks({ close, variant = 'desktop' }: Props) {
   const [sales, setSales] = React.useState<SaleCollection[]>([]);
 
   React.useEffect(() => {
@@ -79,13 +96,18 @@ export default function SaleCollectionLinks({ close }: any) {
 
   if (sales.length === 0) return null;
 
+  const Link = variant === 'mobile' ? MobileSaleLink : SaleLink;
+  const wrapperSx =
+    variant === 'mobile' ? { pb: '4px' } : { mt: '12px' };
+  const rowSx = variant === 'mobile' ? { py: '10px' } : { py: '4px' };
+
   return (
-    <Box sx={{ mt: '12px' }}>
+    <Box sx={wrapperSx}>
       {sales.map((sale) => (
-        <Box key={sale.slug} sx={{ py: '4px' }}>
-          <SaleLink to={{ pathname: `/collection/${sale.slug}` }} onClick={close}>
+        <Box key={sale.slug} sx={rowSx}>
+          <Link to={{ pathname: `/collection/${sale.slug}` }} onClick={close}>
             {sale.name}
-          </SaleLink>
+          </Link>
         </Box>
       ))}
     </Box>

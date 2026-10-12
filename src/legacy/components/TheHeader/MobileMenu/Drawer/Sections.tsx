@@ -12,6 +12,7 @@ import {
   getItemPathname,
 } from '../../menuModel';
 import { cocoBold, cocoRegular } from '../../../../styles/constants';
+import SaleCollectionLinks from '../../Shop/SaleCollectionLinks';
 
 const slugOf = (item: any) => (item?.collection?.slug || '').toLowerCase();
 const isSaleSlug = (slug: string) => slug === 'sale' || slug.startsWith('sale-');
@@ -58,13 +59,14 @@ function Row({ children, onClick, open, level = 0 }: any) {
   );
 }
 
-function CategoryAccordion({ menu, allLabel, closeDrawer }: any) {
+function CategoryAccordion({ menu, allLabel, closeDrawer, topContent }: any) {
   const [open, setOpen] = React.useState<string>('');
   if (!menu) return null;
   const columns = buildCategoryColumns(buildCategoryGroups(menu), slugOf(menu));
 
   return (
     <Box sx={{ pl: '12px', pb: '8px' }}>
+      {topContent}
       {allLabel && <Box sx={{ py: '12px' }}>
         <NavLink to={{ pathname: getItemPathname(menu) }} onClick={closeDrawer} style={subHeadStyle}>
           {allLabel}
@@ -158,7 +160,14 @@ export default function Sections({ collections = [], closeDrawer }: Props) {
           <Box sx={topStyle}>Sale</Box>
         </Row>
         <Collapse in={open === 'sale'}>
-          <CategoryAccordion menu={saleMenu} allLabel="Shop All Sale" closeDrawer={closeDrawer} />
+          <CategoryAccordion
+            menu={saleMenu}
+            allLabel="Shop All Sale"
+            closeDrawer={closeDrawer}
+            topContent={
+              <SaleCollectionLinks variant="mobile" close={closeDrawer} />
+            }
+          />
         </Collapse>
       </Box>
     </Box>
