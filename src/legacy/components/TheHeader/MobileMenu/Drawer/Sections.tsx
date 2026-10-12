@@ -61,15 +61,15 @@ function Row({ children, onClick, open, level = 0 }: any) {
 function CategoryAccordion({ menu, allLabel, closeDrawer }: any) {
   const [open, setOpen] = React.useState<string>('');
   if (!menu) return null;
-  const columns = buildCategoryColumns(buildCategoryGroups(menu));
+  const columns = buildCategoryColumns(buildCategoryGroups(menu), slugOf(menu));
 
   return (
     <Box sx={{ pl: '12px', pb: '8px' }}>
-      <Box sx={{ py: '12px' }}>
+      {allLabel && <Box sx={{ py: '12px' }}>
         <NavLink to={{ pathname: getItemPathname(menu) }} onClick={closeDrawer} style={subHeadStyle}>
           {allLabel}
         </NavLink>
-      </Box>
+      </Box>}
       {columns.map((column: any) => (
         <Box key={column.id}>
           <Row level={1} open={open === column.id} onClick={() => setOpen(open === column.id ? '' : column.id)}>
@@ -77,6 +77,11 @@ function CategoryAccordion({ menu, allLabel, closeDrawer }: any) {
           </Row>
           <Collapse in={open === column.id}>
             <Box sx={{ pl: '12px', pb: '8px' }}>
+              <Box sx={{ py: '8px' }}>
+                <NavLink to={{ pathname: column.allPathname, state: { title: column.name } }} onClick={closeDrawer} style={linkStyle}>
+                  Shop all {column.name}
+                </NavLink>
+              </Box>
               {column.items.map((item: any) => (
                 <Box key={item.id} sx={{ py: '8px' }}>
                   <NavLink
@@ -127,7 +132,7 @@ export default function Sections({ collections = [], closeDrawer }: Props) {
           <Box sx={topStyle}>Shop All</Box>
         </Row>
         <Collapse in={open === 'shop'}>
-          <CategoryAccordion menu={shopMenu} allLabel="Shop All Products" closeDrawer={closeDrawer} />
+          <CategoryAccordion menu={shopMenu} closeDrawer={closeDrawer} />
         </Collapse>
       </Box>
 
