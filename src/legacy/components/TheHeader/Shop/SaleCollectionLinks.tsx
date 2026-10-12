@@ -33,13 +33,30 @@ const SaleLink = styled(NavLink)(() => ({
   },
 }));
 
+// Mobile drawer variant: same behaviour, sized to match the drawer's other links.
+const MobileSaleLink = styled(NavLink)(() => ({
+  ...cocoRegular,
+  fontSize: '0.75rem',
+  color: '#6c6c6c',
+  textDecoration: 'none',
+  transition: 'color 180ms ease',
+  '&:hover': {
+    color: '#111',
+  },
+}));
+
 interface SaleCollection {
   name: string;
   slug: string;
   products: { totalCount: number } | null;
 }
 
-export default function SaleCollectionLinks({ close }: any) {
+interface Props {
+  close?: () => void;
+  variant?: 'desktop' | 'mobile';
+}
+
+export default function SaleCollectionLinks({ close, variant = 'desktop' }: Props) {
   const [sales, setSales] = React.useState<SaleCollection[]>([]);
 
   React.useEffect(() => {
