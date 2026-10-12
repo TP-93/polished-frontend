@@ -1,4 +1,5 @@
 # Checkout appearance
+- [x] Verify the cart's black countdown strip, expanded scrolling product area and bottom-aligned totals, order button, payments and centered Feedback Company link with a real product on desktop and mobile.
 - [x] Center the checkout payment icons; verified in the populated checkout.
 - [x] Convert checkout to one page with payment icons, contact/newsletter, existing account login and saved-address autofill; verified login, autofill, newsletter, shipping and safely stopped payment with temporary test responses (no real order).
 - [x] Add checkout deals directly to the current bag; verified size selection, updated totals and failure handling with temporary test responses without creating real orders.

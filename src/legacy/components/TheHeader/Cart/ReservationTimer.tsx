@@ -55,11 +55,15 @@ const ReservationTimer = () => {
 const Wrapper = styled.p`
   width: 100%;
   margin: 0;
-  padding: 10px 0 6px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  background: var(--cart-timer-background);
   text-align: center;
   ${cocoRegular};
-  color: #050505;
+  color: var(--cart-timer-foreground);
   font-size: 0.7rem;
+  line-height: 1.5;
 `;
 
 const Time = styled.span`

@@ -63,6 +63,8 @@
 
 :root {
   --radius: 0.25rem;
+  --cart-timer-background: #0d0e0e;
+  --cart-timer-foreground: #ffffff;
   --checkout-background: oklch(1 0 0);
   --checkout-summary: oklch(0.978 0 0);
   --checkout-text: #050505;

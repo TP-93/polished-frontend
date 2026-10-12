@@ -54,6 +54,7 @@ export function Drawer({ open, title, children, close, top }: Props) {
                 alignItems: 'center',
                 overflow: 'hidden',
                 backgroundColor: '#fff',
+                ...(top ? { '& #drawer-title': { flexShrink: 0 } } : {}),
               }}
             >
               {top}
@@ -63,9 +64,11 @@ export function Drawer({ open, title, children, close, top }: Props) {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  height: isMobile
-                    ? `calc(${window.innerHeight}px - 4vh)`
-                    : `calc(${window.innerHeight}px - 4vh - 76px)`,
+                  ...(top
+                    ? { flex: '1 1 0', minHeight: 0 }
+                    : { height: isMobile
+                      ? `calc(${window.innerHeight}px - 4vh)`
+                      : `calc(${window.innerHeight}px - 4vh - 76px)` }),
                   width: '100%',
                   overflow: 'hidden',
                 }}
