@@ -85,11 +85,13 @@ export function buildCategoryGroups(item: any): any[] {
 const categoryColumns = [
   {
     id: 'tops',
+    slug: 'tops',
     name: 'Tops',
     aliases: ['tops', 'top', 't-shirts', 't-shirt'],
   },
   {
     id: 'sweatshirts',
+    slug: 'sweats-hoodies-zips',
     name: 'Sweats, Hoodies & Zips',
     aliases: [
       'sweats, hoodies & zips',
@@ -101,6 +103,7 @@ const categoryColumns = [
   },
   {
     id: 'bottoms',
+    slug: 'bottoms',
     name: 'Bottoms',
     aliases: [
       'bottoms',
@@ -113,11 +116,13 @@ const categoryColumns = [
   },
   {
     id: 'jackets',
+    slug: 'jackets',
     name: 'Jackets',
     aliases: ['jackets & vests', 'jackets', 'jacket'],
   },
   {
     id: 'accessories',
+    slug: 'accessoires',
     name: 'Accessoires',
     aliases: [
       'accessoires',
@@ -129,10 +134,11 @@ const categoryColumns = [
   },
 ];
 
-export function buildCategoryColumns(groups: any[] = []): any[] {
+export function buildCategoryColumns(groups: any[] = [], collectionSlug = ''): any[] {
   const columns = categoryColumns.map((column: any) => ({
     id: column.id,
     name: column.name,
+    allPathname: `/collection/${collectionSlug}/${column.slug}`,
     items: [],
   }));
 

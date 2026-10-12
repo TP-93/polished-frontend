@@ -93,7 +93,7 @@ const navUnderlineSx = (isActive: boolean) => ({
 
 function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
   if (!menu) return null;
-  const columns = buildCategoryColumns(buildCategoryGroups(menu));
+  const columns = buildCategoryColumns(buildCategoryGroups(menu), slugOf(menu));
 
   return (
     <Box sx={{ display: 'flex', gap: '32px' }}>
@@ -101,11 +101,11 @@ function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
+            gridTemplateColumns: `repeat(${allLabel ? 6 : 5}, minmax(0, 1fr))`,
             columnGap: '24px',
           }}
         >
-          <Box>
+          {allLabel && <Box>
             <HeadingLink
               to={{ pathname: getItemPathname(menu) }}
               onClick={close}
@@ -113,11 +113,16 @@ function CategoryGrid({ menu, allLabel, close, shopId, showSaleLinks }: any) {
               {allLabel}
             </HeadingLink>
             {showSaleLinks && <SaleCollectionLinks close={close} />}
-          </Box>
+          </Box>}
 
           {columns.map((column: any) => (
             <Box key={column.id}>
               <Box sx={{ ...headingStyle, mb: '12px' }}>{column.name}</Box>
+              <Box sx={{ py: '4px' }}>
+                <MenuLink to={{ pathname: column.allPathname, state: { title: column.name } }} onClick={close}>
+                  Shop all {column.name}
+                </MenuLink>
+              </Box>
               {column.items.map((item: any) => (
                 <Box key={item.id} sx={{ py: '4px' }}>
                   <MenuLink
@@ -255,7 +260,7 @@ export default function Shop({
             }}
           >
             {active === 'shop' && (
-              <CategoryGrid menu={shopMenu} allLabel="Shop All Products" close={close} shopId={shopId} />
+              <CategoryGrid menu={shopMenu} close={close} shopId={shopId} />
             )}
             {active === 'sale' && (
               <CategoryGrid
