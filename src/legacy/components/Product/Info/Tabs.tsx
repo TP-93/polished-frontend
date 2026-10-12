@@ -27,7 +27,7 @@ export default function Tabs({ contentType, contentChangeHandler }: Props) {
   } = useUserProvider();
 
   const tabs: any[] = [
-    { type: 'details', EN: 'Product Details', NL: 'Product Details' },
+    { type: 'details', EN: 'Product Details', NL: 'Productdetails' },
     {
       type: 'proposal',
       EN: 'Size Reference & Proposal',
