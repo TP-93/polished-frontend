@@ -96,13 +96,18 @@ export default function SaleCollectionLinks({ close, variant = 'desktop' }: Prop
 
   if (sales.length === 0) return null;
 
+  const Link = variant === 'mobile' ? MobileSaleLink : SaleLink;
+  const wrapperSx =
+    variant === 'mobile' ? { pb: '4px' } : { mt: '12px' };
+  const rowSx = variant === 'mobile' ? { py: '10px' } : { py: '4px' };
+
   return (
-    <Box sx={{ mt: '12px' }}>
+    <Box sx={wrapperSx}>
       {sales.map((sale) => (
-        <Box key={sale.slug} sx={{ py: '4px' }}>
-          <SaleLink to={{ pathname: `/collection/${sale.slug}` }} onClick={close}>
+        <Box key={sale.slug} sx={rowSx}>
+          <Link to={{ pathname: `/collection/${sale.slug}` }} onClick={close}>
             {sale.name}
-          </SaleLink>
+          </Link>
         </Box>
       ))}
     </Box>
