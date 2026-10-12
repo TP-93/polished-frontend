@@ -23,7 +23,7 @@ import { ProductInfoContentType } from '../index';
 const titles: any = {
   details: {
     EN: 'Product Details',
-    NL: 'Product Details',
+    NL: 'Productdetails',
   },
   proposal: {
     EN: 'Size Reference & Proposal',
