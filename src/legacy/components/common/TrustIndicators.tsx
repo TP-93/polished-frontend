@@ -85,6 +85,28 @@ function useCountdown() {
 const iconStyle = { width: 16, height: 16, flexShrink: 0, strokeWidth: 1.6, color: '#050505' };
 const imgStyle = { width: 16, height: 16, flexShrink: 0, objectFit: 'contain' };
 
+export function FeedbackCompanyReview() {
+  const { state: { currentLanguage } } = useUserProvider();
+  const t = COPY[currentLanguage] || COPY.nl;
+
+  return (
+    <a
+      href={FEEDBACK_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        gap: 10, padding: '4px 0', width: '100%',
+        ...cocoRegular, color: 'var(--checkout-text)', fontSize: 12,
+        lineHeight: 1.4, textDecoration: 'none',
+      }}
+    >
+      <img src={FEEDBACK_ICON} alt="Feedback Company" style={{ height: 16, width: 'auto', flexShrink: 0 }} />
+      <span style={{ textDecoration: 'underline', textUnderlineOffset: 2 }}>{t.reviews}</span>
+    </a>
+  );
+}
+
 export default function TrustIndicators() {
   const { state: { currentLanguage } } = useUserProvider();
   const t = COPY[currentLanguage] || COPY.nl;

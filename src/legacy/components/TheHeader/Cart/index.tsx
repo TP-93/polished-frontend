@@ -9,7 +9,7 @@ import Loader from './Loader';
 import Summary from './Summary';
 import Products from './Products';
 import Payments from '../../common/Payments';
-import TrustIndicators from '../../common/TrustIndicators';
+import { FeedbackCompanyReview } from '../../common/TrustIndicators';
 import { useHeaderContext } from '../Provider';
 
 interface Props {
@@ -33,8 +33,9 @@ export default function Cart({ closeDrawer }: Props) {
       sx={{
         width: '100%',
         flexGrow: 1,
+        minHeight: 0,
         overflow: 'hidden',
-        backgroundColor: '#fff',
+        backgroundColor: 'var(--checkout-background)',
       }}
     >
       <Stack
@@ -42,9 +43,10 @@ export default function Cart({ closeDrawer }: Props) {
         flexDirection="column"
         sx={{
           width: '95%',
-          minHeight: '30vh',
-          maxHeight: 'max-content',
+          flex: '1 1 0',
+          minHeight: 0,
           overflow: 'hidden auto',
+          overscrollBehavior: 'contain',
         }}
       >
         <Products cartProducts={cartProducts} />
@@ -54,7 +56,7 @@ export default function Cart({ closeDrawer }: Props) {
         id="summary"
         display="flex"
         flexDirection="column"
-        sx={{ width: '95%', pb: '1rem' }}
+        sx={{ width: '95%', flexShrink: 0, pb: 'max(12px, env(safe-area-inset-bottom))' }}
       >
         <Summary
           totalPrice={totalPrice}
@@ -64,7 +66,7 @@ export default function Cart({ closeDrawer }: Props) {
 
         <Payments />
 
-        <TrustIndicators />
+        <FeedbackCompanyReview />
       </Stack>
     </Stack>
   );
