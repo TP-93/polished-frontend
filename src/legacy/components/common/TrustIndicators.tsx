@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from 'react';
-import { Clock, Truck, RotateCcw, CalendarCheck } from 'lucide-react';
+import { Clock, Truck, RotateCcw } from 'lucide-react';
 
 import { useUserProvider } from '../../context/user';
 import { cocoBold, cocoRegular } from '../../styles/constants';
@@ -16,8 +16,7 @@ const COPY = {
     tomorrow: 'morgen in huis',
     monday: 'maandag verzonden',
     free: 'Gratis verzending, voor bestellingen boven €39,99',
-    portal: 'Retourneer jouw item gemakkelijk via ons retourportaal',
-    days: 'Retourneer jouw item binnen 14 dagen',
+    returns: 'Retourneer jouw item gemakkelijk binnen 14 dagen via ons retourportaal',
     whatsapp: 'WhatsApp klantenservice',
     reviews: '1000+ reviews, score 9,2/10',
   },
@@ -26,8 +25,7 @@ const COPY = {
     tomorrow: 'delivered tomorrow',
     monday: 'shipped Monday',
     free: 'Free shipping on orders above €39,99',
-    portal: 'Easily return your item via our returns portal',
-    days: 'Return your item within 14 days',
+    returns: 'Easily return your item within 14 days via our returns portal',
     whatsapp: 'WhatsApp customer service',
     reviews: '1000+ reviews, score 9,2/10',
   },
@@ -113,11 +111,7 @@ export default function TrustIndicators() {
       </div>
       <div style={row}>
         <RotateCcw style={iconStyle} />
-        <span style={text}>{t.portal}</span>
-      </div>
-      <div style={row}>
-        <CalendarCheck style={iconStyle} />
-        <span style={text}>{t.days}</span>
+        <span style={text}>{t.returns}</span>
       </div>
       <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" style={row}>
         <img src={WHATSAPP_ICON} alt="" style={imgStyle} />
