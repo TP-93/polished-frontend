@@ -250,6 +250,7 @@ export function SearchResultsGrid({
   return (
     <Box
       onClick={onPick}
+      onClickCapture={onPick}
       sx={{
         width: '100%',
         display: 'grid',
