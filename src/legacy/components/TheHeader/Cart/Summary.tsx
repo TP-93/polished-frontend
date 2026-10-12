@@ -14,14 +14,14 @@ import { useUserProvider } from '../../../context/user';
 import { ReactComponent as DiscountIcon } from '../../../assets/images/icons/discount_tag.svg.tsx';
 
 interface Props {
-  totalPrice: number;
-  subTotalPrice: number;
+  totalPrice: string;
+  shippingAmount: number;
   closeDrawer: () => void;
 }
 
 export default function Summary({
   totalPrice,
-  subTotalPrice,
+  shippingAmount,
   closeDrawer,
 }: Props) {
   const isMobile = useMediaQuery('(max-width:767px)');
@@ -35,40 +35,29 @@ export default function Summary({
       checkoutSummary: {
         total,
         proceed,
-        subTotal,
         shipping,
-        shippingFree,
-        shippingValue,
         voucherValue,
         voucherQuestion,
       },
     },
   } = languages[currentLanguage];
 
+  // The cart assumes NL home delivery; checkout still uses actual backend rates.
+  const numericPrice = totalPrice.replace(/[^\d.,-]/g, '');
+  const decimalSeparator = numericPrice.lastIndexOf(',') > numericPrice.lastIndexOf('.') ? ',' : '.';
+  const normalizedPrice = decimalSeparator === ','
+    ? numericPrice.replace(/\./g, '').replace(',', '.')
+    : numericPrice.replace(/,/g, '');
+  const totalCents = Math.round(Number(normalizedPrice) * 100);
+  const merchandiseCents = Math.max(0, totalCents - Math.round((shippingAmount || 0) * 100));
+  const estimatedShippingCents = merchandiseCents >= 4000 ? 0 : 499;
+  const formatPrice = (cents: number) => new Intl.NumberFormat(
+    currentLanguage === 'NL' ? 'nl-NL' : 'en-IE',
+    { style: 'currency', currency: 'EUR' },
+  ).format(cents / 100);
+
   return (
     <Stack display="flex" flexDirection="column" sx={{ pt: '0.5rem' }}>
-      <Stack
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ mb: '0.5rem' }}
-      >
-        <Typography
-          variant="body1"
-          sx={{ fontSize: '0.7rem', color: '#050505', ...cocoBold }}
-        >
-          {subTotal}
-        </Typography>
-
-        <Typography
-          variant="body1"
-          sx={{ ...cocoRegular, color: '#050505', fontSize: '0.7rem' }}
-        >
-          {subTotalPrice || totalPrice}
-        </Typography>
-      </Stack>
-
       <Stack
         display="flex"
         flexDirection="row"
@@ -89,23 +78,13 @@ export default function Summary({
             {shipping}
           </Typography>
 
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: '0.6rem',
-              color: '#6b6b6b',
-              ...cocoRegular,
-            }}
-          >
-            {shippingFree}
-          </Typography>
         </Stack>
 
         <Typography
           variant="body1"
           sx={{ ...cocoRegular, color: '#050505', fontSize: '0.7rem' }}
         >
-          {shippingValue}
+          {formatPrice(estimatedShippingCents)}
         </Typography>
       </Stack>
 
@@ -257,7 +236,7 @@ export default function Summary({
           variant="body1"
           sx={{ ...cocoRegular, color: '#050505', fontSize: '1.13rem' }}
         >
-          {totalPrice}
+          {formatPrice(merchandiseCents + estimatedShippingCents)}
         </Typography>
       </Stack>
 

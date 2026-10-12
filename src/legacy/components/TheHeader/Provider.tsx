@@ -98,6 +98,7 @@ export default function HeaderProvider({ children }: Props) {
             lines,
             totalPrice,
             subtotalPrice,
+            shippingPrice,
           } = data?.checkout || {};
 
           let totalQuantity: number = 0;
@@ -173,6 +174,7 @@ export default function HeaderProvider({ children }: Props) {
             id: checkoutId,
             totalPrice: totalPrice?.localized || '',
             subtotalPrice: subtotalPrice?.localized || '',
+            shippingAmount: shippingPrice?.amount || 0,
             cartProducts: cartProductsData,
             cartLinesCounter: lines?.length || 0,
             cartProductsCounter: totalQuantity,
