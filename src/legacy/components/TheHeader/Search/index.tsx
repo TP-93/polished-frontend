@@ -5,6 +5,7 @@ import { Box as Box } from '@mui/material';
 import { ClickAwayListener as ClickAwayListener } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { Search as SearchIcon } from 'lucide-react';
+import { useHistory } from 'react-router';
 
 import {
   SearchField,
@@ -23,7 +24,7 @@ export default function Search({ isWhiteHeader }: Props) {
 
   const isMobile = useMediaQuery('(max-width:767px)');
 
-  const { query, setQuery, results, isLoading, hasQuery } = useProductSearch();
+  const { query, setQuery, results, total, isLoading, hasQuery } = useProductSearch();
 
   const [isOpen, setOpen] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -40,6 +41,12 @@ export default function Search({ isWhiteHeader }: Props) {
   }, [isOpen]);
 
   const close = () => setOpen(false);
+  const router = useHistory();
+  const showAll = () => {
+    const q = query.trim();
+    close();
+    router.push(`/zoeken?q=${encodeURIComponent(q)}`);
+  };
 
   return (
     <ClickAwayListener onClickAway={close}>
@@ -115,6 +122,34 @@ export default function Search({ isWhiteHeader }: Props) {
               padding={isMobile ? '1.5rem 0' : '3rem 0'}
               onPick={close}
             />
+
+            {hasQuery && !isLoading && total > results.length && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', pb: '32px' }}>
+                <Box
+                  component="button"
+                  type="button"
+                  onClick={showAll}
+                  sx={{
+                    px: '28px',
+                    py: '12px',
+                    border: 0,
+                    cursor: 'pointer',
+                    backgroundColor: '#000',
+                    color: '#fff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    fontFamily: 'inherit',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.18)',
+                    transition: 'background-color .2s',
+                    '&:hover': { backgroundColor: '#333' },
+                  }}
+                >
+                  {labels.more} ({total})
+                </Box>
+              </Box>
+            )}
           </Box>
         )}
       </Box>

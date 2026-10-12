@@ -93,6 +93,8 @@ export function useSearchLabels() {
     aria: currentLanguage === 'EN' ? 'Search' : 'Zoeken',
     clear: currentLanguage === 'EN' ? 'Clear search' : 'Zoekopdracht wissen',
     close: currentLanguage === 'EN' ? 'Close' : 'Sluiten',
+    more: currentLanguage === 'EN' ? 'More products' : 'Meer producten',
+    title: currentLanguage === 'EN' ? 'Search results for' : 'Zoekresultaten voor',
   };
 }
 
@@ -100,6 +102,7 @@ export function useProductSearch() {
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState<any[]>([]);
   const [isLoading, setLoading] = React.useState(false);
+  const [total, setTotal] = React.useState(0);
 
   React.useEffect(() => {
     fetchAllProducts();
@@ -117,10 +120,11 @@ export function useProductSearch() {
     setLoading(true);
     const handle = setTimeout(async () => {
       const all = await fetchAllProducts();
-      const matches = all
-        .filter((p: any) => p.name?.toLowerCase().includes(q))
-        .slice(0, MAX_RESULTS);
-      setResults(matches);
+      const matches = all.filter((p: any) =>
+        p.name?.toLowerCase().includes(q),
+      );
+      setTotal(matches.length);
+      setResults(matches.slice(0, MAX_RESULTS));
       setLoading(false);
     }, 200);
 
@@ -131,6 +135,7 @@ export function useProductSearch() {
     query,
     setQuery,
     results,
+    total,
     isLoading,
     hasQuery: query.trim().length >= 2,
   };

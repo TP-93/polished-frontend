@@ -8,7 +8,6 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { useUserProvider } from '../../../../context/user';
 import { useHeaderContext } from '../../Provider';
 import Sections from './Sections';
-import DrawerSearch from '../../Search/DrawerSearch';
 
 import { ReactComponent as NL } from '../../../../assets/images/icons/flags/FLAG_NL.svg.tsx';
 import { ReactComponent as GB } from '../../../../assets/images/icons/flags/FLAG_GB.svg.tsx';
@@ -44,21 +43,10 @@ export default function Content({ closeDrawer, openLocalesModal }: Props) {
       }}
     >
       <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '12px',
-            pb: '4px',
-          }}
-        >
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <DrawerSearch closeDrawer={closeDrawer} />
-          </Box>
-
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <CloseIcon
             onClick={closeDrawer}
-            sx={{ height: '30px', mt: '4px', cursor: 'pointer', flexShrink: 0 }}
+            sx={{ height: '30px', cursor: 'pointer' }}
           />
         </Box>
 
