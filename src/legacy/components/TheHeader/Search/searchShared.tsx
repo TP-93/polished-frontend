@@ -247,10 +247,17 @@ export function SearchResultsGrid({
 }: GridProps) {
   if (!hasQuery) return null;
 
+  // The product card stops propagation on click, so listen in the capture
+  // phase and defer closing until after the card's own navigation ran.
+  const handlePick = (e: any) => {
+    if (!onPick) return;
+    setTimeout(() => onPick(), 0);
+  };
+
   return (
     <Box
       onClick={onPick}
-      onClickCapture={onPick}
+      onClickCapture={handlePick}
       sx={{
         width: '100%',
         display: 'grid',
