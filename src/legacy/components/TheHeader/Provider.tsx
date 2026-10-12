@@ -59,10 +59,15 @@ export default function HeaderProvider({ children }: Props) {
     const collectionsData: any[] = data.shop.navigation.main.items || [];
     const shouldSubPopUpBeShown: boolean = data.shop.popUp;
 
-    if (languageCode && !localStorageLang?.length) {
+    // Nederlands is de standaardtaal; alleen overschrijven als de backend NL stuurt.
+    if (
+      languageCode &&
+      languageCode.toUpperCase() === 'NL' &&
+      !localStorageLang?.length
+    ) {
       dispatch({
         type: 'CHANGE_LANGUAGE',
-        payload: languageCode.toUpperCase(),
+        payload: 'NL',
       });
     }
 
