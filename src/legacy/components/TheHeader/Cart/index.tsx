@@ -18,7 +18,7 @@ interface Props {
 
 export default function Cart({ closeDrawer }: Props) {
   const { checkout } = useHeaderContext();
-  const { error, totalPrice, loading, subTotalPrice, cartProducts } = checkout;
+  const { error, totalPrice, loading, shippingAmount, cartProducts } = checkout;
 
   if (loading) return <Loader />;
   if (error) return <Error />;
@@ -60,7 +60,7 @@ export default function Cart({ closeDrawer }: Props) {
       >
         <Summary
           totalPrice={totalPrice}
-          subTotalPrice={subTotalPrice}
+          shippingAmount={shippingAmount}
           closeDrawer={closeDrawer}
         />
 

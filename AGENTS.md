@@ -14,3 +14,4 @@
 - Add checkout deals using the existing checkoutLinesAdd mutation and returned checkout cache; require an in-stock size when multiple sizes exist to avoid arbitrary variants and keep totals synchronized.
 - One-page checkout reuses existing Apollo address and shipping mutations, saving validated fields before enabling the existing payment redirect; reuse the shop account login and newsletter subscription rather than introducing another account system.
 - Cart drawers with top content use a bounded flex layout with a scrollable product list and a non-shrinking footer; reuse the standalone Feedback Company review link to keep other trust-indicator placements unchanged.
+- Cart shipping is a presentation-only NL home-delivery estimate; replace any existing shipping amount when calculating the displayed total to avoid double counting, without changing checkout/payment mutations.
