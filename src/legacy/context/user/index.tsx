@@ -56,7 +56,7 @@ const userInitState: UserState = {
   currency: localStorageCurrency || 'EUR',
   languages: LanguagesMap,
   isPageScrolled: false,
-  currentLanguage: localStorageLanguage || 'EN',
+  currentLanguage: localStorageLanguage || 'NL',
   isSubsButtonVisible: false,
   drawerState: {
     type: '',
@@ -82,9 +82,9 @@ export const userReducer = (state: UserState, action: ActionProps) => {
     }
     case 'CHANGE_LANGUAGE': {
       if (action.payload !== 'EN' && action.payload !== 'NL') {
-        localStorage.setItem(storageLanguage, 'EN');
+        localStorage.setItem(storageLanguage, 'NL');
 
-        return { ...state, currentLanguage: 'EN' };
+        return { ...state, currentLanguage: 'NL' };
       }
 
       localStorage.setItem(storageLanguage, action.payload);
