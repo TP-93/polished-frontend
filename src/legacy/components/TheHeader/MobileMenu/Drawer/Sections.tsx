@@ -162,7 +162,6 @@ export default function Sections({ collections = [], closeDrawer }: Props) {
         <Collapse in={open === 'sale'}>
           <CategoryAccordion
             menu={saleMenu}
-            allLabel="Shop All Sale"
             closeDrawer={closeDrawer}
             topContent={
               <SaleCollectionLinks variant="mobile" close={closeDrawer} />
