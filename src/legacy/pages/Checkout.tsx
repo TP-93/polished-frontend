@@ -48,7 +48,7 @@ export default function Checkout() {
   const [cachedAddress, setCachedAddress] = useState<any>();
   const [quantityErrors, setQuantityErrors] = useState<any>();
   const [addressesReady, setAddressesReady] = useState(false);
-  const [shippingReady, setShippingReady] = useState(false);
+  const [shippingReady, setShippingReady] = useState(true);
   const [insuranceBusy, setInsuranceBusy] = useState(false);
   const [_cachedSameAddress, setSameAddress] = useState(false);
   const [cachedShippingAddress, setCachedShippingAddress] = useState<any>();
@@ -152,7 +152,7 @@ export default function Checkout() {
                   cachedShippingAddress={cachedShippingAddress}
                   orderLines={orderLines}
                   cacheUserData={cacheUserData}
-                  onDirty={() => { setAddressesReady(false); setShippingReady(false); }}
+                  onDirty={() => setAddressesReady(false)}
                   openNextSection={() => setAddressesReady(true)}
                   showQuantityErrors={setQuantityErrors}
                 />
