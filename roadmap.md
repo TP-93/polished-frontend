@@ -1,4 +1,5 @@
 # Checkout appearance
+- [ ] Add backend-linked shipping insurance between shipping and payment, translate the offer and verify add/remove and totals with a real product.
 - [x] Replace the checkout header lock with a shopping bag and remove the checkout subtotal row; verified in a populated checkout.
 - [x] Default an unselected checkout to available DPD Home using the existing shipping mutation; verified with a real product and test address, backend totals and manual pickup selection (no order placed).
 - [x] Verify the cart's black countdown strip, expanded scrolling product area and bottom-aligned totals, order button, payments and centered Feedback Company link with a real product on desktop and mobile.

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
+import { Package } from 'lucide-react';
 
 import Swal from 'sweetalert2';
 import MediaQuery from 'react-responsive';
@@ -124,7 +125,7 @@ const CartSummaryListItem = ({
   const [quantityError, setQuantityError] = useState<any>();
   const [networkError, setNetworkError] = useState<any>();
   const [withoutFound, setWithoutFound] = useState<any>();
-  const [imageUrl, setImageUrl] = useState(product.imageGroups[0].url);
+  const [imageUrl, setImageUrl] = useState(product.imageGroups?.[0]?.url);
 
   const {
     state: { languages, currency, currentLanguage },
@@ -255,7 +256,7 @@ const CartSummaryListItem = ({
   return (
     <ListItemContainer className="checkout-product">
       <ImageContainer className="checkout-product-image">
-        <ProductImage alt={product.name} src={`${imageUrl}?${Date.now()}`} />
+        {imageUrl ? <ProductImage alt={product.name} src={`${imageUrl}?${Date.now()}`} /> : <Package aria-label={product.name} size={28} style={{ margin: '18px' }} />}
       </ImageContainer>
 
       <InfoWrapper className="checkout-product-info">

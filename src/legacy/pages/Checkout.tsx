@@ -14,6 +14,7 @@ import AddressForms from '../components/Checkout/AddressForms';
 import PurchaseButton from '../components/Checkout/CheckoutFinish/Finish';
 import Payments from '../components/common/Payments';
 import CheckoutDeals from '../components/Checkout/CheckoutDeals';
+import ShippingInsurance from '../components/Checkout/ShippingInsurance';
 import JorCustomPerks from '../components/common/JorCustomPerks';
 import CheckoutSummary from '../components/Checkout/CheckoutSummary';
 import CartProductsSummary from '../components/Checkout/CartProductsSummary';
@@ -48,6 +49,7 @@ export default function Checkout() {
   const [quantityErrors, setQuantityErrors] = useState<any>();
   const [addressesReady, setAddressesReady] = useState(false);
   const [shippingReady, setShippingReady] = useState(false);
+  const [insuranceBusy, setInsuranceBusy] = useState(false);
   const [_cachedSameAddress, setSameAddress] = useState(false);
   const [cachedShippingAddress, setCachedShippingAddress] = useState<any>();
 
@@ -151,17 +153,18 @@ export default function Checkout() {
                   orderLines={orderLines}
                   cacheUserData={cacheUserData}
                   onDirty={() => { setAddressesReady(false); setShippingReady(false); }}
-                  openNextSection={() => { setAddressesReady(true); setShippingReady(false); }}
+                  openNextSection={() => setAddressesReady(true)}
                   showQuantityErrors={setQuantityErrors}
                 />
                 <OnePageSection aria-label={currentLanguage === 'NL' ? 'Verzendmethode' : 'Shipping method'}>
                   <StepTitle>{currentLanguage === 'NL' ? 'Verzendmethode' : 'Shipping method'}</StepTitle>
                   {addressesReady ? <Shipping onePage onDirty={() => setShippingReady(false)} changeSection={(section) => setShippingReady(section === 'checkout')} /> : <Pending>{currentLanguage === 'NL' ? 'Vul je adresgegevens in om de beschikbare verzendmethoden te bekijken.' : 'Enter your shipping address to view available shipping methods.'}</Pending>}
                 </OnePageSection>
+                <ShippingInsurance checkoutId={checkoutId} orderLines={orderLines} shippingReady={shippingReady} onBusyChange={setInsuranceBusy} />
                 <OnePageSection aria-label={currentLanguage === 'NL' ? 'Betaling' : 'Payment'}>
                   <StepTitle>{currentLanguage === 'NL' ? 'Betaling' : 'Payment'}</StepTitle>
                   <PaymentNote><LockKeyhole size={14} />{currentLanguage === 'NL' ? 'Alle betalingen zijn veilig en versleuteld.' : 'All transactions are secure and encrypted.'}</PaymentNote>
-                  {addressesReady && shippingReady && shippingMethodId ? <PurchaseButton id={checkoutId} /> : <Pending>{currentLanguage === 'NL' ? 'Vul je adres in en kies een verzendmethode om je bestelling af te ronden.' : 'Enter your address and select a shipping method to complete your order.'}</Pending>}
+                  {insuranceBusy ? <Pending role="status">{currentLanguage === 'NL' ? 'Je winkelmand wordt bijgewerkt…' : 'Updating your bag…'}</Pending> : addressesReady && shippingReady && shippingMethodId ? <PurchaseButton id={checkoutId} /> : <Pending>{currentLanguage === 'NL' ? 'Vul je adres in en kies een verzendmethode om je bestelling af te ronden.' : 'Enter your address and select a shipping method to complete your order.'}</Pending>}
                 </OnePageSection>
 
 

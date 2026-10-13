@@ -37,9 +37,9 @@ export default function Product({
     (group: any) => group.id === selectedImageGroupId,
   )?.images;
 
-  const frontImageUrl: string = userDesignUrl || productImages[0]?.url;
+  const frontImageUrl: string = userDesignUrl || productImages?.[0]?.url;
 
-  const backImageUrl: string = userDesignUrl || productImages[1]?.url;
+  const backImageUrl: string = userDesignUrl || productImages?.[1]?.url;
 
   return (
     <Stack
