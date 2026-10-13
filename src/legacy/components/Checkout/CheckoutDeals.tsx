@@ -2,7 +2,13 @@ import { useRef, useState } from 'react';
 import { useApolloClient, useMutation, useQuery } from 'react-apollo';
 import { Link } from '@/legacy-compat/router';
 import styled from 'styled-components';
-import { getCollection } from '../../apollo/queries/collection';
+import { gql } from 'apollo-boost';
+
+const getDealsCategory = gql`
+  query getDealsCategory($slug: String!) {
+    category(slug: $slug) { id }
+  }
+`;
 import { getProducts } from '../../apollo/queries/products';
 import { useUserProvider } from '../../context/user';
 import { BtnBase } from '../common/Buttons';
@@ -61,13 +67,11 @@ export default function CheckoutDeals({ checkoutId }: { checkoutId?: string }) {
       setPending(null);
     }
   };
-  const collection = useQuery(getCollection, {
-    variables: { slug: 'checkout-deals', lang: currentLanguage },
-  });
-  const collectionId = collection.data?.collection?.id;
+  const collection = useQuery(getDealsCategory, { variables: { slug: 'checkout-deals' } });
+  const categoryId = collection.data?.category?.id;
   const products = useQuery(getProducts, {
-    skip: !collectionId,
-    variables: { collectionIds: [collectionId], currency, first: 6 },
+    skip: !categoryId,
+    variables: { categoryIds: [categoryId], currency, first: 6 },
   });
   const deals: Deal[] = products.data?.products?.edges?.map((edge: { node: Deal }) => edge.node) || [];
   if (collection.error || products.error || !deals.length) return null;
@@ -85,7 +89,14 @@ export default function CheckoutDeals({ checkoutId }: { checkoutId?: string }) {
           <div>
             <Link to={`/product/${product.slug}`}>{product.name}</Link>
             {product.color?.name && <p>{product.color.name}</p>}
-            <span>{product.discountPrice?.localized || product.price?.localized}</span>
+            {(() => {
+              const regular = product.price as { localized?: string; amount?: number } | undefined;
+              const deal = product.discountPrice as { localized?: string; amount?: number } | undefined;
+              const hasDeal = !!deal?.localized && (deal.amount ?? 0) > 0 && (regular?.amount ?? 0) > (deal.amount ?? 0);
+              return hasDeal ? (
+                <PriceLine><del aria-label={nl ? 'Originele prijs' : 'Original price'}>{regular?.localized}</del><strong>{deal?.localized}</strong></PriceLine>
+              ) : <span>{regular?.localized}</span>;
+            })()}
             {availableSizes.length > 1 && (
               <select aria-label={`${nl ? 'Maat' : 'Size'}: ${product.name}`} value={sizes[product.id] || ''} disabled={pending !== null} onChange={(event) => {
                 setSizes((previous) => ({ ...previous, [product.id]: event.target.value }));
@@ -130,4 +141,8 @@ const DealAction = styled(BtnBase)`
   && { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 10px 12px; border-radius: 0; background: var(--checkout-action-background); color: var(--checkout-on-action); font-size: 10px; box-shadow: var(--checkout-action-shadow); text-decoration: none; transition: box-shadow 250ms ease; }
   &&:hover { box-shadow: var(--checkout-action-hover-shadow); text-decoration: none; }
   &&:disabled { opacity: 0.5; cursor: not-allowed; }
+`;const PriceLine = styled.span`
+  display: inline-flex; gap: 8px; align-items: baseline;
+  del { color: var(--checkout-muted); font-size: 12px; }
+  strong { font-size: 13px; font-weight: bold; color: var(--checkout-text); }
 `;
