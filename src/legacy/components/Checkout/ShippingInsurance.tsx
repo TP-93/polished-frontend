@@ -5,7 +5,7 @@ import { Check, Truck } from 'lucide-react';
 import styled from 'styled-components';
 import { useUserProvider } from '../../context/user';
 import { GUEST_TOKEN_NAME } from '../../constants';
-import { addCheckoutLine, deleteCheckoutLine } from '../../apollo/mutations/checkout';
+import { addCheckoutLine, deleteCheckoutLine, updateShippingMethod } from '../../apollo/mutations/checkout';
 import { getCheckout } from '../../apollo/queries/checkout';
 import { BtnBase } from '../common/Buttons';
 
@@ -34,6 +34,7 @@ export default function ShippingInsurance({ checkoutId, orderLines, shippingRead
   const { data, loading, error: productError } = useQuery(insuranceProductQuery, { variables: { currency } });
   const [addLine] = useMutation(addCheckoutLine);
   const [deleteLine] = useMutation(deleteCheckoutLine);
+  const [saveShipping] = useMutation(updateShippingMethod);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(false);
   const busy = useRef(false);
@@ -60,16 +61,35 @@ export default function ShippingInsurance({ checkoutId, orderLines, shippingRead
       client.writeQuery({ query: getCheckout, variables: { token, currency, lang: currentLanguage }, data: { checkout: response.checkout } });
     };
     try {
+      const saved: any = client.readQuery({ query: getCheckout, variables: { token, currency, lang: currentLanguage } });
+      const previous = saved?.checkout;
+      let updated: any;
       if (selected) {
         for (const line of insuranceLines) {
           const result = await deleteLine({ variables: { ...variables, lineId: line.cartId } });
-          writeCheckout(result.data?.checkoutLineDelete);
+          const response = result.data?.checkoutLineDelete;
+          writeCheckout(response);
+          updated = response.checkout;
         }
       } else {
         const size = availableSizes[0]?.size;
         if (!size) throw new Error('Insurance variant unavailable');
         const result = await addLine({ variables: { ...variables, lines: [{ productId: product.id, size, quantity: 1 }] } });
-        writeCheckout(result.data?.checkoutLinesAdd);
+        const response = result.data?.checkoutLinesAdd;
+        writeCheckout(response);
+        updated = response.checkout;
+      }
+      // Line changes clear shipping on this backend. Restore the customer's exact
+      // choice through the existing shipping mutation, including parcel shop/date.
+      const method = updated?.availableShippingMethods?.find((item: any) => item.id === previous?.shippingMethod?.id);
+      if (!updated?.shippingMethod && method) {
+        const result = await saveShipping({ variables: {
+          ...variables,
+          shippingMethodId: method.id,
+          ...(method.hasPreferredPickupLocationSelection && previous.shippingPreferredPickupLocation ? { pickupPoint: previous.shippingPreferredPickupLocation } : {}),
+          ...(method.hasPreferredDateSelection && previous.shippingPreferredDate ? { date: previous.shippingPreferredDate } : {}),
+        } });
+        writeCheckout(result.data?.checkoutShippingMethodUpdate);
       }
     } catch {
       setError(true);
