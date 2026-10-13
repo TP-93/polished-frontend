@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { cocoRegular, cocoBold } from '../../../styles/constants';
 import { useUserProvider } from '../../../context/user';
+import { useHeaderContext } from '../Provider';
 
 const DURATION = 10 * 60; // 10 minutes, in seconds
 const STORAGE_KEY = 'jc-cart-reservation-start';
@@ -31,6 +32,9 @@ const ReservationTimer = () => {
     },
   } = languages[currentLanguage];
 
+  const { checkout } = useHeaderContext() || {};
+  const isEmpty = !checkout?.cartProductsCounter;
+
   const [remaining, setRemaining] = React.useState(getRemaining);
 
   React.useEffect(() => {
@@ -40,6 +44,8 @@ const ReservationTimer = () => {
 
   const mm = String(Math.floor(remaining / 60)).padStart(2, '0');
   const ss = String(remaining % 60).padStart(2, '0');
+
+  if (isEmpty) return <Wrapper aria-hidden="true">&nbsp;</Wrapper>;
 
   return (
     <Wrapper>
