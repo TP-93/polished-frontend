@@ -83,7 +83,7 @@ export default function Checkout() {
     <CheckoutPage>
       <CheckoutHeader>
         <a href="/" aria-label="JORCUSTOM home"><img src="/static/media/jorcustom_logo_min_simplified.3f65452da1dc1649dad3775defb4f7aa.svg" alt="JORCUSTOM" /></a>
-        <LockKeyhole size={18} aria-label="Checkout" />
+        <ShoppingBag size={18} aria-label="Winkelwagen" />
       </CheckoutHeader>
 
 
@@ -133,7 +133,7 @@ export default function Checkout() {
                       setQuantityErrors={setQuantityErrors}
                     />
                     <PromoCode refetch={refetch} />
-                    <CheckoutSummary refetch={refetch} checkoutId={checkoutId} discountAmount={discountAmount} voucherCode={voucherCode} cartDiscount={cartDiscount} subtotalPrice={subtotalPrice} shippingPrice={shippingPrice} totalPrice={totalPrice} />
+                    <CheckoutSummary hideSubtotal refetch={refetch} checkoutId={checkoutId} discountAmount={discountAmount} voucherCode={voucherCode} cartDiscount={cartDiscount} subtotalPrice={subtotalPrice} shippingPrice={shippingPrice} totalPrice={totalPrice} />
                     <CheckoutDeals checkoutId={checkoutId} />
                   </MobileSummary>
                 </MediaQuery>
@@ -180,6 +180,7 @@ export default function Checkout() {
                   />
                   <PromoCode refetch={refetch} />
                   <CheckoutSummary
+                    hideSubtotal
                     refetch={refetch}
                     discountAmount={discountAmount}
                     voucherCode={voucherCode}

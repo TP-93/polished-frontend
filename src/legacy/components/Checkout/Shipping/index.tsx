@@ -1,7 +1,7 @@
 // @ts-nocheck
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { ApolloError } from 'apollo-boost';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -37,6 +37,24 @@ import {
 import { ReactComponent as CheckIcon } from '../../../assets/images/icons/arrows/check_icon_fat_white.svg.tsx';
 
 const DatePicker = lazy(() => import('react-datepicker'));
+
+// Run automatic selection after rendering, through the same save path as a manual choice.
+function DefaultHomeShipping({ enabled, checkoutId, methods, savedId, selectedId, loading, onSelect }) {
+  const attempted = useRef('');
+  const home = methods.find((method) => method &&
+    /^dpd\s+home$/i.test(method.name?.replace(/[-–—]/g, ' ').replace(/\s+/g, ' ').trim() || '') &&
+    !method.hasPreferredDateSelection && !method.hasPreferredPickupLocationSelection);
+
+  useEffect(() => {
+    if (!enabled || savedId || selectedId || loading || !home) return;
+    const key = `${checkoutId}:${home.id}`;
+    if (attempted.current === key) return;
+    attempted.current = key;
+    onSelect(home.id);
+  }, [enabled, checkoutId, home?.id, savedId, selectedId, loading, onSelect]);
+
+  return null;
+}
 
 interface QueryProps {
   data: CheckoutData;
@@ -180,6 +198,23 @@ export default ({ changeSection, onePage = false, onDirty }: { changeSection: (s
                       }
                     };
                 return <>
+                  <DefaultHomeShipping
+                    enabled={onePage}
+                    checkoutId={checkoutId}
+                    methods={methods}
+                    savedId={shippingMethod?.id}
+                    selectedId={shippingMethodId}
+                    loading={mutationLoading}
+                    onSelect={(id) => {
+                      onDirty?.();
+                      setShippingMethodId(id);
+                      setShippingDate(null);
+                      setIsDateSelection(false);
+                      setIsPickup(false);
+                      setPickupPoint('');
+                      void saveMethod(id, null, false, false, '');
+                    }}
+                  />
                   <Group>
                   {methods.map((method) => {
                     if (!method) return null;
