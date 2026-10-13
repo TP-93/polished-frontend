@@ -136,7 +136,6 @@ export default function Checkout() {
                     />
                     <PromoCode refetch={refetch} />
                     <CheckoutSummary hideSubtotal refetch={refetch} checkoutId={checkoutId} discountAmount={discountAmount} voucherCode={voucherCode} cartDiscount={cartDiscount} subtotalPrice={subtotalPrice} shippingPrice={shippingPrice} totalPrice={totalPrice} />
-                    <CheckoutDeals checkoutId={checkoutId} />
                   </MobileSummary>
                 </MediaQuery>
 
