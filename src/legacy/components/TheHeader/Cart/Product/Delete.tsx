@@ -140,7 +140,7 @@ export default function DeleteProduct({
         pointerEvents: loading ? 'none' : 'auto',
       }}
       className={!isMobile ? classes.box : undefined}
-      onClick={() => deleteWarningHandler(deleteProductItemHandler)}
+      onClick={deleteProductItemHandler}
     >
       <SvgIcon
         component={DeleteIcon}
