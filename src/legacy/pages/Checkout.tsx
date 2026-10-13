@@ -162,6 +162,25 @@ export default function Checkout() {
                 <ShippingInsurance checkoutId={checkoutId} orderLines={orderLines} shippingReady={shippingReady} onBusyChange={setInsuranceBusy} />
                 <OnePageSection aria-label={currentLanguage === 'NL' ? 'Betaling' : 'Payment'}>
                   <StepTitle>{currentLanguage === 'NL' ? 'Betaling' : 'Payment'}</StepTitle>
+                  <MediaQuery query={noTablet}>
+                    <MobileSummaryAboveButton>
+                      <summary>
+                        <span><ShoppingBag size={16} /> {shoppingCart.title} ({totalQuantity})</span>
+                        <strong>{totalPrice ?? subtotalPrice}</strong>
+                      </summary>
+                      <CartProductsSummary
+                        delBtn={false}
+                        checkoutId={checkoutId}
+                        products={orderLines}
+                        linesNumber={linesNumber}
+                        quantityErrors={quantityErrors}
+                        setQuantityErrors={setQuantityErrors}
+                      />
+                      <PromoCode refetch={refetch} />
+                      <CheckoutSummary hideSubtotal refetch={refetch} checkoutId={checkoutId} discountAmount={discountAmount} voucherCode={voucherCode} cartDiscount={cartDiscount} subtotalPrice={subtotalPrice} shippingPrice={shippingPrice} totalPrice={totalPrice} />
+                    </MobileSummaryAboveButton>
+                    <CheckoutDeals checkoutId={checkoutId} />
+                  </MediaQuery>
                   <PaymentNote><LockKeyhole size={14} />{currentLanguage === 'NL' ? 'Alle betalingen zijn veilig en versleuteld.' : 'All transactions are secure and encrypted.'}</PaymentNote>
                   {insuranceBusy ? <Pending role="status">{currentLanguage === 'NL' ? 'Je winkelmand wordt bijgewerkt…' : 'Updating your bag…'}</Pending> : addressesReady && shippingReady && shippingMethodId ? <PurchaseButton id={checkoutId} /> : <Pending>{currentLanguage === 'NL' ? 'Vul je adres in en kies een verzendmethode om je bestelling af te ronden.' : 'Enter your address and select a shipping method to complete your order.'}</Pending>}
                 </OnePageSection>
