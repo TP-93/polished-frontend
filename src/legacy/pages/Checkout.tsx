@@ -404,3 +404,8 @@ const MobileSummary = styled.details`
   &[open] summary { margin-bottom: 20px; }
   &[open] summary > span::after { content: '⌃'; }
 `;
+const MobileSummaryAboveButton = styled(MobileSummary)`
+  margin: 0 0 16px;
+  border: 1px solid var(--checkout-border);
+  border-radius: 5px;
+`;
