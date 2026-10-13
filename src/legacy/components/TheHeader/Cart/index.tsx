@@ -64,7 +64,8 @@ export default function Cart({ closeDrawer }: Props) {
           closeDrawer={closeDrawer}
         />
 
-        <Payments margin="0 0 12px" />
+        {/* Gap below the order button matches the 1.5rem gap above it. */}
+        <Payments margin="1.5rem 0 12px" />
 
         <FeedbackCompanyReview />
       </Stack>
