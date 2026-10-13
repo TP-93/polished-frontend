@@ -1,4 +1,6 @@
 # Checkout appearance
+- [ ] Replace the checkout header lock with a shopping bag and remove the checkout subtotal row.
+- [ ] Default an unselected checkout to available DPD Home using the existing shipping mutation; verify selection and totals.
 - [x] Verify the cart's black countdown strip, expanded scrolling product area and bottom-aligned totals, order button, payments and centered Feedback Company link with a real product on desktop and mobile.
 - [x] Center the checkout payment icons; verified in the populated checkout.
 - [x] Convert checkout to one page with payment icons, contact/newsletter, existing account login and saved-address autofill; verified login, autofill, newsletter, shipping and safely stopped payment with temporary test responses (no real order).

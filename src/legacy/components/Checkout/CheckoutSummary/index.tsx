@@ -25,6 +25,7 @@ import { GUEST_TOKEN_NAME } from '../../../constants';
 import { ReactComponent as DeleteIcon } from '../../../assets/images/icons/trash_icon.svg.tsx';
 
 interface Props {
+  hideSubtotal?: boolean;
   fixed?: boolean;
   route?: string;
   isOpen?: boolean;
@@ -48,6 +49,7 @@ const DeleteMutationVoucher = TypedMutation<
 >(deleteVoucher);
 
 export default ({
+  hideSubtotal = false,
   route,
   fixed,
   isOpen,
@@ -91,10 +93,10 @@ export default ({
 
       {(!fixed || (fixed && isOpen)) && (
         <>
-          <Entry>
+          {!hideSubtotal && <Entry>
             <Key>{subTotal}</Key>
             <PosValue>{subtotalPrice}</PosValue>
-          </Entry>
+          </Entry>}
 
           {!!shippingPrice && (
             <Entry>
